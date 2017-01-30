@@ -1,0 +1,26 @@
+{
+  "name": "operon",
+  "authors": [
+    "Trevor Pao <shuaib25@gmail.com>"
+  ],
+  "description": "small flow controller",
+  "main": "index.html",
+  "keywords": [
+    "gene",
+    "gee",
+    "event",
+    "handler"
+  ],
+  "license": "MIT",
+  "homepage": "http://sense-info.co",
+  "ignore": [
+    "**/.*",
+    "vendor"
+  ],
+  "dependencies": {
+    "jquery": "^3.1.1",
+    "froala-wysiwyg-editor": "^2.4.1",
+    "codemirror": "^5.22.2",
+    "jquery-ui": "^1.12.1"
+  }
+}
