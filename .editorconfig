@@ -17,7 +17,7 @@ trim_trailing_whitespace = false
 trim_trailing_white_space_on_save = false
 
 [*.html]
-indent_size = 2
+indent_size = 4
 
 [*.css]
 max_line_length = 80

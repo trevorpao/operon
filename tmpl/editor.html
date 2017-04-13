@@ -5,17 +5,25 @@
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <h4 class="panel-title">
-                            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne"><span class="glyphicon glyphicon-th-list">
+                            <a data-toggle="collapse" data-parent="#accordion" href="#collapse-1"><span class="glyphicon glyphicon-th-list">
                             </span>Attributes</a>
                         </h4>
                     </div>
-                    <div id="collapseOne" class="panel-collapse collapse in">
+                    <div id="collapse-1" class="panel-collapse collapse in">
                         <div class="panel-body">
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label for="tags">Tags</label>
                                         <input type="text" class="form-control" id="tags" placeholder="Tags" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="tags">Keywords</label>
+                                        <input type="text" class="form-control" id="keywords" placeholder="Keywords" />
                                     </div>
                                 </div>
                             </div>
@@ -57,11 +65,47 @@
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <h4 class="panel-title">
-                            <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo"><span class="glyphicon glyphicon-file">
+                            <a data-toggle="collapse" data-parent="#accordion" href="#collapse-2"><span class="glyphicon glyphicon-th-list">
+                            </span>SEO</a>
+                        </h4>
+                    </div>
+                    <div id="collapse-2" class="panel-collapse collapse">
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-md-5 col-sm-12 col-xs-12">
+                                    <label for="tags">Image</label>
+                                    <div class="input-group fuu">
+                                        <input type="text" class="form-control fuu-filename" disabled="disabled">
+                                        <span class="input-group-btn">
+                                            <button type="button" class="btn btn-default fuu-clear gee" data-gene="click:clearFile" style="display:none;">
+                                                <span class="glyphicon glyphicon-remove"></span> Clear
+                                            </button>
+                                            <div class="btn btn-default fuu-input">
+                                                <span class="glyphicon glyphicon-folder-open"></span>
+                                                <span class="fuu-input-btn">Browse</span>
+                                                <input type="file" accept="image/png, image/jpeg, image/gif" class="gee" data-gene="change:passFile" />
+                                            </div>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="col-md-7 col-sm-12 col-xs-12">
+                                    <div class="form-group">
+                                        <label for="tags">Description</label>
+                                        <textarea class="form-control" rows="3"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                            <a data-toggle="collapse" data-parent="#accordion" href="#collapse-3"><span class="glyphicon glyphicon-file">
                             </span>Content</a>
                         </h4>
                     </div>
-                    <div id="collapseTwo" class="panel-collapse collapse">
+                    <div id="collapse-3" class="panel-collapse collapse">
                         <div class="panel-body">
                             <div class="row">
                                 <div class="col-md-12">

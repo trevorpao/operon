@@ -156,7 +156,7 @@ else {
                         return false;
                     }
                     else {
-                        me.attr('disabled', 'disabled').append('<i class="fa fa-spinner"></i>');
+                        me.attr('disabled', 'disabled').append('<i class="fa fa-spinner fa-pulse fa-fw"></i>');
 
                         g.yell(me.data('uri'), f.serialize(), dAction, dAction);
                     }

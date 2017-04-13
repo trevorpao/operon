@@ -258,7 +258,7 @@ var app = function() {
             }
         },
 
-        extract: function(obj) {
+        extractAttr: function(obj) {
             var attr = {};
             obj.each(function() {
                 $.each(this.attributes, function() {

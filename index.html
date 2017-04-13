@@ -112,9 +112,10 @@
             <li role="presentation"><a href="#member" aria-controls="member" role="tab" data-toggle="tab">Member</a></li>
             <li role="presentation"><a href="#upload" aria-controls="upload" role="tab" data-toggle="tab">Upload</a></li>
             <li role="presentation"><a href="#cart" aria-controls="cart" role="tab" data-toggle="tab">Cart</a></li>
+            <li role="presentation"><a href="#gallery" aria-controls="gallery" role="tab" data-toggle="tab">Gallery</a></li>
             <li role="presentation"><a href="#json2sql" aria-controls="json2sql" role="tab" data-toggle="tab">Json to SQL</a></li>
             <li role="presentation"><a href="#novel" aria-controls="novel" role="tab" data-toggle="tab">Novel</a></li>
-            <li role="presentation" class="active"><a href="#froala" aria-controls="froala" role="tab" data-toggle="tab">Editor</a></li>
+            <li role="presentation"><a href="#froala" aria-controls="froala" role="tab" data-toggle="tab">Editor</a></li>
         </ul>
         <!-- Tab panes -->
         <div class="tab-content">
@@ -128,35 +129,22 @@
                     <div class="row">member...</div>
                 </div>
             </div>
-            <div role="tabpanel" class="tab-pane fade" id="upload">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-xs-12 col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2 ">
-                            <div class="input-group fuu">
-                                <input type="text" class="form-control fuu-filename" disabled="disabled">
-                                <span class="input-group-btn">
-                                    <button type="button" class="btn btn-default fuu-clear gee" data-gene="click:clearFile" style="display:none;">
-                                        <span class="glyphicon glyphicon-remove"></span> Clear
-                                    </button>
-                                    <div class="btn btn-default fuu-input">
-                                        <span class="glyphicon glyphicon-folder-open"></span>
-                                        <span class="fuu-input-btn">Browse</span>
-                                        <input type="file" accept="image/png, image/jpeg, image/gif" class="gee" data-gene="change:passFile" />
-                                    </div>
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <div role="tabpanel" class="tab-pane fade gee" data-gene="init:loadBox" data-src="upload" id="upload"></div>
             <div role="tabpanel" class="tab-pane fade" id="cart">
                 <div class="container">
                     <div class="row">cart...</div>
                 </div>
             </div>
+            <div role="tabpanel" class="tab-pane fade" id="gallery">
+                <div class="container">
+                    <div class="row">
+                        <gee:gallery-grid page="123456"></gee:gallery-grid>
+                    </div>
+                </div>
+            </div>
             <div role="tabpanel" class="tab-pane fade gee" data-gene="init:loadBox" data-src="json2sql" id="json2sql"></div>
             <div role="tabpanel" class="tab-pane fade gee" data-gene="init:loadBox" data-src="novel" id="novel"></div>
-            <div role="tabpanel" class="tab-pane fade in active gee" data-gene="init:loadBox" data-src="editor" id="froala"></div>
+            <div role="tabpanel" class="tab-pane fade gee" data-gene="init:loadBox" data-src="editor" id="froala"></div>
         </div>
     </div>
     <footer class="footer">
@@ -208,6 +196,8 @@
     <script src="operonjs/jquery.easing.1.3.js"></script>
     <script src="operonjs/detect.js"></script>
     <script src="operonjs/jquery.twbsPagination.js"></script>
+    <script src="operonjs/jquery.mobile-events.min.js"></script>
+    <script src="operonjs/sprintf.js"></script>
     <script src="operonjs/tw2cn.js"></script>
     <script src="operonjs/app.js"></script>
     <script src="operonjs/hook.js"></script>
@@ -218,6 +208,7 @@
     <script src="operonjs/modules/novel.js"></script>
     <script src="operonjs/modules/cart.js"></script>
     <script src="operonjs/modules/editor.js"></script>
+    <script src="operonjs/modules/gallery.js"></script>
     <!-- init -->
     <script src="operonjs/init.js"></script>
 </body>
