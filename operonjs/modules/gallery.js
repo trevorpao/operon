@@ -11,7 +11,7 @@
         renderOpt: function(prefix, width, zidx) {
             var opt = {
                 uniqid: prefix + Math.floor(Math.random() * 999 + 1),
-                taUri: '/'+ prefix +'.html?pc=XXXX&uc=xxxx',
+                taUri: 'tmpl/'+ prefix +'.html?pc=XXXX&uc=xxxx',
                 width: width,
                 zidx: zidx,
                 prefix: prefix
@@ -24,7 +24,7 @@
     };
 
     gee.hookTag('gee\\:gallery-grid', function(me) {
-        var opt = app.gallery.renderOpt('ratybox', '100%', '5');
+        var opt = app.gallery.renderOpt('gallery-grid', '100%', '5');
         var attr = app.extractAttr(me);
 
         opt.taUri += '&page='+ attr.page;
