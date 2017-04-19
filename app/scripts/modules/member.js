@@ -1,5 +1,5 @@
 ;(function(app, gee, $){
-    "use strict";
+    'use strict';
 
     app.member = {
         current: {},
@@ -201,7 +201,7 @@
             else {
                 gee.alert({
                     title: 'Error!',
-                    txt: txt.join("\r\n")
+                    txt: txt.join('\r\n')
                 });
             }
         }

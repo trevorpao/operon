@@ -1,5 +1,5 @@
 ;(function(app, gee, $){
-    "use strict";
+    'use strict';
 
    var cfg = {
         tw: {

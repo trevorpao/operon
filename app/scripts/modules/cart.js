@@ -1,5 +1,5 @@
 ;(function(app, gee, $){
-    "use strict";
+    'use strict';
 
     // register a module name
     app.cart = {
@@ -14,7 +14,7 @@
                     app.stdErr(this);
                 }
                 else {
-                    var msg = (gee.isset(this.data) && gee.isset(this.data.msg)) ? this.data.msg : "購物車已更新";
+                    var msg = (gee.isset(this.data) && gee.isset(this.data.msg)) ? this.data.msg : '購物車已更新';
                     app.cart.store = this.data.cart;
                     app.cart.renewCount(this.data.cart.length).renewTotal().renewFee(app.cart.fee).renewSum();
                     if (type == 'force') {
@@ -39,7 +39,7 @@
                     app.stdErr(this);
                 }
                 else {
-                    var msg = (gee.isset(this.data) && gee.isset(this.data.msg)) ? this.data.msg : "購物車已更新";
+                    var msg = (gee.isset(this.data) && gee.isset(this.data.msg)) ? this.data.msg : '購物車已更新';
                     if (this.data.cart.length > 0) {
                         app.cart.store = this.data.cart;
                         app.cart.renewCount(this.data.cart.length).renewTotal().renewFee(app.cart.fee).renewSum();
@@ -66,7 +66,7 @@
         {
             if (!$.isNumeric(num)) {
                 var callback = function () {
-                    if (this.code == "1") {
+                    if (this.code == '1') {
                         $('.cart_count').html(this.data.count);
                     } else {
                         app.cart._handleErr(this);
@@ -97,7 +97,7 @@
         renewFee: function (fee)
         {
             if (fee === 0) {
-                fee = $("input[name='shipment']:checked").val()*1;
+                fee = $('input[name=\'shipment\']:checked').val()*1;
             }
 
             if (app.cart.total < 1500 || fee > 100) {
@@ -146,7 +146,7 @@
         renderCart: function ()
         {
             app.cart.cartBox.html(
-                $( "#itemTmpl" ).render( app.cart.store )
+                $( '#itemTmpl' ).render( app.cart.store )
             );
             gee.init();
             app.cart.renewTotal().renewFee(app.cart.fee).renewSum();
@@ -174,7 +174,7 @@
     });
 
     gee.hook('toggleInvoice', function(me){
-        var pick = $("input[name='invoice[type]']:checked").val();
+        var pick = $('input[name=\'invoice[type]\']:checked').val();
         if (pick=='Company') {
             $('.company-invoice').show();
         }
@@ -184,7 +184,7 @@
     });
 
     gee.hook('newShipfee', function(){
-        app.cart.renewFee($("input[name='shipment']:checked").val()).renewSum();
+        app.cart.renewFee($('input[name=\'shipment\']:checked').val()).renewSum();
         $('input[name="fee"]', '#checkout_form').val(app.cart.fee);
     });
 
@@ -217,15 +217,15 @@
         app.cart.add2Cart(item_id, qty, 'force');
     });
 
-    gee.hook("syncAll", function (me){
+    gee.hook('syncAll', function (me){
         var g = $.fn.geneEH,
-            f = me.closest("form"),
-            ta = me.data("ta"),
-            so = me.data("so");
+            f = me.closest('form'),
+            ta = me.data('ta'),
+            so = me.data('so');
 
-        f.find("input[name^='"+ ta +"']").each(function(){
-            var n = $(this).attr("name").replace(ta, so),
-                v = f.find("input[name='"+ n +"']").val();
+        f.find('input[name^=\''+ ta +'\']').each(function(){
+            var n = $(this).attr('name').replace(ta, so),
+                v = f.find('input[name=\''+ n +'\']').val();
             $(this).val(v);
         }).end().find('input[name="invoice[addr]"]').val(
             f.find('input[name="buyer[address]"]').val()
@@ -233,12 +233,12 @@
     });
 
     gee.hook('showInvoice', function(me){
-        $("input[name='invoice[type]']")[0].checked = true;
+        $('input[name=\'invoice[type]\']')[0].checked = true;
     }, 'init');
 
     gee.hook('showShipFee', function(me){
         me.addClass('cart_shipfee');
-        $("input[name='shipment']")[0].checked = true;
+        $('input[name=\'shipment\']')[0].checked = true;
         gee.newShipfee();
     }, 'init');
 

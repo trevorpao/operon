@@ -1,4 +1,4 @@
-geneEH
+OperonJS
 ======
 
 Small Flow Controller by Genes.

@@ -1,5 +1,5 @@
 ;(function(app, gee, $){
-    "use strict";
+    'use strict';
 
     app.editor = {
         init: function() {
@@ -14,7 +14,7 @@
                 toolbarButtonsMD: null
             });
 
-            $( ".datepicker" ).datepicker({dateFormat:'yy-mm-dd'});
+            $( '.datepicker' ).datepicker({dateFormat:'yy-mm-dd'});
         }
     };
 

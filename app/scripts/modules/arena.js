@@ -1,5 +1,5 @@
 ;(function(app, gee, $){
-    "use strict";
+    'use strict';
 
     // register a module name
     app.arena = {
@@ -9,7 +9,7 @@
             app.page.handler();
 
             if (navigator.userAgent.match(/iPhone|iPad|iPod/i)) {
-                $(window).bind("touchend touchcancel touchleave", function (e) {
+                $(window).bind('touchend touchcancel touchleave', function (e) {
                     app.page.handler();
                 });
             } else {
@@ -23,9 +23,9 @@
             var currentWindowPosition = $(window).scrollTop();
 
             if (currentWindowPosition > 300) {
-                $(".goTop").show();
+                $('.goTop').show();
             } else {
-                $(".goTop").hide();
+                $('.goTop').hide();
             }
         },
         showModal: function (ta, html) {

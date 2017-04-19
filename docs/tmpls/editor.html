@@ -1,0 +1,151 @@
+<div class="container gee" data-gene="init:initEditor">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel-group" id="accordion">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                            <a data-toggle="collapse" data-parent="#accordion" href="#collapse-1"><span class="glyphicon glyphicon-th-list">
+                            </span>Attributes</a>
+                        </h4>
+                    </div>
+                    <div id="collapse-1" class="panel-collapse collapse in">
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="tags">Tags</label>
+                                        <input type="text" class="form-control" id="tags" placeholder="Tags" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="tags">Keywords</label>
+                                        <input type="text" class="form-control" id="keywords" placeholder="Keywords" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-5">
+                                    <div class="form-group">
+                                        <label for="tags">Uri</label>
+                                        <div class="input-group">
+                                            <span class="input-group-addon">demosite.com/</span>
+                                            <input type="text" class="form-control" placeholder="slug" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-7">
+                                    <div class="well well-sm">
+                                        <form class="form form-inline " role="form">
+                                            <div class="form-group">
+                                                <input type="text" class="form-control datepicker" placeholder="Publish Date" required />
+                                            </div>
+                                            <div class="form-group">
+                                                <select class="form-control">
+                                                    <option>Draft</option>
+                                                    <option>Published</option>
+                                                </select>
+                                            </div>
+                                            <div class="form-group">
+                                                <button type="submit" class="btn btn-success btn-sm">
+                                                    <span class="glyphicon glyphicon-floppy-disk"></span>Save</button>
+                                                <button type="button" class="btn btn-default btn-sm">
+                                                    <span class="glyphicon glyphicon-eye-open"></span>Preview</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                            <a data-toggle="collapse" data-parent="#accordion" href="#collapse-2"><span class="glyphicon glyphicon-th-list">
+                            </span>SEO</a>
+                        </h4>
+                    </div>
+                    <div id="collapse-2" class="panel-collapse collapse">
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-md-5 col-sm-12 col-xs-12">
+                                    <label for="tags">Image</label>
+                                    <div class="input-group fuu">
+                                        <input type="text" class="form-control fuu-filename" disabled="disabled">
+                                        <span class="input-group-btn">
+                                            <button type="button" class="btn btn-default fuu-clear gee" data-gene="click:clearFile" style="display:none;">
+                                                <span class="glyphicon glyphicon-remove"></span> Clear
+                                            </button>
+                                            <div class="btn btn-default fuu-input">
+                                                <span class="glyphicon glyphicon-folder-open"></span>
+                                                <span class="fuu-input-btn">Browse</span>
+                                                <input type="file" accept="image/png, image/jpeg, image/gif" class="gee" data-gene="change:passFile" />
+                                            </div>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="col-md-7 col-sm-12 col-xs-12">
+                                    <div class="form-group">
+                                        <label for="tags">Description</label>
+                                        <textarea class="form-control" rows="3"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                            <a data-toggle="collapse" data-parent="#accordion" href="#collapse-3"><span class="glyphicon glyphicon-file">
+                            </span>Content</a>
+                        </h4>
+                    </div>
+                    <div id="collapse-3" class="panel-collapse collapse">
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <ul class="nav nav-tabs" role="tablist">
+                                        <li role="presentation" class="active"><a href="#lang_tw" aria-controls="lang_tw" role="tab" data-toggle="tab">中文</a></li>
+                                        <li role="presentation"><a href="#lang_en" aria-controls="lang_en" role="tab" data-toggle="tab">英文</a></li>
+                                        <li role="presentation"><a href="#lang_jp" aria-controls="lang_jp" role="tab" data-toggle="tab">日文</a></li>
+                                    </ul>
+                                    <div class="tab-content">
+                                        <div role="tabpanel" class="tab-pane fade in active" id="lang_tw">
+                                            <div class="page-header">
+                                                <h2><input type="text" name="title_tw" placeholder="文章標題" class="form-control" /></h2>
+                                            </div>
+                                            <div id="editor">
+                                                <div class="froalaEditor" id='edit_tw'></div>
+                                            </div>
+                                        </div>
+                                        <div role="tabpanel" class="tab-pane fade" id="lang_en">
+                                            <div class="page-header">
+                                                <h2><input type="text" name="title_en" placeholder="文章標題" class="form-control" /></h2>
+                                            </div>
+                                            <div id="editor">
+                                                <div class="froalaEditor" id='edit_en'></div>
+                                            </div>
+                                        </div>
+                                        <div role="tabpanel" class="tab-pane fade" id="lang_jp">
+                                            <div class="page-header">
+                                                <h2><input type="text" name="title_jp" placeholder="文章標題" class="form-control" /></h2>
+                                            </div>
+                                            <div id="editor">
+                                                <div class="froalaEditor" id='edit_jp'></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

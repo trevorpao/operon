@@ -1,19 +1,19 @@
 var defaultEncoding = 1; // 1: Tranditional Chinese, 2: Simplified Chinese
 var translateDelay = 500;
 var cookieDomain = '.'+ document.domain;
-var msgToTraditionalChinese = "繁體";
-var msgToSimplifiedChinese = "简体";
-var translateButtonId = "translateLink";
+var msgToTraditionalChinese = '繁體';
+var msgToSimplifiedChinese = '简体';
+var translateButtonId = 'translateLink';
 
 var currentEncoding = defaultEncoding;
-var targetEncodingCookie = "targetEncoding" + cookieDomain;
+var targetEncodingCookie = 'targetEncoding' + cookieDomain;
 var targetEncoding = ( getCookie(targetEncodingCookie) == null ? defaultEncoding : getCookie(targetEncodingCookie) );
 var translateButtonObject;
 
 function translateText( txt )
 {
-    if( txt == "" || txt == null )
-        return "";
+    if( txt == '' || txt == null )
+        return '';
 
     if( currentEncoding == 1 && targetEncoding == 2 )
         return Simplized(txt);
@@ -25,7 +25,7 @@ function translateText( txt )
 
 function translateBody( fobj )
 {
-    if( typeof( fobj ) == "object" ) {
+    if( typeof( fobj ) == 'object' ) {
         var objs = fobj.childNodes;
     }
     else {
@@ -34,13 +34,13 @@ function translateBody( fobj )
 
     for(var i=0;i<objs.length;i++) {
         var obj=objs.item(i);
-        if( "||BR|HR|TEXTAREA|".indexOf( "|"+obj.tagName+"|" ) > 0 || obj == translateButtonObject )
+        if( '||BR|HR|TEXTAREA|'.indexOf( '|'+obj.tagName+'|' ) > 0 || obj == translateButtonObject )
             continue;
-        if( obj.title != "" && obj.title != null )
+        if( obj.title != '' && obj.title != null )
             obj.title = translateText( obj.title );
-        if( obj.alt != "" && obj.alt != null )
+        if( obj.alt != '' && obj.alt != null )
             obj.alt = translateText( obj.alt );
-        if( obj.tagName == "INPUT" && obj.value != "" && obj.type != "text" && obj.type != "hidden" )
+        if( obj.tagName == 'INPUT' && obj.value != '' && obj.type != 'text' && obj.type != 'hidden' )
             obj.value = translateText( obj.value );
         if( obj.nodeType == 3 )
             obj.data = translateText( obj.data );
@@ -111,14 +111,14 @@ function setCookie(name,value,days) {
     if (days) {
         var date = new Date();
         date.setTime(date.getTime()+(days*24*60*60*1000));
-        var expires = "; expires="+date.toGMTString();
+        var expires = '; expires='+date.toGMTString();
     }
-    else var expires = "";
-    document.cookie = name+"="+value+expires+";domain="+ cookieDomain +" ; path=/";
+    else var expires = '';
+    document.cookie = name+'='+value+expires+';domain='+ cookieDomain +' ; path=/';
 }
 
 function getCookie(name) {
-    var nameEQ = name + "=";
+    var nameEQ = name + '=';
     var ca = document.cookie.split(';');
     for(var i=0;i < ca.length;i++) {
         var c = ca[i];
@@ -134,7 +134,7 @@ function getCookie(name) {
 
 function translateInitilization() {
     if ( currentEncoding != targetEncoding ) {
-        setTimeout("translateBody()", translateDelay);
+        setTimeout('translateBody()', translateDelay);
     }
 
     gee.clog($('.ts-switch[data-lang="'+ targetEncoding +'"]'));

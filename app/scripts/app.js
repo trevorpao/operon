@@ -5,7 +5,7 @@
 var gee = gee || $.fn.gene;
 
 var app = function() {
-    "use strict";
+    'use strict';
 
     var that = this;
 
@@ -29,7 +29,7 @@ var app = function() {
 
             app.win = $(window);
             app.docu = $(document);
-            app.body = (app.win.opera) ? (app.docu.compatMode == "CSS1Compat" ? $('html') : $('body')) : $('body');
+            app.body = (app.win.opera) ? (app.docu.compatMode == 'CSS1Compat' ? $('html') : $('body')) : $('body');
 
             app.screen = ($('body').width() < that.config.detectWidth) ? 'mobile' : 'tablet';
 
@@ -88,10 +88,10 @@ var app = function() {
         loadHtml: function(src, ta, redirect) {
             var path = '/'+ src;
             var success = function(html, status, xhr) {
-                if ( status == "error" ) {
+                if ( status == 'error' ) {
                     gee.alert({
                         title: 'Alert!',
-                        txt: "Sorry but there was an error: "+ xhr.status + " " + xhr.statusText
+                        txt: 'Sorry but there was an error: '+ xhr.status + ' ' + xhr.statusText
                     });
                 }
                 else {
@@ -128,7 +128,7 @@ var app = function() {
                     var val = row[idx];
                     if (col.is(':checkbox')) {
                         if (col.attr('value') === val) {
-                            col.prop("checked", true);
+                            col.prop('checked', true);
                             col.next('.switchery').remove();
                             new Switchery(col[0], col.data());
                         }
@@ -215,7 +215,7 @@ var app = function() {
         },
 
         formatHelper: {
-            currency: function(val) { return '$' + ($.fn.formatMoney((val+""), 0)); },
+            currency: function(val) { return '$' + ($.fn.formatMoney((val+''), 0)); },
             sum: function(price, qty) { return tmplHelpers.currency(qty*price); },
             loadPic: function(path) { return that.config.baseUrl + path; },
             average: function(sum, divide) { return (divide!='0') ? Math.round(sum*10/divide)/10 : 0; },

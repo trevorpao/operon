@@ -1,10 +1,10 @@
 
 (function(w, $){
-    "use strict";
+    'use strict';
 
     $.fn.placeholder = function(options) {
         return this.each(function() {
-            if (!("placeholder" in document.createElement(this.tagName.toLowerCase()))) {
+            if (!('placeholder' in document.createElement(this.tagName.toLowerCase()))) {
                 var $this = $(this);
                 var placeholder = $this.attr('placeholder');
                 $this.val(placeholder).data('color', $this.css('color')).css('color', '#aaa');

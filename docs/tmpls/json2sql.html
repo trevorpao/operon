@@ -1,0 +1,39 @@
+<div class="container">
+    <div class="row">
+        <form class="form-horizontal">
+            <div class="form-group">
+                <label for="" class="col-sm-2">json 網址</label>
+                <div class="col-sm-10">
+                    <input type="text" placeholder="json 網址" id="json_uri"  class="form-control" value="http://story.sense-info.co/work/load/tw/29">
+                </div>
+            </div>
+            <div class="form-group text-center">
+                <button class="btn btn-primary gee" data-gene="click:getData" >撈取</button>
+            </div>
+            <div class="form-group">
+                <label for="" class="col-sm-2">json 字串</label>
+                <div class="col-sm-10">
+                    <textarea placeholder="json 字串" id="json_str"  class="form-control" rows="4"></textarea>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="" class="col-sm-2">目標 SQL</label>
+                <div class="col-sm-10">
+                    <textarea placeholder="目標 SQL" id="ta"  class="form-control" rows="4">
+{{for spot ~pid=~intval(id)}}
+UPDATE `spot` SET  `width`={{:w}},`height`={{:h}},`x`={{:x}},`y`={{:y}},`sx`={{:sx}},`sy`={{:sy}} WHERE `path`='{{:path}}' AND `work_id`={{:~pid}};
+{{/for}}</textarea>
+                </div>
+            </div>
+            <div class="form-group text-center">
+                <button class="btn btn-primary gee" data-gene="click:convertCode" >轉換</button>
+            </div>
+            <div class="form-group">
+                <label for="" class="col-sm-2">SQL 字串</label>
+                <div class="col-sm-10">
+                    <textarea placeholder="SQL 字串" id="sql_str"  class="form-control" rows="4"></textarea>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

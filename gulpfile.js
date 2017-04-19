@@ -32,7 +32,7 @@ gulp.task('scripts', () => {
 
 gulp.task('tmpls', () => {
   return gulp.src('app/tmpls/*.html')
-    .pipe($.if(dev, gulp.dest('.tmp/tmpls'), gulp.dest('dist/tmpls')));
+    .pipe($.if(dev, gulp.dest('.tmp/tmpls'), gulp.dest('docs/tmpls')));
 });
 
 function lint(files) {
@@ -67,19 +67,19 @@ gulp.task('html', ['styles', 'scripts'], () => {
       removeScriptTypeAttributes: true,
       removeStyleLinkTypeAttributes: true
     })))
-    .pipe(gulp.dest('dist'));
+    .pipe(gulp.dest('docs'));
 });
 
 gulp.task('images', () => {
   return gulp.src('app/images/**/*')
     .pipe($.cache($.imagemin()))
-    .pipe(gulp.dest('dist/images'));
+    .pipe(gulp.dest('docs/images'));
 });
 
 gulp.task('fonts', () => {
   return gulp.src(require('main-bower-files')('**/*.{eot,svg,ttf,woff,woff2}', function (err) {})
     .concat('app/fonts/**/*'))
-    .pipe($.if(dev, gulp.dest('.tmp/fonts'), gulp.dest('dist/fonts')));
+    .pipe($.if(dev, gulp.dest('.tmp/fonts'), gulp.dest('docs/fonts')));
 });
 
 gulp.task('extras', () => {
@@ -88,10 +88,10 @@ gulp.task('extras', () => {
     '!app/*.html'
   ], {
     dot: true
-  }).pipe(gulp.dest('dist'));
+  }).pipe(gulp.dest('docs'));
 });
 
-gulp.task('clean', del.bind(null, ['.tmp', 'dist']));
+gulp.task('clean', del.bind(null, ['.tmp', 'docs']));
 
 gulp.task('serve', () => {
   runSequence(['clean', 'wiredep'], ['styles', 'scripts', 'tmpls', 'fonts'], () => {
@@ -119,12 +119,12 @@ gulp.task('serve', () => {
   });
 });
 
-gulp.task('serve:dist', ['default'], () => {
+gulp.task('serve:docs', ['default'], () => {
   browserSync.init({
     notify: false,
     port: 9000,
     server: {
-      baseDir: ['dist']
+      baseDir: ['docs']
     }
   });
 });
@@ -159,7 +159,7 @@ gulp.task('wiredep', () => {
 });
 
 gulp.task('build', ['lint', 'html', 'images', 'tmpls', 'fonts', 'extras'], () => {
-  return gulp.src('dist/**/*').pipe($.size({title: 'build', gzip: true}));
+  return gulp.src('docs/**/*').pipe($.size({title: 'build', gzip: true}));
 });
 
 gulp.task('default', () => {

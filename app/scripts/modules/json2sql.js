@@ -1,10 +1,10 @@
 ;(function(app, gee, $){
-    "use strict";
+    'use strict';
 
     app.json2sql = {
     };
 
-    gee.hook("convertCode", function (me){
+    gee.hook('convertCode', function (me){
         var json = $('#json_str').val();
         var ta = '{{for rows}}'+ $('#ta').val() +'{{/for}}';
         var rows = JSON.parse(json);
@@ -32,17 +32,17 @@
         $('#sql_str').val(sql);
     });
 
-    gee.hook("getData", function (me){
+    gee.hook('getData', function (me){
         var uri = $('#json_uri').val();
 
         $.getJSON(uri, {
-            format: "jsonp"
+            format: 'jsonp'
         }).done(function(json) {
             gee.clog(json);
             $('#json_str').val(JSON.stringify(json));
         }).fail(function(jqxhr, textStatus, error) {
-            var err = textStatus + ", " + error;
-            console.log("Request Failed: " + err);
+            var err = textStatus + ', ' + error;
+            console.log('Request Failed: ' + err);
         });
     });
 
