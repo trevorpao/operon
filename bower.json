@@ -1,26 +1,34 @@
 {
   "name": "operon",
+  "version": "0.0.1",
   "authors": [
     "Trevor Pao <shuaib25@gmail.com>"
   ],
-  "description": "small flow controller",
-  "main": "index.html",
   "keywords": [
     "gene",
     "gee",
-    "event",
-    "handler"
+    "flow controller"
   ],
   "license": "MIT",
   "homepage": "http://sense-info.co",
-  "ignore": [
-    "**/.*",
-    "vendor"
-  ],
+  "description": "small flow controller",
   "dependencies": {
-    "jquery": "^3.1.1",
-    "froala-wysiwyg-editor": "^2.4.1",
-    "codemirror": "^5.22.2",
-    "jquery-ui": "^1.12.1"
+    "bootstrap": "~3.3.5",
+    "gene-event-handler": "*",
+    "jsrender": "^0.9.84"
+  },
+  "overrides": {
+    "bootstrap": {
+      "main": [
+        "less/bootstrap.less",
+        "dist/css/bootstrap.css",
+        "dist/js/bootstrap.js",
+        "dist/fonts/*"
+      ]
+    }
+  },
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "mocha": "^3.2.0"
   }
 }

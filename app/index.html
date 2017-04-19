@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="">
+  <head>
+    <meta charset="utf-8">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>operon</title>
+
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
+    <!-- Place favicon.ico in the root directory -->
+
+    <!-- build:css styles/vendor.css -->
+    <!-- bower:css -->
+    <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap.css" />
+    <!-- endbower -->
+    <!-- endbuild -->
+
+    <!-- build:css styles/app.css -->
+    <link rel="stylesheet" href="styles/app.css">
+    <link rel="stylesheet" href="styles/upload.css">
+    <!-- endbuild -->
+
+  </head>
+  <body>
+    <!--[if IE]>
+      <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+    <![endif]-->
+
+
+    <!-- Begin page content -->
+    <div class="container">
+        <h1>Hello, world!</h1>
+        <!-- Nav tabs -->
+        <ul class="nav nav-tabs" role="tablist">
+            <li role="presentation"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">Home</a></li>
+            <li role="presentation"><a href="#member" aria-controls="member" role="tab" data-toggle="tab">Member</a></li>
+            <li role="presentation"><a href="#upload" aria-controls="upload" role="tab" data-toggle="tab">Upload</a></li>
+            <li role="presentation"><a href="#cart" aria-controls="cart" role="tab" data-toggle="tab">Cart</a></li>
+            <li role="presentation"><a href="#gallery" aria-controls="gallery" role="tab" data-toggle="tab">Gallery</a></li>
+            <li role="presentation"><a href="#json2sql" aria-controls="json2sql" role="tab" data-toggle="tab">Json to SQL</a></li>
+        </ul>
+        <!-- Tab panes -->
+        <div class="tab-content">
+            <div role="tabpanel" class="tab-pane fade" id="home">
+                <div class="container">
+                    <div class="row">home...</div>
+                </div>
+            </div>
+            <div role="tabpanel" class="tab-pane fade" id="member">
+                <div class="container">
+                    <div class="row">member...</div>
+                </div>
+            </div>
+            <div role="tabpanel" class="tab-pane fade gee" data-gene="init:loadBox" data-src="upload" id="upload"></div>
+            <div role="tabpanel" class="tab-pane fade" id="cart">
+                <div class="container">
+                    <div class="row">cart...</div>
+                </div>
+            </div>
+            <div role="tabpanel" class="tab-pane fade" id="gallery">
+                <div class="container">
+                    <div class="row">
+                        <gee:gallery-grid page="123456"></gee:gallery-grid>
+                    </div>
+                </div>
+            </div>
+            <div role="tabpanel" class="tab-pane fade gee" data-gene="init:loadBox" data-src="json2sql" id="json2sql"></div>
+        </div>
+    </div>
+    <footer class="footer">
+        <div class="container">
+            <p class="text-muted">operonjs demo</p>
+        </div>
+    </footer>
+
+    <!-- build:js scripts/vendor.js -->
+    <!-- bower:js -->
+    <script src="/bower_components/jquery/dist/jquery.js"></script>
+    <script src="/bower_components/gene-event-handler/docs/scripts/jquery.gene.min.js"></script>
+    <script src="/bower_components/jsrender/jsrender.js"></script>
+    <!-- endbower -->
+    <!-- endbuild -->
+
+    <!-- build:js scripts/plugins.js -->
+    <script src="/bower_components/bootstrap/js/affix.js"></script>
+    <script src="/bower_components/bootstrap/js/alert.js"></script>
+    <script src="/bower_components/bootstrap/js/dropdown.js"></script>
+    <script src="/bower_components/bootstrap/js/tooltip.js"></script>
+    <script src="/bower_components/bootstrap/js/modal.js"></script>
+    <script src="/bower_components/bootstrap/js/transition.js"></script>
+    <script src="/bower_components/bootstrap/js/button.js"></script>
+    <script src="/bower_components/bootstrap/js/popover.js"></script>
+    <script src="/bower_components/bootstrap/js/carousel.js"></script>
+    <script src="/bower_components/bootstrap/js/scrollspy.js"></script>
+    <script src="/bower_components/bootstrap/js/collapse.js"></script>
+    <script src="/bower_components/bootstrap/js/tab.js"></script>
+    <!-- endbuild -->
+
+    <!-- build:js scripts/app.js -->
+    <script src="scripts/extend.js"></script>
+    <script src="scripts/detect.js"></script>
+    <script src="scripts/sprintf.js"></script>
+    <script src="scripts/tw2cn.js"></script>
+    <script src="scripts/app.js"></script>
+    <script src="scripts/hook.js"></script>
+    <!-- endbuild -->
+
+    <!-- build:js scripts/modules.js -->
+    <script src="scripts/modules/upload.js"></script>
+    <script src="scripts/modules/member.js"></script>
+    <script src="scripts/modules/json2sql.js"></script>
+    <script src="scripts/modules/cart.js"></script>
+    <script src="scripts/modules/editor.js"></script>
+    <script src="scripts/modules/gallery.js"></script>
+    <!-- endbuild -->
+
+    <script src="scripts/init.js"></script>
+  </body>
+</html>
