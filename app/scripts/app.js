@@ -36,7 +36,7 @@ var app = function() {
             app.body.addClass(app.screen);
 
             gee.apiUri = that.config.baseUrl +'';
-            gee.mainUri = '/';
+            gee.mainUri = window.mainUrl;
             gee.debug = 1;
 
             gee.init();
@@ -105,11 +105,8 @@ var app = function() {
             ta = (typeof ta === 'string') ? $('#'+ ta) : ta;
             redirect = (redirect) ? redirect : '';
 
-            console.log(app.htmlStores);
-
             if (typeof app.htmlStores['file-'+ src] === 'undefined') {
-                gee.clog('start load::./tmpls'+ path +'.html');
-                ta.load('./tmpls'+ path +'.html', success);
+                ta.load(gee.mainUri + 'tmpls'+ path +'.html', success);
             }
             else {
                 $('#'+ ta).html(app.htmlStores['file-'+ src]);

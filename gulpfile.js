@@ -91,7 +91,7 @@ gulp.task('extras', () => {
   }).pipe(gulp.dest('docs'));
 });
 
-gulp.task('clean', del.bind(null, ['.tmp', 'docs']));
+gulp.task('clean', del.bind(null, ['.tmp']));
 
 gulp.task('serve', () => {
   runSequence(['clean', 'wiredep'], ['styles', 'scripts', 'tmpls', 'fonts'], () => {

@@ -72,6 +72,11 @@
             <p class="text-muted">operonjs demo</p>
         </div>
     </footer>
+    <script>
+    // put
+    window.mainUrl = (location.pathname+'').replace('index.html', '');
+    window.apiUrl = mainUrl + 'api';
+    </script>
 
     <!-- build:js scripts/vendor.js -->
     <!-- bower:js -->
