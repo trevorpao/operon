@@ -12,6 +12,27 @@
     <!-- build:css styles/vendor.css -->
     <!-- bower:css -->
     <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap.css" />
+    <link rel="stylesheet" href="/bower_components/froala-wysiwyg-editor/css/froala_editor.min.css" />
+    <link rel="stylesheet" href="/bower_components/froala-wysiwyg-editor/css/froala_editor.pkgd.min.css" />
+    <link rel="stylesheet" href="/bower_components/froala-wysiwyg-editor/css/froala_style.min.css" />
+    <link rel="stylesheet" href="/bower_components/froala-wysiwyg-editor/css/plugins/char_counter.min.css" />
+    <link rel="stylesheet" href="/bower_components/froala-wysiwyg-editor/css/plugins/code_view.min.css" />
+    <link rel="stylesheet" href="/bower_components/froala-wysiwyg-editor/css/plugins/colors.min.css" />
+    <link rel="stylesheet" href="/bower_components/froala-wysiwyg-editor/css/plugins/draggable.min.css" />
+    <link rel="stylesheet" href="/bower_components/froala-wysiwyg-editor/css/plugins/emoticons.min.css" />
+    <link rel="stylesheet" href="/bower_components/froala-wysiwyg-editor/css/plugins/file.min.css" />
+    <link rel="stylesheet" href="/bower_components/froala-wysiwyg-editor/css/plugins/fullscreen.min.css" />
+    <link rel="stylesheet" href="/bower_components/froala-wysiwyg-editor/css/plugins/help.min.css" />
+    <link rel="stylesheet" href="/bower_components/froala-wysiwyg-editor/css/plugins/image_manager.min.css" />
+    <link rel="stylesheet" href="/bower_components/froala-wysiwyg-editor/css/plugins/image.min.css" />
+    <link rel="stylesheet" href="/bower_components/froala-wysiwyg-editor/css/plugins/line_breaker.min.css" />
+    <link rel="stylesheet" href="/bower_components/froala-wysiwyg-editor/css/plugins/quick_insert.min.css" />
+    <link rel="stylesheet" href="/bower_components/froala-wysiwyg-editor/css/plugins/special_characters.min.css" />
+    <link rel="stylesheet" href="/bower_components/froala-wysiwyg-editor/css/plugins/table.min.css" />
+    <link rel="stylesheet" href="/bower_components/froala-wysiwyg-editor/css/plugins/video.min.css" />
+    <link rel="stylesheet" href="/bower_components/froala-wysiwyg-editor/css/third_party/embedly.min.css" />
+    <link rel="stylesheet" href="/bower_components/froala-wysiwyg-editor/css/third_party/spell_checker.min.css" />
+    <link rel="stylesheet" href="/bower_components/jquery-ui/themes/smoothness/jquery-ui.min.css">
     <!-- endbower -->
     <!-- endbuild -->
 
@@ -33,6 +54,7 @@
         <!-- Nav tabs -->
         <ul class="nav nav-tabs" role="tablist">
             <li role="presentation"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">Home</a></li>
+            <li role="presentation"><a href="#editor" aria-controls="editor" role="tab" data-toggle="tab">Editor</a></li>
             <li role="presentation"><a href="#member" aria-controls="member" role="tab" data-toggle="tab">Member</a></li>
             <li role="presentation"><a href="#upload" aria-controls="upload" role="tab" data-toggle="tab">Upload</a></li>
             <li role="presentation"><a href="#cart" aria-controls="cart" role="tab" data-toggle="tab">Cart</a></li>
@@ -51,6 +73,7 @@
                     <div class="row">member...</div>
                 </div>
             </div>
+            <div role="tabpanel" class="tab-pane fade gee" data-gene="init:loadBox" data-src="editor" id="editor"></div>
             <div role="tabpanel" class="tab-pane fade gee" data-gene="init:loadBox" data-src="upload" id="upload"></div>
             <div role="tabpanel" class="tab-pane fade" id="cart">
                 <div class="container">
@@ -81,8 +104,44 @@
     <!-- build:js scripts/vendor.js -->
     <!-- bower:js -->
     <script src="/bower_components/jquery/dist/jquery.js"></script>
+    <script src="/bower_components/jquery-ui/jquery-ui.min.js"></script>
     <script src="/bower_components/gene-event-handler/docs/scripts/jquery.gene.min.js"></script>
     <script src="/bower_components/jsrender/jsrender.js"></script>
+    <script src="/bower_components/froala-wysiwyg-editor/js/froala_editor.min.js"></script>
+    <script src="/bower_components/froala-wysiwyg-editor/js/froala_editor.pkgd.min.js"></script>
+    <script src="/bower_components/froala-wysiwyg-editor/js/plugins/align.min.js"></script>
+    <script src="/bower_components/froala-wysiwyg-editor/js/plugins/char_counter.min.js"></script>
+    <script src="/bower_components/froala-wysiwyg-editor/js/plugins/code_beautifier.min.js"></script>
+    <script src="/bower_components/froala-wysiwyg-editor/js/plugins/code_view.min.js"></script>
+    <script src="/bower_components/froala-wysiwyg-editor/js/plugins/colors.min.js"></script>
+    <script src="/bower_components/froala-wysiwyg-editor/js/plugins/draggable.min.js"></script>
+    <script src="/bower_components/froala-wysiwyg-editor/js/plugins/emoticons.min.js"></script>
+    <script src="/bower_components/froala-wysiwyg-editor/js/plugins/entities.min.js"></script>
+    <script src="/bower_components/froala-wysiwyg-editor/js/plugins/file.min.js"></script>
+    <script src="/bower_components/froala-wysiwyg-editor/js/plugins/font_family.min.js"></script>
+    <script src="/bower_components/froala-wysiwyg-editor/js/plugins/font_size.min.js"></script>
+    <script src="/bower_components/froala-wysiwyg-editor/js/plugins/fullscreen.min.js"></script>
+    <script src="/bower_components/froala-wysiwyg-editor/js/plugins/help.min.js"></script>
+    <script src="/bower_components/froala-wysiwyg-editor/js/plugins/image.min.js"></script>
+    <script src="/bower_components/froala-wysiwyg-editor/js/plugins/image_manager.min.js"></script>
+    <script src="/bower_components/froala-wysiwyg-editor/js/plugins/inline_style.min.js"></script>
+    <script src="/bower_components/froala-wysiwyg-editor/js/plugins/line_breaker.min.js"></script>
+    <script src="/bower_components/froala-wysiwyg-editor/js/plugins/link.min.js"></script>
+    <script src="/bower_components/froala-wysiwyg-editor/js/plugins/lists.min.js"></script>
+    <script src="/bower_components/froala-wysiwyg-editor/js/plugins/paragraph_format.min.js"></script>
+    <script src="/bower_components/froala-wysiwyg-editor/js/plugins/paragraph_style.min.js"></script>
+    <script src="/bower_components/froala-wysiwyg-editor/js/plugins/print.min.js"></script>
+    <script src="/bower_components/froala-wysiwyg-editor/js/plugins/quick_insert.min.js"></script>
+    <script src="/bower_components/froala-wysiwyg-editor/js/plugins/quote.min.js"></script>
+    <script src="/bower_components/froala-wysiwyg-editor/js/plugins/save.min.js"></script>
+    <script src="/bower_components/froala-wysiwyg-editor/js/plugins/special_characters.min.js"></script>
+    <script src="/bower_components/froala-wysiwyg-editor/js/plugins/table.min.js"></script>
+    <script src="/bower_components/froala-wysiwyg-editor/js/plugins/url.min.js"></script>
+    <script src="/bower_components/froala-wysiwyg-editor/js/plugins/video.min.js"></script>
+    <script src="/bower_components/froala-wysiwyg-editor/js/plugins/word_paste.min.js"></script>
+    <script src="/bower_components/froala-wysiwyg-editor/js/third_party/embedly.min.js"></script>
+    <script src="/bower_components/froala-wysiwyg-editor/js/third_party/image_aviary.min.js"></script>
+    <script src="/bower_components/froala-wysiwyg-editor/js/third_party/spell_checker.min.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
 

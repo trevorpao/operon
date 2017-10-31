@@ -15,7 +15,8 @@
   "dependencies": {
     "bootstrap": "~3.3.5",
     "gene-event-handler": "*",
-    "jsrender": "^0.9.84"
+    "jsrender": "^0.9.84",
+    "froala-wysiwyg-editor": "^2.7.1"
   },
   "overrides": {
     "bootstrap": {

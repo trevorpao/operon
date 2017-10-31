@@ -25,7 +25,7 @@ var app = function() {
         tmplStores: {},
         htmlStores: {},
 
-        init: function() {
+        init: function(modules) {
 
             app.win = $(window);
             app.docu = $(document);
@@ -54,6 +54,14 @@ var app = function() {
             if (app.fontSize !== cufontSize) {
                 app.fontSize = cufontSize*1;
                 $('article .text p, article .text li').css('fontSize', app.fontSize+'rem');
+            }
+
+            if (modules && modules.length > 0) {
+                modules.map(function (module) {
+                    if (gee.isset(app[module]) && gee.isset(app[module].init)) {
+                        app[module].init();
+                    }
+                });
             }
         },
 
