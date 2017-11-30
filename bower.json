@@ -13,7 +13,6 @@
   "homepage": "http://sense-info.co",
   "description": "small flow controller",
   "dependencies": {
-    "bootstrap": "~4.0.0-alpha.6",
     "modernizr": "~2.8.1",
     "jquery-ui": "^1.12.1",
     "gene-event-handler": "*",
@@ -24,10 +23,10 @@
     "localforage": "^1.5.3"
   },
   "overrides": {
-    "bootstrap": {
+    "simplelightbox": {
       "main": [
-        "scss/bootstrap.scss",
-        "dist/js/bootstrap.js"
+        "dist/simplelightbox.css",
+        "dist/simple-lightbox.js"
       ]
     }
   },
