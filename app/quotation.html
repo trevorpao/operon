@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Operon</title>
+    <title>frontend</title>
     <link rel="apple-touch-icon" href="apple-touch-icon.png">
     <!-- Place favicon.ico in the root directory -->
     <!-- build:css styles/vendor.css -->
@@ -27,11 +27,28 @@
     <!--[if IE]>
       <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <a class="navbar-brand" href="#">報價計算機</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item active">
+            <a class="nav-link gee" href="javascript: ;" data-gene="click:loadMain" data-src="quotation/create">依工時 <span class="sr-only">(current)</span></a>
+          </li>
+          <li class="nav-item active">
+            <a class="nav-link gee" href="javascript: ;" data-gene="click:loadMain" data-src="quotation/point">依項目難度</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
     <!-- Begin page content -->
     <div class="container-fluid">
         <section class="row-section">
             <div class="container">
-                <div class="col-md-10 mx-auto row-block" id="main-box">
+                <div class="col-md-10 mx-auto row-block gee" id="main-box" data-gene="init:loadMain" data-src="quotation/create">
 
                 </div>
             </div>
@@ -44,7 +61,7 @@
     </footer>
     <script>
     // put
-    window.mainUrl = (location.pathname+'').replace('index.html', '');
+    window.mainUrl = (location.pathname+'').replace('quotation.html', '');
     window.apiUrl = window.mainUrl + 'api';
     </script>
     <!-- build:js scripts/vendor.js -->
@@ -80,20 +97,15 @@
     <script src="scripts/sprintf.js"></script>
     <script src="scripts/app.js"></script>
     <!-- endbuild -->
-    <!-- build:js scripts/modules.js -->
+    <!-- build:js scripts/kano.js -->
     <script src="scripts/modules/arena.js"></script>
     <script src="scripts/modules/lang.js"></script>
+    <script src="scripts/modules/quotation.js"></script>
     <script src="scripts/modules/track.js"></script>
-    <script src="scripts/modules/site.js"></script>
     <!-- endbuild -->
-    <script>
-        $(function() {
-            'use strict';
-
-            app.init(['arena', 'track', 'site']);
-
-        });
-    </script>
+    <!-- build:js scripts/init.js -->
+    <script src="scripts/init.js"></script>
+    <!-- endbuild -->
 </body>
 
 </html>

@@ -1,6 +1,6 @@
 {
   "name": "operon",
-  "version": "0.0.1",
+  "version": "0.1.1",
   "authors": [
     "Trevor Pao <shuaib25@gmail.com>"
   ],
@@ -13,23 +13,26 @@
   "homepage": "http://sense-info.co",
   "description": "small flow controller",
   "dependencies": {
-    "bootstrap": "~3.3.5",
+    "bootstrap": "~4.0.0-alpha.6",
+    "modernizr": "~2.8.1",
+    "jquery-ui": "^1.12.1",
     "gene-event-handler": "*",
     "jsrender": "^0.9.84",
-    "froala-wysiwyg-editor": "^2.7.1"
+    "octicons": "^6.0.1",
+    "simplelightbox": "^1.11.1",
+    "Autolinker.js": "^1.6.0",
+    "localforage": "^1.5.3"
   },
   "overrides": {
     "bootstrap": {
       "main": [
-        "less/bootstrap.less",
-        "dist/css/bootstrap.css",
-        "dist/js/bootstrap.js",
-        "dist/fonts/*"
+        "scss/bootstrap.scss",
+        "dist/js/bootstrap.js"
       ]
     }
   },
   "devDependencies": {
-    "chai": "^3.5.0",
-    "mocha": "^3.2.0"
+    "chai": "^4.1.2",
+    "mocha": "^3.5.3"
   }
 }

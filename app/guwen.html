@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Operon</title>
+    <title>frontend</title>
     <link rel="apple-touch-icon" href="apple-touch-icon.png">
     <!-- Place favicon.ico in the root directory -->
     <!-- build:css styles/vendor.css -->
@@ -29,13 +29,11 @@
     <![endif]-->
     <!-- Begin page content -->
     <div class="container-fluid">
-        <section class="row-section">
-            <div class="container">
-                <div class="col-md-10 mx-auto row-block" id="main-box">
+        <div class="row">
+            <div class="col-md-10 col-sm-12 mx-auto row-block gee" id="main-box" data-gene="init:loadMain" data-src="guwen/single">
 
-                </div>
             </div>
-        </section>
+        </div>
     </div>
     <footer class="footer">
         <div class="container">
@@ -44,7 +42,7 @@
     </footer>
     <script>
     // put
-    window.mainUrl = (location.pathname+'').replace('index.html', '');
+    window.mainUrl = (location.pathname+'').replace('guwen.html', '');
     window.apiUrl = window.mainUrl + 'api';
     </script>
     <!-- build:js scripts/vendor.js -->
@@ -80,20 +78,15 @@
     <script src="scripts/sprintf.js"></script>
     <script src="scripts/app.js"></script>
     <!-- endbuild -->
-    <!-- build:js scripts/modules.js -->
+    <!-- build:js scripts/guwen.js -->
     <script src="scripts/modules/arena.js"></script>
     <script src="scripts/modules/lang.js"></script>
+    <script src="scripts/modules/guwen.js"></script>
     <script src="scripts/modules/track.js"></script>
-    <script src="scripts/modules/site.js"></script>
     <!-- endbuild -->
-    <script>
-        $(function() {
-            'use strict';
-
-            app.init(['arena', 'track', 'site']);
-
-        });
-    </script>
+    <!-- build:js scripts/init.js -->
+    <script src="scripts/init.js"></script>
+    <!-- endbuild -->
 </body>
 
 </html>

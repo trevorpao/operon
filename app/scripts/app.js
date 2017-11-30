@@ -24,6 +24,15 @@ var app = function() {
 
         tmplStores: {},
         htmlStores: {},
+        tmplPath: 'tmpls',
+
+        errMsg: {
+            'e9100': '資料庫發生錯誤',
+            'e9101': '資料庫發生錯誤',
+            'e9102': '資料庫發生錯誤',
+            'e9103': '資料庫發生錯誤',
+            'e8100': '請輸入必填欄位'
+        },
 
         init: function(modules) {
 
@@ -45,15 +54,6 @@ var app = function() {
 
             if (pathArray && pathArray[1]) {
                 $('#sidebar-menu').find('[data-type="'+ pathArray[1] +'"]').trigger('click');
-            }
-
-            translateInitilization();
-
-            var cufontSize = ( getCookie('fontSize') === null ? app.fontSize : getCookie('fontSize') );
-
-            if (app.fontSize !== cufontSize) {
-                app.fontSize = cufontSize*1;
-                $('article .text p, article .text li').css('fontSize', app.fontSize+'rem');
             }
 
             if (modules && modules.length > 0) {
@@ -94,9 +94,9 @@ var app = function() {
         },
 
         loadHtml: function(src, ta, redirect) {
-            var path = '/'+ src;
+            var newPath = '/'+ src;
             var success = function(html, status, xhr) {
-                if ( status == 'error' ) {
+                if ( status === 'error' ) {
                     gee.alert({
                         title: 'Alert!',
                         txt: 'Sorry but there was an error: '+ xhr.status + ' ' + xhr.statusText
@@ -105,7 +105,7 @@ var app = function() {
                 else {
                     app.htmlStores['file-'+ src] = html;
                     if (redirect === 1) {
-                        app.redirect({path: path, ta: ta});
+                        app.redirect({path: newPath, ta: ta});
                     }
                     gee.init();
                 }
@@ -114,15 +114,41 @@ var app = function() {
             redirect = (redirect) ? redirect : '';
 
             if (typeof app.htmlStores['file-'+ src] === 'undefined') {
-                ta.load(gee.mainUri + 'tmpls'+ path +'.html', success);
+                gee.clog('load: ' + app.tmplPath + newPath + '.html');
+                ta.load(gee.mainUri + app.tmplPath + newPath +'.html', success);
             }
             else {
-                $('#'+ ta).html(app.htmlStores['file-'+ src]);
-                if (redirect !== '') {
-                    app.redirect({path: path, ta: redirect});
+                ta.html(app.htmlStores['file-'+ src]);
+                if (redirect === 1) {
+                    app.redirect({path: newPath, ta: ta});
                 }
                 gee.init();
             }
+        },
+
+        loadTmpl: function (tmplName, box) {
+            if (typeof app.tmplStores[tmplName] === 'undefined') {
+                var htmlCode = box.html() || '';
+                htmlCode = htmlCode.replace(/&lt;\%/g, '<%').replace(/\%&gt;/g, '%>').replace(/\&amp;/g, '&');
+
+                if (box.is('tbody') || box.hasClass('loop')) { // fix tbody>tr bug
+                    htmlCode = '<%props data%>' + htmlCode + '<%/props%>';
+                }
+                if (box.is('form')) {
+                    app.backend.initForm(box);
+                    htmlCode = box.html();
+                    htmlCode = htmlCode.replace(/&lt;\%/g, '<%').replace(/\%&gt;/g, '%>');
+                }
+
+                htmlCode = htmlCode.replace(/pre-gee/g, 'gee')
+                    // .replace(/pre-gene/g, 'data-gene')
+                    .replace(/pre-src/g, 'src'); // img src
+
+                // gee.clog(htmlCode);
+                app.tmplStores[tmplName] = $.templates(htmlCode);
+            }
+
+            box.html('');
         },
 
         setForm: function (ta, row) {
@@ -146,7 +172,12 @@ var app = function() {
         },
 
         redirect: function(state){
-            window.history.pushState(state, '', state.path);
+            if (!app.route) {
+                window.location.hash = state.path;
+            }
+            else {
+                window.history.pushState(state, '', state.path);
+            }
         },
 
         renderBox: function (box, dataList, clearBox, orientation) {
@@ -184,28 +215,78 @@ var app = function() {
             element.src = '/images/member.jpg';
         },
 
-        stdErr: function(e, redo) {
-            if (e.code === '100') {
-                app.redo = redo || null;
-                app.body.removeClass('login').addClass('logout');
+        /**
+         * a object of promise
+         * @param  function condition return bool
+         * @param  int limit max test times
+         * @return promise
+         */
+        waitFor: function (condition, limit) {
+            var dfr = $.Deferred();
+            var times = 0;
+            var during = 70;
+            limit = limit || 9; // Longest duration :  during * (limit+1)
 
-                gee.alert({
-                    title: 'Alert!',
-                    txt: '請重新登入'
-                });
-            }
-            else {
-                if (gee.isset(e.data.msg)) {
-                    gee.alert({
-                        title: 'Alert!',
-                        txt: e.data.msg
-                    });
+
+            var timer = setInterval(function () {
+                times++;
+                if (condition()) {
+                    clearInterval(timer);
+                    dfr.resolve();
+                }
+
+                if (times > limit) {
+                    clearInterval(timer);
+                    dfr.reject();
+                }
+            }, during);
+
+            return dfr.promise();
+        },
+
+        stdErr: function (e, redo) {
+            e.data = e.data || {};
+
+            if (gee.isset(e.data.msg)) {
+                gee.alert({ title: 'Alert!', txt: e.data.msg });
+            } else {
+                var code = 'e' + e.code;
+                if (gee.isset(app.errMsg[code])) {
+                    gee.alert({ title: 'Alert!', txt: app.errMsg[code] });
                 } else {
                     gee.alert({
                         title: 'Error!',
                         txt: 'Server Error, Plaese Try Later(' + e.code + ')'
                     });
                 }
+            }
+        },
+
+        stdSuccess: function (rtn) {
+            rtn.data = rtn.data || {};
+
+            if (gee.isset(rtn.data.msg)) {
+                gee.alert({ title: 'Alert!', txt: rtn.data.msg });
+            }
+
+            if (gee.isset(rtn.data.redirect)) {
+                location.href = (rtn.data.redirect === '') ? gee.apiUri : rtn.data.redirect;
+            }
+
+            if (gee.isset(rtn.data.goback)) {
+                history.go(-1);
+            }
+        },
+
+        showErrMsg: function (col, cond, msg) {
+            var box = col.closest('.form-group');
+            box.removeClass('has-error has-pass has-feedback');
+
+            if (cond) {
+                box.addClass('has-error').find('.error-msg').text(msg);
+                col.one('keyup', app.clearMsg);
+            } else {
+                box.addClass('has-pass has-feedback');
             }
         },
 
