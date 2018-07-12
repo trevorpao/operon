@@ -48,7 +48,7 @@
 
                 if (app.fontSize !== cufontSize) {
                     app.fontSize = cufontSize;
-                    $('#article .text p, #article .text li').css('fontSize', app.fontSize+'rem');
+                    $('#article-press .text p, #article-press .text li, #article-post .text p, #article-post .text li').css('fontSize', app.fontSize+'rem');
                 }
             });
         },
@@ -61,26 +61,33 @@
                 $('.goTop').hide();
             }
         },
+        hideModal: function () {
+            if (app.arena.cuModal !== null) {
+                app.arena.cuModal
+                    // .removeClass('is-active')
+                    .find('.modal-content')
+                    .removeClass('modal-lg modal-nor modal-sm');
+                app.arena.cuModal.modal('hide');
+            }
+        },
         showModal: function (ta, html) {
             html = (html) ? html : '';
-            var modal = $('#'+ ta), modalBody = $('#'+ ta +' .modal-body');
+            app.arena.cuModal = $('#'+ ta);
+            var modalBody = app.arena.cuModal.find('.modal-body');
 
-            modal.unbind()
+            app.arena.cuModal.unbind()
                 .on('show.bs.modal', function () {
                     gee.clog('show.bs.modal');
                     if (html !== '') {
                         modalBody.html(html);
                     }
-                    app.arena.cuModal = modal;
                 })
                 .on('hidden.bs.modal', function () {
                     gee.clog('hidden.bs.modal');
-                    if (html !== '') {
-                        modalBody.html('');
-                    }
+                    modalBody.html('');
                     app.arena.cuModal = null;
                 })
-                .modal();
+                .modal('show');
         }
     };
 
@@ -103,7 +110,8 @@
     }, 'init');
 
     // hook some handler
-    gee.hook('arena.modal.show', function(me){
+    gee.hook('arena.modal.iframe', function(me){
+        app.arena.showModal('arena-modal', '<iframe src="'+ me.data('src') +'" frameborder="0"></iframe>');
     });
 
     gee.hook('loadMain', function(me) {
@@ -128,6 +136,10 @@
         $('#' + width + '-modal').modal('show');
     });
 
+    gee.hook('hideModal', function (me) {
+        app.arena.hideModal();
+    });
+
     gee.hook('reExe', function(me) {
         if (app.redo) {
             var f = app.redo.split('.');
@@ -141,14 +153,14 @@
     });
 
     gee.hook('largerFont', function(me) {
-        var taStr = me.data('ta') || '#article .text p, #article .text li';
+        var taStr = me.data('ta') || '#article-press .text p, #article-press .text li, #article-post .text p, #article-post .text li';
         app.fontSize = app.fontSize * 1 + 0.1;
         app.arena.feed.setItem('fontSize', app.fontSize).catch( gee.clog );
         $(taStr).css('fontSize', app.fontSize + 'rem');
     });
 
     gee.hook('smallerFont', function(me) {
-        var taStr = me.data('ta') || '#article .text p, #article .text li';
+        var taStr = me.data('ta') || '#article-press .text p, #article-press .text li, #article-post .text p, #article-post .text li';
         app.fontSize = app.fontSize * 1 - 0.1;
         app.arena.feed.setItem('fontSize', app.fontSize).catch( gee.clog );
         $(taStr).css('fontSize', app.fontSize + 'rem');
@@ -177,6 +189,8 @@
     }, 'init');
 
     gee.hook('initTmpl', function (me) {
+        gee.clog('enter into iitTmpl method in arena.js++++++', me);
+
         app.loadTmpl(me.data('tmpl'), me);
     });
 
