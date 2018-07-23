@@ -32,27 +32,18 @@
                 which: which,
             });
 
-            switch (which) {
-                case 'ga':
-                    // Google analytics
-                    if (gee.isset(window.ga)) {
-                        if (label) {
-                            window.ga('send', 'event', cate, act, label);
-                        } else {
-                            window.ga('send', 'event', cate, act);
-                        }
-                    }
-                    break;
+            if ((which === 'ga' || which === 'all') && gee.isset(window.ga)) {
+                // Google analytics
+                if (label) {
+                    window.ga('send', 'event', cate, act, label);
+                } else {
+                    window.ga('send', 'event', cate, act);
+                }
+            }
 
-                case 'pixel':
-                    // Facebook Pixel
-                    if (gee.isset(window.fbq)) {
-                        window.fbq('track', cate, act, label);
-                    }
-                    break;
-
-                default:
-                    return;
+            if ((which === 'pixel' || which === 'all') && gee.isset(window.fbq)) {
+                // Facebook Pixel
+                window.fbq('track', cate, act, label);
             }
         }
     };

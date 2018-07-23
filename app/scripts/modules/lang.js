@@ -1,12 +1,32 @@
 ;(function(app, gee, $){
     'use strict';
 
+    /**
+     * use sample
+     *
+     * <span lang-key="Instruments">Instruments</span>
+     * <input lang-key="Instruments" />
+     */
+
    var cfg = {
         tw: {
+            'Style': '風格',
+            'Instruments': '樂器',
+            'Mood': '情緒',
+            'Vocals': '人聲',
+            'Genre': '類型',
+            'Topic': '主題'
         },
         en: {
+            'Style': 'Style',
+            'Instruments': 'Instruments',
+            'Mood': 'Mood',
+            'Vocals': 'Vocals',
+            'Genre': 'Genre',
+            'Topic': 'Topic'
         }
     };
+
 
     var tsSwitch = {
         defaultEncoding:1, // 1: Tranditional Chinese, 2: Simplified Chinese
@@ -131,12 +151,6 @@
     tsSwitch.currentEncoding = tsSwitch.defaultEncoding;
     tsSwitch.targetEncoding = tsSwitch.defaultEncoding;
 
-    // TODO: add cookie mode
-    // zh-tw 中文(中國台灣)
-    // zh-cn 中文(中華人民共和國)
-    // zh-hk 中文(中國香港特別行政區)
-    // zh-sg 中文(新加坡)
-
     app.lang = {
         default: 'tw',
         cu: 'tw',
@@ -231,15 +245,27 @@
             $('[lang-key]').each(function(){
                 var ta = $(this);
                 var key = ta.attr('lang-key');
-                var gotit = 0;
+                var empty = 1;
+
                 $.each(cfg[app.lang.cu], function(idx, val){
                     if (idx === key) {
-                        ta.text(val);
-                        gotit = 1;
+                        if (ta.is('input')) {
+                            ta.attr('placeholder', val);
+                        }
+                        else {
+                            ta.text(val);
+                        }
+                        empty = 0;
                     }
                 });
-                if (gotit === 0) {
-                    ta.text(key);
+
+                if (empty === 1) {
+                    if (ta.is('input')) {
+                        ta.attr('placeholder', key);
+                    }
+                    else {
+                        ta.text(key);
+                    }
                 }
             });
         }

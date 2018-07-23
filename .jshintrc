@@ -31,6 +31,8 @@
     "indent": 4,
 
     "globals": {
-        "angular": false
+        "gee": false,
+        "app": false,
+        "jQuery": false
     }
 }

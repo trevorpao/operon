@@ -44,17 +44,17 @@ var app = function() {
 
             app.body.addClass(app.screen);
 
-            gee.apiUri = that.config.baseUrl +'';
+            gee.apiUri = window.apiUrl +'';
             gee.mainUri = window.mainUrl;
-            gee.debug = 1;
+            gee.picUri = '';
+
+            if (!app.isProd()) {
+                gee.mainUri = 'http://f3cms.lo:8080/';
+                gee.apiUri = 'http://f3cms.lo:8080/api/';
+                gee.picUri = gee.mainUri.slice(0, -1);
+            }
 
             gee.init();
-
-            var pathArray = window.location.pathname.split('/');
-
-            if (pathArray && pathArray[1]) {
-                $('#sidebar-menu').find('[data-type="'+ pathArray[1] +'"]').trigger('click');
-            }
 
             if (modules && modules.length > 0) {
                 modules.map(function (module) {
@@ -63,6 +63,12 @@ var app = function() {
                     }
                 });
             }
+        },
+
+        isProd: function (argument) {
+            var host = $(location).attr('hostname');
+
+            return (host !== 'localhost' && host.indexOf('fake.') === -1 && host.indexOf('loc.') === -1);
         },
 
         resetCurrent: function (box) {
@@ -303,7 +309,7 @@ var app = function() {
         formatHelper: {
             currency: function(val) { return '$' + ($.fn.formatMoney((val+''), 0)); },
             sum: function(price, qty) { return tmplHelpers.currency(qty*price); },
-            loadPic: function(path) { return that.config.baseUrl + path; },
+            loadPic: function(path) { return gee.picUri + path; },
             average: function(sum, divide) { return (divide!='0') ? Math.round(sum*10/divide)/10 : 0; },
             beforeDate: function(ts, target) {
                 var cu = moment(ts);

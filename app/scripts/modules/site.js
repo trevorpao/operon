@@ -14,7 +14,7 @@
                 $('.desktop-nav').show();
             }
 
-            $('#article .text img.fr-fin, #article .text img.fr-dib').each(function() {
+            $('#article .text img.fr-fin, #article .text img.fr-dib').each(function() { // handle img caption
                 var $me = $(this);
                 var imageCaption = $me.attr('alt');
                 if (imageCaption != '' && imageCaption != 'Image title') {
@@ -37,6 +37,12 @@
                     'height': Math.round(imgWidth*0.5625) + 'px'
                 });
             });
+
+            var pathArray = window.location.pathname.split('/');
+
+            if (pathArray && pathArray[1]) {
+                $('#sidebar-menu').find('[data-type="'+ pathArray[1] +'"]').trigger('click');
+            }
 
         }
     };

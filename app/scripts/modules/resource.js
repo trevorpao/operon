@@ -2,8 +2,6 @@
     'use strict';
 
     app.resource = {
-        apiUri: 'http://hl.sense-info.co/api/resource',
-
         load: function (tmpl, data, box) {
             var callback = function () {
                 if (this.code !== 1) {
@@ -12,12 +10,7 @@
                     if (this.data.data[0] === null) {
                         this.data.data = [];
                     }
-                    if (tmpl !== 'menuCTA') {
-                        box.html(app.tmplStores[tmpl].render({data: this.data.data, cu: this.data.cu}));
-                    }
-                    else {
-                        box.html($('#menuCTATmpl').render({data: this.data.data, cu: this.data.cu}));
-                    }
+                    box.html(app.tmplStores[tmpl].render({data: this.data.data, cu: this.data.cu}));
 
                     gee.init();
 
@@ -25,11 +18,13 @@
                         app.resource.carousel(box.find('.carousel'));
                     }
 
-                    app.track.bind(box);
+                    if (app.isProd()) {
+                        app.track.bind(box);
+                    }
                 }
             };
 
-            gee.yell(app.resource.apiUri + '/load', data, callback, callback);
+            gee.yell('load', data, callback, callback);
         },
 
         loadTop10: function (tmpl, limit, box) {
@@ -41,11 +36,13 @@
                 } else {
                     box.html(app.tmplStores[tmpl].render({data: this.data}));
 
-                    app.track.bind(box);
+                    if (app.isProd()) {
+                        app.track.bind(box);
+                    }
                 }
             };
 
-            gee.yell(app.resource.apiUri + '/loadTop10', {limit: limit}, callback, callback);
+            gee.yell('loadTop10', {limit: limit}, callback, callback);
         },
 
         carousel: function (box) {
@@ -139,10 +136,6 @@
         }
     };
 
-    if (app.isProd()) {
-        app.resource.apiUri = 'https://stage.how-living.com/api/resource';
-    }
-
     gee.hook('loadTop10', function (me) {
         app.loadTmpl(me.data('tmpl'), me);
 
@@ -151,9 +144,6 @@
 
     gee.hook('resource.load', function (me) {
         let tmpl = me.data('tmpl');
-        if (tmpl !== 'menuCTA') {
-            app.loadTmpl(tmpl, me);
-        }
 
         app.resource.load(tmpl, {pid: me.data('pid'), limit: me.data('limit'), meta: (me.data('meta') || 0)}, me);
     });

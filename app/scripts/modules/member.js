@@ -1,8 +1,23 @@
 ;(function(app, gee, $){
-    "use strict";
+    'use strict';
 
     app.member = {
         current: {},
+        errMsg: {
+            'e8200': '驗證碼錯誤',
+            'e8202': 'Email格式錯誤',
+            'e8203': '此帳號已有人使用',
+            'e8204': '原密碼輸入錯誤',
+            'e8205': '密碼須為 6~32 英文數字組合',
+            'e8206': '確認密碼與密碼不相同',
+            'e7100': '帳號不存在',
+            'e7104': '帳號或密碼錯誤',
+            'e6100': '尚未登入',
+            'e6101': '已登入',
+            'e6102': '電子郵件已驗證',
+            'e6103': '電子郵件未驗證',
+            'e6104': '需要登入後才可使用'
+        },
         init: function() {
             app.member.status();
         },
@@ -34,8 +49,10 @@
             $('.my-avatar').attr('src', app.member.current.img);
         },
 
-        login: function(data) {
+        login: function(data, btn) {
             var callback = function() {
+                app.doneBtn(btn);
+
                 if (this.code !== '1') {
                     app.stdErr(this);
                 }
@@ -149,6 +166,19 @@
 
         getMinsFromNow: function (mins) {
             return new Date(new Date().valueOf() + mins * 60 * 1000);
+        },
+
+        keepMe: function (col) {
+            var f = col.closest('form');
+            if (col.prop('checked')) {
+                // save
+                app.arena.feed.setItem('acct', f.find('input[name="account"]').val()).catch( gee.clog );
+                app.arena.feed.setItem('passwd', f.find('input[name="passwd"]').val()).catch( gee.clog );
+            } else {
+                // remove
+                app.arena.feed.removeItem('acct', gee.clog);
+                app.arena.feed.removeItem('passwd', gee.clog);
+            }
         }
     };
 
@@ -159,7 +189,9 @@
             return false;
         }
         else {
-            return app.member.login(f.serialize());
+            app.member.keepMe(f.find('input[name="keep-me"]'));
+            app.progressingBtn(me);
+            app.member.login(f.serialize(), me);
         }
     });
 
