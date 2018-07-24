@@ -19,13 +19,25 @@
     "octicons": "^6.0.1",
     "simplelightbox": "^1.11.1",
     "Autolinker.js": "^1.6.0",
-    "localforage": "^1.5.3"
+    "localforage": "^1.5.3",
+    "masonry-layout": "masonry#^4.2.2"
   },
   "overrides": {
     "simplelightbox": {
       "main": [
         "dist/simplelightbox.css",
         "dist/simple-lightbox.js"
+      ]
+    },
+    "masonry-layout": {
+      "main": [
+        "dist/masonry.pkgd.js"
+      ]
+    },
+    "outlayer": {
+      "main": [
+        "item.js",
+        "outlayer.js"
       ]
     }
   },

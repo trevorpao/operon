@@ -17,5 +17,5 @@ $(function() {
 
     modules.push('site'); // the final one
 
-    app.init();
+    app.init(modules);
 });

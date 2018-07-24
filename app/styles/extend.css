@@ -1,3 +1,40 @@
+.nav-block {
+    display: block;
+}
+
+.site-logo {
+    width: 33px;
+    margin-right: 5px;
+}
+
+.navbar-brand>.site-logo {
+    display: inline;
+}
+
+.nav-bg {
+    background-color: white;
+}
+
+.mobile #main-collapse {
+    margin-top: 8vh;
+}
+
+.anchor-hr {
+    display: block;
+    border-bottom: 1px solid #ccc;
+    margin: 20px;
+}
+
+.anchor-hr:nth-child(1),
+.mobile .anchor-hr:nth-child(1) {
+    border-bottom: 0px;
+    margin: 0;
+}
+
+.mobile .anchor-hr {
+    margin-bottom: 8vh;
+}
+
 .row-section {
     width: 100%;
 }
@@ -72,44 +109,6 @@
     margin-bottom: 0;
     padding-left: 14px;
     margin-top: 12px;
-}
-
-.btn-default {
-    background: #6B456A;
-    color: #fff;
-    border-radius: 30px;
-    border: none;
-    font-size: 16px;
-}
-
-.input-group-addon.primary {
-    color: rgb(255, 255, 255);
-    background-color: rgb(50, 118, 177);
-    border-color: rgb(40, 94, 142);
-}
-
-.input-group-addon.success {
-    color: rgb(255, 255, 255);
-    background-color: rgb(92, 184, 92);
-    border-color: rgb(76, 174, 76);
-}
-
-.input-group-addon.info {
-    color: rgb(255, 255, 255);
-    background-color: rgb(57, 179, 215);
-    border-color: rgb(38, 154, 188);
-}
-
-.input-group-addon.warning {
-    color: rgb(255, 255, 255);
-    background-color: rgb(240, 173, 78);
-    border-color: rgb(238, 162, 54);
-}
-
-.input-group-addon.danger {
-    color: rgb(255, 255, 255);
-    background-color: rgb(217, 83, 79);
-    border-color: rgb(212, 63, 58);
 }
 
 textarea {

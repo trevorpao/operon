@@ -10,7 +10,8 @@ var app = function() {
     var that = this;
 
     that.config = {
-        baseUrl: window.apiUrl
+        baseUrl: window.apiUrl,
+        detectWidth: 600,
     };
 
     var app = {
@@ -18,7 +19,6 @@ var app = function() {
         pageLimit: 8,
 
         fontSize: 1.25,
-        detectWidth: 600,
 
         redo: null,
 
@@ -223,7 +223,7 @@ var app = function() {
 
         /**
          * a object of promise
-         * @param  function condition return bool
+         * @param  condition function OR sec return bool
          * @param  int limit max test times
          * @return promise
          */
@@ -233,19 +233,26 @@ var app = function() {
             var during = 70;
             limit = limit || 9; // Longest duration :  during * (limit+1)
 
-
-            var timer = setInterval(function () {
-                times++;
-                if (condition()) {
-                    clearInterval(timer);
+            if (Number(condition) === condition) {
+                setTimeout(function () {
                     dfr.resolve();
-                }
+                }, condition * 1000);
+            }
+            else {
+                var timer = setInterval(function () {
+                    times++;
+                    if (condition()) {
+                        clearInterval(timer);
+                        dfr.resolve();
+                    }
 
-                if (times > limit) {
-                    clearInterval(timer);
-                    dfr.reject();
-                }
-            }, during);
+                    if (times > limit) {
+                        clearInterval(timer);
+                        dfr.reject();
+                    }
+                }, during);
+
+            }
 
             return dfr.promise();
         },
