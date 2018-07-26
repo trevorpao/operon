@@ -28,28 +28,31 @@
                     'height': Math.round(imgWidth*0.5625) + 'px'
                 });
             });
-
-            var $grid = $('.grid').masonry({
-                columnWidth: '.grid-sizer',
-                itemSelector: '.grid-item',
-                gutter: '.gutter-sizer'
-            });
-
-            $('.navbar-toggle').on('click', function(e) {
-                e.preventDefault();
-                $('#main-collapse').toggleClass('open');
-                $('.sidebar').toggleClass('open');
-            });
-
-            $('.mobile .nav a').on('click', function(e) {
-                $('#main-collapse').removeClass('open');
-                $('.sidebar').removeClass('open');
-            });
-
-            app.waitFor(0.6).then(function () {
-                $grid.masonry();
-            });
         }
     };
+
+    gee.hook('site/toggleNav', function(me) {
+        $('#main-collapse').toggleClass('open');
+        $('.sidebar').toggleClass('open');
+    });
+
+    gee.hook('site/closeNav', function(me) {
+        $('#main-collapse').removeClass('open');
+        $('.sidebar').removeClass('open');
+    });
+
+    gee.hook('site/masonryInit', function(me) {
+        var $grid = me.masonry({
+            columnWidth: '.grid-sizer',
+            itemSelector: '.grid-item',
+            gutter: '.gutter-sizer'
+        });
+
+        app.waitFor(0.6).then(function () {
+            $grid.masonry();
+        });
+    });
+
+
 
 }(app, gee, jQuery));

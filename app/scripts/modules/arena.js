@@ -120,6 +120,16 @@
         app.loadHtml(src, 'main-box', 1);
     });
 
+    gee.hook('replaceMe', function(me) {
+        var src = me.data('src');
+        var newPath = '/'+ src;
+
+        $.get(app.tmplPath + newPath +'.html', function(html) {
+            me.replaceWith(html);
+            gee.init();
+        });
+    });
+
     gee.hook('loadBox', function(me) {
         var src = me.data('src');
 
