@@ -368,6 +368,23 @@ var app = function() {
                 });
             });
             return attr;
+        },
+
+        /**
+         *
+         * http://mir.aculo.us/2011/03/09/little-helpers-a-tweet-sized-javascript-templating-engine/
+         *
+         * simple string tmpl
+         * @param  str target string
+         * @param  params object that need to be replaced
+         * @return string
+         */
+        tmpl: function(str, params) {
+            for (var item in params) {
+                str = str.replace(new RegExp('{' + item + '}', 'g'), params[item]);
+            }
+
+            return str;
         }
     };
 

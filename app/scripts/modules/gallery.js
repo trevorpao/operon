@@ -5,7 +5,7 @@
     app.gallery = {
 
         baseIfrme: function() {
-            return '<div class="gene-iframe app-%(prefix)s"><iframe id="ifr_%(uniqid)s" src="%(taUri)s" width="%(width)s" scrolling="no" frameborder="0" allowtransparency="true" role="application" style="width: %(width)s; z-index: %(zidx)s;" class="app-box"></iframe></div>';
+            return '<div class="gene-iframe app-{prefix}"><iframe id="ifr_{uniqid}" src="{taUri}" width="{width}" scrolling="no" frameborder="0" allowtransparency="true" role="application" style="width: {width}; z-index: {zidx};" class="app-box"></iframe></div>';
         },
 
         renderOpt: function(prefix, width, zidx) {
@@ -29,7 +29,7 @@
 
         opt.taUri += '&page='+ attr.page;
 
-        me.replaceWith(sprintf(app.gallery.baseIfrme(), opt));
+        me.replaceWith(app.tmpl(app.gallery.baseIfrme(), opt));
     });
 
     // <gee:gallery-grid page="123456"></gee:gallery-grid>
