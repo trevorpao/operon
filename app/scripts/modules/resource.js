@@ -110,7 +110,7 @@
                         animateOut: carouseAnimateOut,
                         onInitialize: function(event) {
                             // setTimeout(function () {
-                                elem.addClass("carousel-loaded owl-carousel");
+                                elem.addClass('carousel-loaded owl-carousel');
                             //    }, 1000);
                         },
                         responsive: {

@@ -9,7 +9,7 @@ const runSequence = require('run-sequence');
 const $ = gulpLoadPlugins();
 const reload = browserSync.reload;
 
-var dev = true;
+var dev = false;
 
 gulp.task('styles', () => {
   return gulp.src('app/styles/*.scss')
@@ -58,7 +58,7 @@ gulp.task('lint:test', () => {
     .pipe(gulp.dest('test/spec'));
 });
 
-gulp.task('html', ['styles', 'scripts'], () => {
+gulp.task('html', ['styles', 'scripts', 'tmpls'], () => {
   return gulp.src('app/*.html')
     .pipe($.useref({searchPath: ['.tmp', 'app', '.']}))
     .pipe($.if(/\.js$/, $.uglify({compress: {drop_console: true}})))
@@ -97,9 +97,21 @@ gulp.task('extras', () => {
   }).pipe(gulp.dest('dist'));
 });
 
+gulp.task('move', () => {
+  return gulp.src([
+    'dist/images/*',
+    'dist/scripts/*',
+    'dist/styles/*',
+    'dist/tmpls/**/*',
+  ], {
+    base: 'dist'
+  }).pipe(gulp.dest('../www/f3cms/assets/'));
+});
+
 gulp.task('clean', del.bind(null, ['.tmp', 'dist']));
 
 gulp.task('serve', () => {
+  dev = true;
   runSequence(['clean', 'wiredep'], ['styles', 'scripts', 'fonts'], () => {
     browserSync.init({
       notify: false,
@@ -128,6 +140,7 @@ gulp.task('serve', () => {
 });
 
 gulp.task('serve:dist', ['default'], () => {
+  dev = true;
   browserSync.init({
     notify: false,
     port: 9000,
@@ -138,6 +151,7 @@ gulp.task('serve:dist', ['default'], () => {
 });
 
 gulp.task('serve:test', ['scripts'], () => {
+  dev = true;
   browserSync.init({
     notify: false,
     port: 9000,
@@ -174,7 +188,7 @@ gulp.task('wiredep', () => {
     .pipe(gulp.dest('app'));
 });
 
-gulp.task('build', ['lint', 'html', 'images', 'fonts', 'tmpls', 'extras'], () => {
+gulp.task('build', ['lint', 'html', 'images', 'fonts', 'extras'], () => {
   return gulp.src('dist/**/*').pipe($.size({title: 'build', gzip: true}));
 });
 

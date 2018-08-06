@@ -29,6 +29,12 @@
         "dist/simple-lightbox.js"
       ]
     },
+    "gene-event-handler": {
+      "main": [
+        "app/scripts/validatr.js",
+        "app/scripts/jquery.gene.js"
+      ]
+    },
     "masonry-layout": {
       "main": [
         "dist/masonry.pkgd.js"

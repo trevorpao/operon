@@ -65,7 +65,7 @@ var app = function() {
             }
         },
 
-        isProd: function (argument) {
+        isProd: function () {
             var host = $(location).attr('hostname');
 
             return (host !== 'localhost' && host.indexOf('fake.') === -1 && host.indexOf('loc.') === -1);
