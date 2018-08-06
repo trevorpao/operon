@@ -26,6 +26,7 @@ You're more than welcome to contribute to this project.
 * Run `gulp serve:test` to run the tests in the browser
 * Run `gulp` to build your webapp for production
 * Run `gulp serve:dist` to preview the production build
+* Run `gulp move` to move the production build to F3CMS
 
 Enjoy!
 
