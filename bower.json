@@ -20,7 +20,9 @@
     "simplelightbox": "^1.11.1",
     "Autolinker.js": "^1.6.0",
     "localforage": "^1.5.3",
-    "masonry-layout": "masonry#^4.2.2"
+    "masonry-layout": "masonry#^4.2.2",
+    "lodash": "^4.17.10",
+    "jquery.cookie": "^1.4.1"
   },
   "overrides": {
     "simplelightbox": {

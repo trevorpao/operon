@@ -155,15 +155,20 @@
         default: 'tw',
         cu: 'tw',
         opt: [
-            {k: 'tw', v: '中'},
+            {k: 'tw', v: '繁'},
+            {k: 'cn', v: '简'},
             {k: 'en', v: 'EN'}
         ],
         init: function() {
 
+            $.each(app.lang.opt, function(idx, row){
+                if (app.body.hasClass(row.k)) {
+                    app.lang.default = row.k;
+                }
+            });
+
             app.arena.feed.getItem('cuLang', function(err, val){
                 if (err) {
-                    gee.clog('---------------------- localforage err -------------------------');
-                    gee.clog(err);
                     app.track.send('failure', 'load_localforage', JSON.stringify(err));
                 }
 
@@ -172,7 +177,6 @@
                     lang  = val;
                 }
                 else {
-                    gee.clog('---------------------- new user -------------------------');
                     // new user
                     if (app.body.hasClass('cn') && navLang !== 'zh-tw' && navLang !== 'zh-hk') {
                         lang = 'cn';
@@ -214,8 +218,6 @@
         initTSSwitch: function () {
             app.arena.feed.getItem('pageJSEndcode', function(err, val){
                 if (err) {
-                    gee.clog('---------------------- localforage err -------------------------');
-                    gee.clog(err);
                     app.track.send('failure', 'load_localforage', JSON.stringify(err));
                 }
 
@@ -227,12 +229,20 @@
                 }
 
                 tsSwitch.currentEncoding = (tsSwitch.targetEncoding === 1) ? 2 : 1;
-                $('.ts-switch[data-lang="'+ tsSwitch.targetEncoding +'"]').trigger('click');
+
+                if (tsSwitch.targetEncoding === 2) {
+                    app.lang.cu = 'cn';
+                }
+                else {
+                    app.lang.cu = 'tw';
+                }
+
+                app.lang.tsSwitch(tsSwitch.targetEncoding);
             });
         },
         point: function (idx) {
             app.lang.cu = app.lang.opt[idx].k;
-            app.body.removeClass('tw en cn').addClass(app.lang.cu);
+            app.body.removeClass(_.map(app.lang.opt, 'k').join(' ')).addClass(app.lang.cu);
             app.docu.addClass(app.lang.cu);
             app.arena.feed.setItem('cuLang', app.lang.cu).catch( gee.clog );
 
@@ -268,6 +278,38 @@
                     }
                 }
             });
+        },
+        redirect: function (newLang) {
+            var uUri = $('link[rel="canonical"]').attr('href');
+            var nUri = '';
+
+            nUri = uUri.replace('/'+ app.lang.default, '/'+ newLang);
+
+            $.cookie('user_lang', newLang, {expires: 3650, path: '/'});
+
+            if (nUri === uUri) {
+                if (nUri.indexOf('/'+ newLang) === -1) {
+                    if(nUri.substr(-1) === '/') {
+                        nUri = nUri.substr(0, nUri.length - 1);
+                    }
+                    nUri = nUri + '/'+ app.lang.cu;
+                }
+            }
+
+            location.href = nUri;
+        },
+        tsSwitch: function (langCode) {
+            tsSwitch.targetEncoding = langCode;
+            $('.ts-switch').removeClass('focus');
+            tsSwitch.currentEncoding = (tsSwitch.targetEncoding === 1) ? 2 : 1;
+
+            app.arena.feed.setItem('cuLang', app.lang.cu).catch( gee.clog );
+            $('.'+ app.lang.cu +'.ts-switch').addClass('focus');
+
+            app.body.removeClass(_.map(app.lang.opt, 'k').join(' ')).addClass(app.lang.cu);
+            app.docu.removeClass(_.map(app.lang.opt, 'k').join(' ')).addClass(app.lang.cu);
+
+            tsSwitch.thisPage();
         }
     };
 
@@ -277,48 +319,30 @@
     });
 
     // change lang & redirect
-    gee.hook('switchI18n', function (me) {
-        var uUri = $('link[rel="canonical"]').attr('href');
-        var nUri = '';
-        var old = app.lang.cu;
-
-        app.lang.cu = me.data('ta');
-        app.arena.feed.setItem('cuLang', app.lang.cu).catch( gee.clog );
-
-        nUri = uUri.replace('/'+ old, '/'+ app.lang.cu);
-
-        if (nUri === uUri) {
-            if (nUri.indexOf('/'+ app.lang.cu) === -1) {
-                if(nUri.substr(-1) === '/') {
-                    nUri = nUri.substr(0, nUri.length - 1);
-                }
-                nUri = nUri + '/'+ app.lang.cu;
-            }
-        }
-
-        location.href = nUri;
+    // <a href="javascript:;" class="gee" data-gene="click:lang.redirect" data-ta="en">EN</a>
+    gee.hook('lang.redirect', function (me) {
+        app.lang.redirect(me.data('ta'));
     });
 
-    gee.hook('translatePage', function(me) {
-        $('.ts-switch').removeClass('focus');
-        tsSwitch.targetEncoding = me.data('lang')*1;
-        tsSwitch.currentEncoding = (tsSwitch.targetEncoding === 1) ? 2 : 1;
+    // only for cn/tw switch
+    // <a href="javascript:;" class="ts-switch tw gee" data-lang="2" data-gene="click:lang.switch">简</a>
+    // <a href="javascript:;" class="ts-switch cn gee" data-lang="1" data-gene="click:lang.switch">繁</a>
+    gee.hook('lang.switch', function(me) {''
+        var langCode = me.data('lang')*1;
 
-
-        if (tsSwitch.targetEncoding === 2) {
+        if (langCode === 2) {
             app.lang.cu = 'cn';
         }
         else {
             app.lang.cu = 'tw';
         }
-        app.arena.feed.setItem('cuLang', app.lang.cu).catch( gee.clog );
 
-        $('.'+ app.lang.cu +'.ts-switch').addClass('focus');
-
-        app.body.removeClass('tw en cn').addClass(app.lang.cu);
-        app.docu.removeClass('tw en cn').addClass(app.lang.cu);
-
-        tsSwitch.thisPage();
+        if (app.lang.default !== 'cn' && app.lang.default !== 'tw') {
+            app.lang.redirect(app.lang.cu);
+        }
+        else {
+            app.lang.tsSwitch(langCode);
+        }
     });
 
 }(app, gee, jQuery));
