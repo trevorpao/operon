@@ -124,7 +124,7 @@
         var src = me.data('src');
         var newPath = '/'+ src;
 
-        $.get(app.tmplPath + newPath +'.html', function(html) {
+        $.get(app.tmplPath + newPath +'.html?var=' + app.cuVersion, function(html) {
             me.replaceWith(html);
             gee.init();
         });

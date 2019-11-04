@@ -25,6 +25,7 @@ var app = function() {
         tmplStores: {},
         htmlStores: {},
         tmplPath: 'tmpls',
+        cuVersion: '',
 
         errMsg: {
             'e9100': '資料庫發生錯誤',
@@ -36,6 +37,7 @@ var app = function() {
 
         init: function(modules) {
 
+            app.cuVersion = document.cuVersion;
             app.win = $(window);
             app.docu = $(document);
             app.body = (app.win.opera) ? (app.docu.compatMode == 'CSS1Compat' ? $('html') : $('body')) : $('body');
@@ -49,8 +51,8 @@ var app = function() {
             gee.picUri = '';
 
             if (!app.isProd()) {
-                gee.mainUri = 'http://f3cms.lo:8080/';
-                gee.apiUri = 'http://f3cms.lo:8080/api/';
+                gee.mainUri = 'https://f3cms.lo:4433/';
+                gee.apiUri = 'https://f3cms.lo:4433/api/';
                 gee.picUri = gee.mainUri.slice(0, -1);
             }
 
@@ -121,7 +123,7 @@ var app = function() {
 
             if (typeof app.htmlStores['file-'+ src] === 'undefined') {
                 gee.clog('load: ' + app.tmplPath + newPath + '.html');
-                ta.load(gee.mainUri + app.tmplPath + newPath +'.html', success);
+                ta.load(gee.mainUri + app.tmplPath + newPath +'.html?var=' + app.cuVersion, success);
             }
             else {
                 ta.html(app.htmlStores['file-'+ src]);
@@ -368,6 +370,16 @@ var app = function() {
                 });
             });
             return attr;
+        },
+
+        progressingBtn: function(btn) {
+            btn.prop('disabled', true).append('<i class="fa fa-spinner fa-pulse fa-fw"></i>');
+        },
+
+        doneBtn: function(btn) {
+            app.waitFor(0.9).then(function () {
+                btn.prop('disabled', false).find('.fa-spinner').remove();
+            });
         },
 
         /**

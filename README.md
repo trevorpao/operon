@@ -21,6 +21,7 @@ Small Flow Controller by Genes.
 
 You're more than welcome to contribute to this project. 
 
+* Run `nvm use v8.16.2`
 * Run `gulp serve` to preview and watch for changes
 * Run `bower install` --save <package> to install frontend dependencies
 * Run `gulp serve:test` to run the tests in the browser
