@@ -16,17 +16,20 @@ Small Flow Controller by Genes.
 
 ### Installation
 
+* Run `nvm install v14.17.4`
+* Run `npm i -g gulp-cli` for gulp command
+* Run `npm i -g bower`
+* Run `npm i` 
+* Run `npm audit fix`
+* Run `bower install` --save <package> to install frontend dependencies
 
 ## Contribute
 
 You're more than welcome to contribute to this project. 
 
-* Run `nvm use v8.16.2`
+* Run `nvm use v14.17.4`
 * Run `gulp serve` to preview and watch for changes
-* Run `bower install` --save <package> to install frontend dependencies
-* Run `gulp serve:test` to run the tests in the browser
 * Run `gulp` to build your webapp for production
-* Run `gulp serve:dist` to preview the production build
 * Run `gulp move` to move the production build to F3CMS
 
 Enjoy!

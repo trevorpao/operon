@@ -266,7 +266,7 @@
             else {
                 gee.alert({
                     title: 'Error!',
-                    txt: txt.join("\r\n")
+                    txt: txt.join('\r\n')
                 });
             }
         }

@@ -204,4 +204,40 @@
         app.loadTmpl(me.data('tmpl'), me);
     });
 
+    gee.hook('react', function(me) {
+        var ta = $(me.event.target);
+
+        if (!ta.attr('func')) {
+            ta = ta.parent();
+        }
+
+        var func = ta.attr('func');
+        var type = ta.data('event') || 'click';
+
+        gee.clog(func);
+
+        if (type === me.event.type && gee.check(func)) {
+            ta.event = me.event;
+            gee.exe(func, ta);
+        }
+    });
+
+    gee.hook('reactSubmit', function (me) {
+        var code = me.event.keyCode || me.event.which;
+        var func = me.attr('func');
+        if (code === 13 && !me.event.shiftKey && func !== '' && gee.check(func)) {
+            if (func === 'stdSubmit') {
+                var form = me.data('ta') ? $('#' + me.data('ta')) : me.closest('form');
+                me = form.find('[data-gene="click:stdSubmit"]');
+            }
+
+            if (func === 'login') {
+                var form = me.data('ta') ? $('#' + me.data('ta')) : me.closest('form');
+                me = form.find('[data-gene="click:login"]');
+            }
+
+            gee.exe(func, me);
+        }
+    });
+
 }(app, gee, jQuery));
