@@ -3,6 +3,14 @@
   "engines": {
     "node": ">=4"
   },
+  "scripts": {
+    "clean": "rm -rf dist",
+    "dev": "gulp serve",
+    "build": "npx eslint ./app/scripts/**/*.js && gulp",
+    "package": "npx eslint ./app/scripts/**/*.js && gulp && gulp move",
+    "lint": "npx eslint ./app/scripts/**/*.js ./app/scripts/*.js",
+    "fix": "npx eslint ./app/scripts/**/*.js --fix"
+  },
   "browserslist": [
     "> 0.5%",
     "last 2 versions",

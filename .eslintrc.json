@@ -1,0 +1,45 @@
+{
+    "env": {
+        "browser": true,
+        "jquery": true,
+        "node": true,
+        "es6": true
+    },
+    "parserOptions": {
+        "sourceType": "module",
+        "ecmaVersion": 2018
+    },
+    "extends": "eslint:recommended",
+    "rules": { // https://eslint.org/docs/rules/
+        "no-var": "off",
+        "indent": ["error", 4],
+        "semi": ["error", "always"],
+        "linebreak-style": ["error", "unix"],
+        "quotes": ["error", "single"],
+        "no-console": 2,
+        "no-unused-vars": 0,
+        "no-extra-semi": 0
+    },
+    "noInlineConfig": true,
+    "globals": {
+        "_": "readonly",
+        "moment": "readonly",
+        "Litepicker": "readonly",
+        "localforage": "readonly",
+        "liff": "readonly",
+        "gapi": "readonly",
+        "FB": "readonly",
+        "Chart": "readonly",
+        "Autolinker": "readonly",
+        "videojs": "readonly",
+        "googletag": "readonly",
+        "Switchery": "readonly",
+        "SimpleLightbox": "readonly",
+        "Velocity": "readonly",
+        "tns": "readonly",
+        "PR": "readonly",
+        "AOS": "writable",
+        "gee": "writable",
+        "app": "writable"
+    }
+}
