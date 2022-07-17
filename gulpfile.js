@@ -1,4 +1,22 @@
 // generated on 2017-10-01 using generator-webapp 2.4.1
+const arg = (argList => {
+    let arg = {},
+        a, opt, thisOpt, curOpt;
+    for (a = 0; a < argList.length; a++) {
+        thisOpt = argList[a].trim();
+        opt = thisOpt.replace(/^\-+/, '');
+        if (opt === thisOpt) {
+            // argument value
+            if (curOpt) arg[curOpt] = opt;
+            curOpt = null;
+        } else {
+            // argument name
+            curOpt = opt;
+            arg[curOpt] = true;
+        }
+    }
+    return arg;
+})(process.argv);
 const gulp = require('gulp');
 const babel = require('gulp-babel');
 const gulpLoadPlugins = require('gulp-load-plugins');
@@ -11,6 +29,16 @@ const reload = browserSync.reload;
 const sass = require('gulp-sass')(require('sass'));
 var f3CMSPath = '../www/f3cms/';
 var dev = false;
+
+let theme = arg.theme || 'default';
+
+if (typeof theme != 'string' || theme == '') {
+    theme = 'default';
+}
+
+const date = new Date();
+const tmplVersion = date.getFullYear() + '.' + (date.getMonth() + 1) + '.' + date.getDate() + '.' + date.getSeconds();
+
 gulp.task('styles', (done) => {
     gulp.src('app/styles/*.scss').pipe($.plumber()).pipe($.if(dev, $.sourcemaps.init())).pipe(sass.sync({
         outputStyle: 'expanded',
@@ -75,22 +103,22 @@ gulp.task('serve', (done) => {
             open: 'external',
             host: 'loc.f3cms.com',
             https: {
-                key: "./letsencrypt/loc.f3cms.com+1-key.pem",
-                cert: "./letsencrypt/loc.f3cms.com+1.pem"
+                key: "./cert/loc.f3cms.com+1-key.pem",
+                cert: "./cert/loc.f3cms.com+1.pem"
             },
             server: {
-                baseDir: ['.tmp', 'app'],
+                baseDir: ['.tmp', 'app', 'app/themes/' + theme],
                 routes: {
                     '/bower_components': 'bower_components',
                     '/node_modules': 'node_modules'
                 }
             }
         });
-        gulp.watch(['app/*.html', 'app/tmpls/**/*.html', 'app/images/**/*', '.tmp/fonts/**/*']).on('change', reload);
-        gulp.watch('app/styles/**/*.scss', gulp.series('styles'));
-        gulp.watch('app/scripts/**/*.js', gulp.series('scripts'));
-        gulp.watch('app/fonts/**/*', gulp.series('fonts'));
-        gulp.watch('bower.json', gulp.series('wiredep', 'fonts'));
+
+        gulp.watch('./app/themes/' + theme + '/**/*.html').on('change', gulp.series('reload'));
+        gulp.watch('./app/styles/**/*.scss').on('change', gulp.series('styles', 'reload'));
+        gulp.watch('./app/styles/**/*.css').on('change', gulp.series('styles', 'reload'));
+        gulp.watch('./app/scripts/**/*.js').on('change', gulp.series('scripts', 'reload'));
     });
     done();
 });
