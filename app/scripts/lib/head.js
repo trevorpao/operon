@@ -38,3 +38,11 @@ var ieDetect = (function () {
 if (ieDetect.isTheBrowser) {
     alert('Sorry! This page doesn\'t support Internet Explorer');
 }
+
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+
+gtag('config', window.gaMeasurementID, {
+    send_page_view: false
+});

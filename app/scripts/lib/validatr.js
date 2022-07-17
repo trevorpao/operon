@@ -567,7 +567,7 @@
             }
 
             if (location === 'bottom') {
-                error.offset({ top: offset.top + 8 + $target.outerHeight() / 2 + error.outerHeight() });
+                error.offset({ top: offset.top - 6 + $target.outerHeight() / 2 + error.outerHeight() });
             }
         } else if (filters.leftright.test(location)) {
             error.offset({ top: (offset.top + $target.outerHeight() / 2) - (error.outerHeight() / 2) });
@@ -638,7 +638,49 @@
             valid: chk,
             message: 'Please enter some chinese.'
         };
-    })
+    });
+
+    // <input class="form-control" type="password" name="passwd" required data-password>
+    $.validatr.addTest('password', function (elem) {
+        var required = Support.attributes.required ? elem.required : $(elem).is('[required]');
+        var erp = /^(?=.*\d)(?=.*[a-zA-Z]){2,}(?=.*[a-zA-Z])(?!.*\s).{8,32}$/;
+        var chk = (erp.test(elem.value) === true) ? true : false;
+
+        if (!chk && !required && !elem.value.length) {
+            chk = true;
+        }
+
+        return {
+            valid: chk,
+            message: $(elem).data('msg') || '密碼最少須為八位英文數字組合'
+        };
+    });
+
+    // <input class="form-control" type="text" name="mobile" required data-minlength data-min="10" data-msg="請填寫必填欄位,至少 10 碼">
+    $.validatr.addTest('minlength', function (elem) {
+        var min = elem.getAttribute('data-min') || 4;
+        var str = elem.value.replace(/\s/g, '');
+        var chk = true;
+
+        if (str.length < min * 1) {
+            chk = false;
+        }
+
+        return {
+            valid: chk,
+            message: $(elem).data('msg') || 'Not enough value length.'
+        };
+    });
+
+    // <input class="form-control" type="text" name="mobile" required data-same data-target="otherinput" data-msg="密碼與確認密碼不相同" >
+    $.validatr.addTest('same', function (elem) {
+        var me = $(elem);
+
+        return {
+            valid: (me.val() == $('#'+ me.data('target')).val()),
+            message: $(elem).data('msg') || '兩次輸入內容不一致'
+        };
+    });
 
 }(window, document, jQuery));
 
