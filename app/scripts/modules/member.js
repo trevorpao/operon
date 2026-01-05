@@ -169,13 +169,17 @@
         },
 
         keepMe: function (col) {
-            var f = col.closest('form');
-            if (col.prop('checked')) {
-                // save
-                app.arena.feed.setItem('acct', f.find('input[name="account"]').val()).catch( gee.clog );
-                app.arena.feed.setItem('passwd', f.find('input[name="passwd"]').val()).catch( gee.clog );
+            var input = (col && col[0]) ? col[0] : col;
+            var form = input ? input.closest('form') : null;
+            if (!form) return;
+
+            var acct = form.querySelector('input[name="account"]');
+            var pwd = form.querySelector('input[name="passwd"]');
+
+            if (input && input.checked) {
+                app.arena.feed.setItem('acct', acct ? acct.value : '').catch( gee.clog );
+                app.arena.feed.setItem('passwd', pwd ? pwd.value : '').catch( gee.clog );
             } else {
-                // remove
                 app.arena.feed.removeItem('acct', gee.clog);
                 app.arena.feed.removeItem('passwd', gee.clog);
             }
@@ -183,16 +187,17 @@
     };
 
     gee.hook('login', function(me){
-        var f = me.data('ta') ? $('#' + me.data('ta')) : me.closest('form');
+        var form = me.data('ta') ? document.getElementById(me.data('ta')) : (me.closest('form')[0] || null);
+        if (!form) { return false; }
 
-        if (!$.validatr.validateForm(f)) {
+        if (!app.validateForm(form)) {
             return false;
         }
-        else {
-            app.member.keepMe(f.find('input[name="keep-me"]'));
-            app.progressingBtn(me);
-            app.member.login(f.serialize(), me);
-        }
+
+        var keep = form.querySelector('input[name="keep-me"]');
+        app.member.keepMe(keep);
+        app.progressingBtn(me);
+        app.member.login(app.serializeForm(form), me);
     });
 
     gee.hook('sendPinCode', function(me){
@@ -206,69 +211,87 @@
     });
 
     gee.hook('register', function(me){
-        var form = me.data('ta') ? $('#' + me.data('ta')) : me.closest('form');
+        var form = me.data('ta') ? document.getElementById(me.data('ta')) : (me.closest('form')[0] || null);
+        if (!form) { return false; }
 
-        form.find('input').each(function() {
-            if ($(this).val() == $(this).attr('placeholder')) $(this).val('');
+        form.querySelectorAll('input').forEach(function (input) {
+            if (input.value === input.getAttribute('placeholder')) {
+                input.value = '';
+            }
         });
 
-        if (form.find('input[name="agree"]:checked').size() || confirm('是否同意會員條款?')) {
-            if (!form.find('input[name="agree"]:checked').size()) {
-                $('label[for="agree_cb"]').click();
+        var agreed = form.querySelector('input[name="agree"]:checked');
+        if (!agreed && !confirm('是否同意會員條款?')) {
+            gee.alert({ title: 'Error!', txt: '您尚未同意會員條款' });
+            return false;
+        }
+        if (!agreed) {
+            var label = document.querySelector('label[for="agree_cb"]');
+            if (label) { label.click(); }
+        }
+
+        if (!app.validateForm(form)) {
+            return false;
+        }
+
+        me[0] ? me[0].setAttribute('disabled', 'disabled') : me.attr('disabled', 'disabled');
+        if (me[0]) {
+            var icon = document.createElement('i');
+            icon.className = 'fa fa-spinner fa-pulse fa-fw';
+            me[0].appendChild(icon);
+        } else {
+            me.append('<i class="fa fa-spinner fa-pulse fa-fw"></i>');
+        }
+        return app.member.register(app.serializeForm(form), me);
+    });
+
+    gee.hook('modify', function(me){
+        var form = me.data('ta') ? document.getElementById(me.data('ta')) : (me.closest('form')[0] || null);
+        if (!form) { return false; }
+
+        form.querySelectorAll('input').forEach(function (input) {
+            if (input.value === input.getAttribute('placeholder')) {
+                input.value = '';
+            }
+        });
+
+        if (!app.validateForm(form)) {
+            return false;
+        }
+
+        var chk = 1;
+        var txt = [];
+        var pwd = form.querySelector('#pwd');
+        var cpwd = form.querySelector('#cpwd');
+
+        if (pwd && pwd.value) {
+            if (typeof pwd.isPasswdErr === 'function' && pwd.isPasswdErr()) {
+                txt.push('密碼：請確認是否符合 6~12 字英文及數字');
+                chk = 0;
             }
 
-            if (!$.validatr.validateForm(form)) {
-                return false;
+            if (cpwd && cpwd.value !== pwd.value) {
+                txt.push('密碼與確認密碼不相同');
+                chk = 0;
             }
-            else {
-                me.attr('disabled', 'disabled').append('<i class="fa fa-spinner fa-pulse fa-fw"></i>');
-                return app.member.register(form.serialize(), me);
+        }
+
+        if (chk === 1) {
+            me[0] ? me[0].setAttribute('disabled', 'disabled') : me.attr('disabled', 'disabled');
+            if (me[0]) {
+                var icon = document.createElement('i');
+                icon.className = 'fa fa-spinner';
+                me[0].appendChild(icon);
+            } else {
+                me.append('<i class="fa fa-spinner"></i>');
             }
+            return app.member.update(app.serializeForm(form), me);
         }
         else {
             gee.alert({
                 title: 'Error!',
-                txt: '您尚未同意會員條款'
+                txt: txt.join('\r\n')
             });
-        }
-    });
-
-    gee.hook('modify', function(me){
-        var form = me.data('ta') ? $('#' + me.data('ta')) : me.closest('form');
-
-        form.find('input').each(function() {
-            if ($(this).val() == $(this).attr('placeholder')) $(this).val('');
-        });
-
-        if (!$.validatr.validateForm(form)) {
-            return false;
-        }
-        else {
-            var chk = 1;
-            var txt = [];
-
-            if ($('#pwd').val()) {
-                if ($('#pwd').isPasswdErr()) {
-                    txt.push('密碼：請確認是否符合 6~12 字英文及數字');
-                    chk = 0;
-                }
-
-                if ($('#cpwd').val() !== $('#pwd').val()) {
-                    txt.push('密碼與確認密碼不相同');
-                    chk = 0;
-                }
-            }
-
-            if (chk === 1) {
-                me.attr('disabled', 'disabled').append('<i class="fa fa-spinner"></i>');
-                return app.member.update(form.serialize(), me);
-            }
-            else {
-                gee.alert({
-                    title: 'Error!',
-                    txt: txt.join('\r\n')
-                });
-            }
         }
     });
 

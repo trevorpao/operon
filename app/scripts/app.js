@@ -29,6 +29,22 @@ const createApp = () => {
         return null;
     };
 
+    const serializeForm = (form) => {
+        if (!form) return '';
+        return new URLSearchParams(new FormData(form)).toString();
+    };
+
+    const validateForm = (form) => {
+        if (!form) return false;
+        if (typeof form.reportValidity === 'function') {
+            return form.reportValidity();
+        }
+        if (typeof form.checkValidity === 'function') {
+            return form.checkValidity();
+        }
+        return true;
+    };
+
     that.config = {
         baseUrl: window.apiUrl,
         detectWidth: 600,
@@ -224,21 +240,27 @@ const createApp = () => {
         },
 
         setForm: function (ta, row) {
-            ta.find(':input:not(:button)').each(function() {
-                var col = $(this);
-                var idx = col.attr('name');
-                if (row.hasOwnProperty(idx)) {
-                    var val = row[idx];
-                    if (col.is(':checkbox')) {
-                        if (col.attr('value') === val) {
-                            col.prop('checked', true);
-                            col.next('.switchery').remove();
-                            new Switchery(col[0], col.data());
+            var formEl = toElement(ta);
+            if (!formEl) return;
+
+            formEl.querySelectorAll('input:not([type="button"]), select, textarea').forEach(function (el) {
+                var idx = el.getAttribute('name');
+                if (!idx || !row.hasOwnProperty(idx)) return;
+                var val = row[idx];
+                if (el.type === 'checkbox') {
+                    if (el.value === String(val)) {
+                        el.checked = true;
+                        if (window.Switchery && el.nextSibling && el.nextSibling.classList && el.nextSibling.classList.contains('switchery')) {
+                            el.nextSibling.remove();
+                        }
+                        if (window.Switchery && typeof Switchery === 'function') {
+                            new Switchery(el, el.dataset);
                         }
                     }
-                    else {
-                        col.val(val);
-                    }
+                } else if (el.type === 'radio') {
+                    el.checked = (el.value === String(val));
+                } else {
+                    el.value = val;
                 }
             });
         },
@@ -362,14 +384,26 @@ const createApp = () => {
         },
 
         showErrMsg: function (col, cond, msg) {
-            var box = col.closest('.form-group');
-            box.removeClass('has-error has-pass has-feedback');
+            var el = toElement(col);
+            if (!el) return;
+            var box = el.closest('.form-group');
+            if (!box) return;
+
+            box.classList.remove('has-error', 'has-pass', 'has-feedback');
 
             if (cond) {
-                box.addClass('has-error').find('.error-msg').text(msg);
-                col.one('keyup', app.clearMsg);
+                box.classList.add('has-error');
+                var err = box.querySelector('.error-msg');
+                if (err) {
+                    err.textContent = msg;
+                }
+                var handler = function () {
+                    app.clearMsg && app.clearMsg();
+                    el.removeEventListener('keyup', handler);
+                };
+                el.addEventListener('keyup', handler);
             } else {
-                box.addClass('has-pass has-feedback');
+                box.classList.add('has-pass', 'has-feedback');
             }
         },
 
@@ -441,12 +475,23 @@ const createApp = () => {
         },
 
         progressingBtn: function(btn) {
-            btn.prop('disabled', true).append('<i class="fa fa-spinner fa-pulse fa-fw"></i>');
+            var el = toElement(btn);
+            if (!el) return;
+            el.disabled = true;
+            var icon = document.createElement('i');
+            icon.className = 'fa fa-spinner fa-pulse fa-fw';
+            el.appendChild(icon);
         },
 
         doneBtn: function(btn) {
+            var el = toElement(btn);
+            if (!el) return;
             app.waitFor(0.9).then(function () {
-                btn.prop('disabled', false).find('.fa-spinner').remove();
+                el.disabled = false;
+                var icon = el.querySelector('.fa-spinner');
+                if (icon) {
+                    icon.remove();
+                }
             });
         },
 
@@ -465,7 +510,10 @@ const createApp = () => {
             }
 
             return str;
-        }
+        },
+
+        serializeForm,
+        validateForm
     };
 
     return app;

@@ -20,15 +20,15 @@
     };
 
     gee.hook('contact.submit', function (me) {
-        var form = me.closest('form');
+        var form = me.closest('form')[0];
+        if (!form) { return false; }
 
-         if (!$.validatr.validateForm(form)) {
+        if (!app.validateForm(form)) {
             return false;
-        } else {
-            app.progressingBtn(me);
-
-            app.contact.send(form.serialize(), me);
         }
+
+        app.progressingBtn(me);
+        app.contact.send(app.serializeForm(form), me);
     });
 
 }(app, gee, jQuery));
