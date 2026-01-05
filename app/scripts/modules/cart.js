@@ -155,7 +155,12 @@
     gee.hook('add2CartSample', function (me) {
         var num = $('.c-cart-number:eq(0)').text() * 1;
         $('.c-cart-number').html(num + 1);
-        $('#myModal').modal('hide');
+        var modal = document.getElementById('myModal');
+        if (modal) {
+            modal.style.display = 'none';
+            modal.classList.remove('is-active');
+            modal.setAttribute('aria-hidden', 'true');
+        }
     });
 
     gee.hook('toggleATM', function (me) {

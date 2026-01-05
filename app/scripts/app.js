@@ -123,18 +123,41 @@ const createApp = () => {
         },
 
         setPaginate: function (total, callback) {
-            $('#paginate').twbsPagination({
-              totalPages: Math.ceil(total/app.pageLimit),
-              visiblePages: 7,
-              onPageClick: function (event, page) {
-                app.pageCounter = page;
-                callback.call(this);
-              }
-            });
+            const pager = document.getElementById('paginate');
+            if (!pager) {
+                return;
+            }
+
+            const totalPages = Math.max(1, Math.ceil(total / app.pageLimit));
+            pager.innerHTML = '';
+
+            const renderBtn = (page) => {
+                const btn = document.createElement('button');
+                btn.type = 'button';
+                btn.textContent = page;
+                btn.className = (page === app.pageCounter) ? 'active' : '';
+                btn.addEventListener('click', function () {
+                    if (app.pageCounter === page) {
+                        return;
+                    }
+                    app.pageCounter = page;
+                    Array.from(pager.children).forEach((child) => child.classList.remove('active'));
+                    btn.classList.add('active');
+                    callback && callback.call(this);
+                });
+                return btn;
+            };
+
+            for (let i = 1; i <= totalPages; i++) {
+                pager.appendChild(renderBtn(i));
+            }
         },
 
         destroyPaginate: function (total, callback) {
-            $('#paginate').empty().removeData('twbs-pagination').off('page');
+            const pager = document.getElementById('paginate');
+            if (pager) {
+                pager.innerHTML = '';
+            }
         },
 
         loadHtml: async function(src, ta, redirect) {
@@ -261,10 +284,7 @@ const createApp = () => {
         },
 
         toTop: function () {
-            gee.clog('nowTop::'+ $('body').offset().top);
-            app.body.animate({
-                scrollTop: app.body.offset().top
-            }, 700, 'easeOutBounce');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         },
 
         defaultPic: function(element) {

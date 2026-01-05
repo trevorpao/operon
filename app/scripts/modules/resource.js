@@ -47,91 +47,18 @@
 
         carousel: function (box) {
             box.each(function() {
-                var elem = $(this),
-                    carouselNav = elem.attr('data-arrows'),
-                    carouselDots = elem.attr('data-dots') || true,
-                    carouselAutoPlay = elem.attr('data-autoplay') || false,
-                    carouselAutoplayTimeout = elem.attr('data-autoplay-timeout') || 5000,
-                    carouselAutoWidth = elem.attr('data-auto-width') || false,
-                    carouseAnimateIn = elem.attr('data-animate-in') || false,
-                    carouseAnimateOut = elem.attr('data-animate-out') || false,
-                    carouselLoop = elem.attr('data-loop') || false,
-                    carouselMargin = elem.attr('data-margin') || 0,
-                    carouselVideo = elem.attr('data-video') || false,
-                    carouselItems = elem.attr('data-items') || 4,
-                    carouselItemsLg = elem.attr('data-items-lg') || Number(carouselItems),
-                    carouselItemsMd = elem.attr('data-items-md') || Number(carouselItemsLg),
-                    carouselItemsSm = elem.attr('data-items-sm') || Number(carouselItemsMd),
-                    carouselItemsXs = elem.attr('data-items-xs') || Number(carouselItemsSm),
-                    carouselItemsXxs = elem.attr('data-items-xxs') || Number(carouselItemsXs),
-                    carouselCenter = elem.attr('data-center') || false;
+                var elem = $(this);
+                elem.addClass('carousel-loaded');
+                elem.css({
+                    display: 'flex',
+                    gap: (elem.attr('data-margin') || 0) + 'px',
+                    overflowX: 'auto',
+                    scrollSnapType: 'x mandatory'
+                });
 
-                if (carouselItemsMd >= 3) {
-                    carouselItemsSm = elem.attr('data-items-sm') || Number(2);
-                }
-                if (carouselItemsSm >= 2) {
-                    carouselItemsXs = elem.attr('data-items-xs') || Number(2);
-                }
-                if (carouselItemsXs >= 1) {
-                    carouselItemsXxs = elem.attr('data-items-xxs') || Number(1);
-                }
-
-                if (carouselNav == 'false') {
-                    carouselNav = false;
-                } else {
-                    carouselNav = true;
-                }
-
-                if (carouselDots == 'false') {
-                    carouselDots = false;
-                } else {
-                    carouselDots = true;
-                }
-
-                if (carouselAutoPlay == 'false') {
-                    carouselAutoPlay = false;
-                }
-
-                var t = setTimeout(function() {
-                    elem.owlCarousel({
-                        center: carouselCenter,
-                        nav: carouselNav,
-                        dots: carouselDots,
-                        navText: ['<i class="fa fa-angle-left"></i>', '<i class="fa fa-angle-right"></i>'],
-                        autoplay: carouselAutoPlay,
-                        autoplayTimeout: carouselAutoplayTimeout,
-                        autoplayHoverPause: true,
-                        autoWidth: carouselAutoWidth,
-                        loop: carouselLoop,
-                        margin: Number(carouselMargin),
-                        smartSpeed: Number(1300),
-                        video: carouselVideo,
-                        animateIn: carouseAnimateIn,
-                        animateOut: carouseAnimateOut,
-                        onInitialize: function(event) {
-                            // setTimeout(function () {
-                                elem.addClass('carousel-loaded owl-carousel');
-                            //    }, 1000);
-                        },
-                        responsive: {
-                            0: {
-                                items: Number(carouselItemsXxs)
-                            },
-                            480: {
-                                items: Number(carouselItemsXs)
-                            },
-                            768: {
-                                items: Number(carouselItemsSm)
-                            },
-                            992: {
-                                items: Number(carouselItemsMd)
-                            },
-                            1200: {
-                                items: Number(carouselItemsLg)
-                            }
-                        }
-                    });
-                }, 100);
+                elem.children().css({
+                    scrollSnapAlign: 'start'
+                });
             });
         }
     };

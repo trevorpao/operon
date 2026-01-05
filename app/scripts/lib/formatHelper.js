@@ -126,9 +126,4 @@
         },
     };
 
-    $.views.settings.delimiters('<%', '%>');
-    $.views.helpers(app.formatHelper);
-
-    $.views.converters('nl2br', app.formatHelper.nl2br);
-
 }(gee, app, jQuery));
