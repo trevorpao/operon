@@ -1,20 +1,20 @@
+import gee from 'trevorpao/geneEH';
+
 /**
  * app
  */
 
-var gee = gee || $.fn.gene;
-
-var app = function() {
+const createApp = () => {
     'use strict';
 
-    var that = this;
+    const that = {};
 
     that.config = {
         baseUrl: window.apiUrl,
         detectWidth: 600,
     };
 
-    var app = {
+    const app = {
         pageCounter: 1,
         pageLimit: 8,
 
@@ -40,13 +40,15 @@ var app = function() {
             app.announce();
 
             app.cuVersion = document.cuVersion;
-            app.win = $(window);
-            app.docu = $(document);
-            app.body = (app.win.opera) ? (app.docu.compatMode == 'CSS1Compat' ? $('html') : $('body')) : $('body');
+            app.win = window;
+            app.docu = document;
+            app.body = $('body');
+            app.bodyEl = document.body;
 
-            app.screen = ($('body').width() < that.config.detectWidth) ? 'mobile' : 'tablet';
+            app.screen = (app.bodyEl.clientWidth < that.config.detectWidth) ? 'mobile' : 'tablet';
 
             app.body.addClass(app.screen);
+            app.bodyEl.classList.add(app.screen);
 
             gee.apiUri = window.apiUrl +'';
             gee.mainUri = window.mainUrl;
@@ -411,5 +413,10 @@ var app = function() {
     return app;
 };
 
-var app = new app();
-$.views.helpers(app.formatHelper);
+const app = createApp();
+
+if (typeof $ !== 'undefined' && $.views && typeof $.views.helpers === 'function') {
+    $.views.helpers(app.formatHelper);
+}
+
+export default app;
