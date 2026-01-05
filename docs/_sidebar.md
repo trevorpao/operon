@@ -13,6 +13,9 @@
   - [yell 請求助手](geneEH/yell.md)
   - [customElem 自訂元素](geneEH/customElem.md)
 
+- 重構指南
+  - [UpdateApp 規格](update-app.md)
+
 - 整合與進階
   - [Vite + Twig SSR](vite-twig-ssr.md)
 
