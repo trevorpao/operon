@@ -1,0 +1,129 @@
+{% extends "layout.twig" %}
+
+{% block page %}
+  {% if hero %}
+    <section class="box">
+      {% include "components/hero.twig" with { hero: hero } only %}
+    </section>
+  {% endif %}
+
+  <section class="box">
+    <h2>{{ current.title|e }}</h2>
+    <p>{{ current.subtitle|e }}</p>
+    <p>{{ current.tagline|e }}</p>
+  </section>
+
+  <section class="box">
+    <h3>功能總覽</h3>
+    <ul>
+      {% for item in overview %}
+        <li>{{ item|e }}</li>
+      {% endfor %}
+    </ul>
+  </section>
+
+  <section class="box">
+    <h3>安裝需求</h3>
+    <ul>
+      {% for item in requirements %}
+        <li>{{ item|e }}</li>
+      {% endfor %}
+    </ul>
+  </section>
+
+  <section class="box">
+    <h3>安裝</h3>
+    <pre class="code"><code>{{ install|e }}</code></pre>
+  </section>
+
+  <section class="box">
+    <h3>最小設定示例</h3>
+    <pre class="code"><code>{{ minimal_config|e }}</code></pre>
+  </section>
+
+  <section class="box">
+    <h3>Mock 映射規則</h3>
+    <table class="table is-striped is-fullwidth">
+      <thead>
+        <tr>
+          <th>Twig 檔案</th>
+          <th>Mock 檔案</th>
+          <th>行為</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for row in mock_mapping %}
+          <tr>
+            <td>{{ row.twig|e }}</td>
+            <td>{{ row.mock|e }}</td>
+            <td>{{ row.behavior|e }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    <ul>
+      {% for note in mock_notes %}
+        <li>{{ note|e }}</li>
+      {% endfor %}
+    </ul>
+  </section>
+
+  <section class="box">
+    <h3>自訂 Filters / Functions</h3>
+    <p>{{ filters_intro|e }}</p>
+    <pre class="code"><code>{{ filters_snippet|e }}</code></pre>
+    <pre class="code"><code>{{ functions_snippet|e }}</code></pre>
+  </section>
+
+  <section class="box">
+    <h3>體驗細節</h3>
+    <ul>
+      {% for item in dx %}
+        <li>{{ item|e }}</li>
+      {% endfor %}
+    </ul>
+  </section>
+
+  <section class="box">
+    <h3>Options 一覽</h3>
+    <table class="table is-hoverable is-fullwidth">
+      <thead>
+        <tr>
+          <th>名稱</th>
+          <th>型別 / 預設</th>
+          <th>說明</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for opt in options %}
+          <tr>
+            <td>{{ opt.name|e }}</td>
+            <td>{{ opt.type|e }}</td>
+            <td>{{ opt.description|e }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </section>
+
+  <section class="box">
+    <h3>範例專案（example/）</h3>
+    <ul>
+      {% for item in example_points %}
+        <li>{{ item|e }}</li>
+      {% endfor %}
+    </ul>
+    <pre class="code"><code>{{ example_run|e }}</code></pre>
+  </section>
+
+  <section class="box">
+    <h3>開發腳本</h3>
+    <pre class="code"><code>{{ scripts|e }}</code></pre>
+    <p>{{ test_focus|e }}</p>
+  </section>
+
+  <section class="box">
+    <h3>授權</h3>
+    <p>{{ license|e }}</p>
+  </section>
+{% endblock %}

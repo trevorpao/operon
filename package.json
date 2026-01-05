@@ -1,13 +1,18 @@
 {
+  "name": "operon",
+  "version": "2.1",
+  "description": "gene event handler boilerplate",
+  "author": "Trevor Pao",
   "private": true,
   "engines": {
-    "node": ">=4"
+    "node": ">=20"
   },
   "scripts": {
     "clean": "rm -rf dist",
-    "dev": "gulp serve",
-    "build": "npx eslint ./app/scripts/**/*.js && gulp",
-    "package": "npx eslint ./app/scripts/**/*.js && gulp && gulp move",
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "docs": "http-server docs -p 3000 -c-1 -o index.html",
     "lint": "npx eslint ./app/scripts/**/*.js ./app/scripts/*.js",
     "fix": "npx eslint ./app/scripts/**/*.js --fix"
   },
@@ -18,33 +23,11 @@
     "not IE 11"
   ],
   "devDependencies": {
-    "@babel/core": "^7.15.0",
-    "@babel/preset-env": "^7.15.0",
-    "browser-sync": "^2.27.5",
-    "del": "^6.0.0",
-    "gulp": "^4.0.2",
-    "gulp-autoprefixer": "^8.0.0",
-    "gulp-babel": "^6.1.3",
-    "gulp-cache": "^1.1.3",
-    "gulp-cssnano": "^2.1.3",
-    "gulp-eslint": "^6.0.0",
-    "gulp-filter": "^7.0.0",
-    "gulp-htmlmin": "^5.0.1",
-    "gulp-if": "^3.0.0",
-    "gulp-imagemin": "^7.1.0",
-    "gulp-load-plugins": "^2.0.7",
-    "gulp-plumber": "^1.2.1",
-    "gulp-sass": "^5.0.0",
-    "gulp-size": "^4.0.1",
-    "gulp-sourcemaps": "^3.0.0",
-    "gulp-uglify": "^3.0.2",
-    "gulp-useref": "^5.0.0",
-    "gulp4-run-sequence": "^1.0.1",
-    "main-bower-files": "^2.13.3",
-    "node-sass": "^6.0.1",
-    "sass": "^1.37.5",
-    "uglify-js": "^3.14.1",
-    "wiredep": "^4.0.0"
+    "http-server": "^14.1.1",
+    "sass": "^1.97.1",
+    "vite": "^7.3.0",
+    "vite-plugin-handlebars": "^2.0.0",
+    "vite-twig-ssr": "file:vite-twig-ssr-0.3.0.tgz"
   },
   "eslintConfig": {
     "env": {
@@ -58,5 +41,10 @@
         "single"
       ]
     }
+  },
+  "dependencies": {
+    "gene-event-handler": "file:gene-event-handler-2.1.tgz",    
+    "bulma": "^1.0.4",
+    "handlebars": "^4.7.8"
   }
 }

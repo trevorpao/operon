@@ -1,0 +1,45 @@
+{% set nav = navbar | default({}) %}
+{% set brand = nav.brand | default({}) %}
+{% set links = nav.links | default([]) %}
+{% set buttons = nav.buttons | default([]) %}
+
+<nav class="navbar is-fixed-top is-light" role="navigation" aria-label="main navigation">
+  <div class="navbar-brand">
+    <a class="navbar-item" href="{{ brand.href|default('/views/index.twig')|e }}">
+      {{ brand.label|default('Home')|e }}
+    </a>
+
+    <a
+      role="button"
+      class="navbar-burger"
+      aria-label="menu"
+      aria-expanded="false"
+      data-target="navbarMain"
+    >
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
+  </div>
+
+  <div id="navbarMain" class="navbar-menu">
+    <div class="navbar-start">
+      {% for link in links %}
+        <a class="navbar-item" href="{{ link.href|e }}"{% if link.target %} target="{{ link.target|e }}"{% endif %}{% if link.rel %} rel="{{ link.rel|e }}"{% endif %}>{{ link.label|e }}</a>
+      {% endfor %}
+    </div>
+
+    <div class="navbar-end">
+      {% if buttons|length %}
+        <div class="navbar-item">
+          <div class="buttons">
+            {% for btn in buttons %}
+              <a class="button {{ btn.kind|default('is-light')|e }}" href="{{ btn.href|e }}"{% if btn.target %} target="{{ btn.target|e }}"{% endif %}{% if btn.rel %} rel="{{ btn.rel|e }}"{% endif %}>{{ btn.label|e }}</a>
+            {% endfor %}
+          </div>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</nav>

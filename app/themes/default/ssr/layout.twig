@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{{ current.title|default('Vite Twig Playground') }}</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css"
+      crossorigin="anonymous"
+    />
+    <script type="module" src="/src/main.js"></script>
+  </head>
+  <body class="has-background-light has-navbar-fixed-top">
+    {% include "components/navbar.twig" %}
+
+    <header class="section">
+      <div class="container">
+        <p class="is-size-7 has-text-grey">{{ main_domain }}</p>
+        <h1 class="title is-3">{{ current.title }}</h1>
+        <p class="subtitle is-6">{{ current.subtitle }}</p>
+      </div>
+    </header>
+    <main class="section">
+      <div class="container content">
+        {% block page %}{% endblock %}
+      </div>
+    </main>
+    <footer class="section">
+      <div class="container is-size-7">
+        <p>
+          Mock contact: {{ opts.default.contact_mail }} · Twig source: {{ _file.relative }} · Build: {{ feVersion }}
+        </p>
+        <div data-version>Waiting for hydration...</div>
+      </div>
+    </footer>
+    <script>
+      // Simple Bulma navbar-burger toggle
+      document.addEventListener('DOMContentLoaded', function () {
+        var burgers = Array.prototype.slice.call(document.querySelectorAll('.navbar-burger'), 0);
+        burgers.forEach(function (burger) {
+          burger.addEventListener('click', function () {
+            var targetId = burger.dataset.target;
+            var target = document.getElementById(targetId);
+            burger.classList.toggle('is-active');
+            if (target) target.classList.toggle('is-active');
+          });
+        });
+      });
+    </script>
+  </body>
+</html>

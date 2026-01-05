@@ -1,0 +1,37 @@
+{% extends "layout.twig" %}
+
+{% block page %}
+  <section class="box">
+    <p class="has-text-weight-semibold is-uppercase is-size-7 has-text-info">願景與定位</p>
+    <h2 class="title is-3">{{ current.title|e }}</h2>
+    <p class="subtitle is-6">{{ current.subtitle|e }}</p>
+    <div class="content">
+      <p>{{ vision.phase_dev|e }}</p>
+      <p>{{ vision.phase_prod|e }}</p>
+    </div>
+  </section>
+
+  <section class="box">
+    <h3 class="title is-4">優化目的</h3>
+    <ul>
+      {% for item in goals %}
+        <li>{{ item|e }}</li>
+      {% endfor %}
+    </ul>
+  </section>
+
+  {% if hero %}
+    <section class="box">
+      {% include "components/hero.twig" with { hero: hero } only %}
+    </section>
+  {% endif %}
+
+  <section class="box">
+    <h4 class="title is-5">Breadcrumbs</h4>
+    <ul>
+      {% for crumb in page.breadcrumb %}
+        <li>{{ crumb.label|e }}</li>
+      {% endfor %}
+    </ul>
+  </section>
+{% endblock %}

@@ -26,8 +26,12 @@ npm install bulma handlebars
 npm install -D sass vite-plugin-handlebars
 ```
 
+## Mock data
+- Development fixtures live in `mock/` (e.g., `index.json`, `about.json`).
+- Serve them with your dev server or load via fetch during local testing.
+
 ## Vite configuration (vite.config.js)
-Use the Handlebars plugin to precompile partials so the browser never needs `eval`.
+Use the Handlebars plugin to precompile templates under `app/tmpls` so the browser never needs `eval`.
 
 ```javascript
 import { defineConfig } from 'vite';
@@ -37,7 +41,7 @@ import { resolve } from 'path';
 export default defineConfig({
 	plugins: [
 		handlebars({
-			partialDirectory: resolve(__dirname, 'src/partials'),
+			partialDirectory: resolve(__dirname, 'app/tmpls'),
 			context: { title: 'Green SMS Platform' },
 		}),
 	],
@@ -60,7 +64,7 @@ $green-dark: #1e8449;
 .gee { display: none; }
 ```
 
-## Handlebars partial example (src/partials/sms-form.hbs)
+## Handlebars partial example (app/tmpls/sms-form.hbs)
 ```html
 <div class="box has-background-light gee" data-gene="initForm">
 	<h3 class="title is-4 has-text-primary">Send a new SMS</h3>

@@ -1,0 +1,23 @@
+<section class="hero is-light">
+  <div class="hero-body">
+    <div class="columns is-vcentered">
+      <div class="column is-6">
+        <p class="has-text-weight-semibold is-uppercase is-size-7 has-text-info">{{ hero.kicker|e }}</p>
+        <h2 class="title is-2">{{ hero.heading|e }}</h2>
+        <p class="subtitle is-5">{{ hero.copy|e }}</p>
+        {% if hero.action_href %}
+          <a class="button is-primary" href="{{ hero.action_href|e }}" target="{{ hero.action_target|default('_self')|e }}" rel="noreferrer">{{ hero.action|e }}</a>
+        {% elseif hero.action %}
+          <button class="button is-primary" data-toggle>{{ hero.action|e }}</button>
+        {% endif %}
+      </div>
+      <div class="column is-6">
+        {% if hero.image %}
+          <figure class="image is-16by9">
+            <img src="{{ hero.image.url|e }}" alt="{{ hero.image.alt|default('Hero image')|e }}" />
+          </figure>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</section>
