@@ -17,14 +17,28 @@
 
                     // TODO: try do this in gee way
                     if (!app.body.is('.device-lg, .device-md')) {
-                        $(
-                            '#mainMenu nav > ul > li.dropdown > a, '+
-                            '#mainMenu nav > ul .dropdown-submenu > a, '+
-                            '#mainMenu nav > ul .dropdown-submenu > span'
-                        ).on('click touchend', function(e) {
-                            $(this).parent('li').siblings().removeClass('hover-active');
-                            $(this).parent('li').toggleClass('hover-active');
-                            return false;
+                        var links = document.querySelectorAll('#mainMenu nav > ul > li.dropdown > a, #mainMenu nav > ul .dropdown-submenu > a, #mainMenu nav > ul .dropdown-submenu > span');
+                        links.forEach(function (lnk) {
+                            lnk.addEventListener('click', function (e) {
+                                e.preventDefault();
+                                var li = lnk.parentElement;
+                                if (!li) return;
+                                var siblings = li.parentElement ? li.parentElement.children : [];
+                                Array.prototype.forEach.call(siblings, function (sib) {
+                                    if (sib !== li) sib.classList.remove('hover-active');
+                                });
+                                li.classList.toggle('hover-active');
+                            });
+                            lnk.addEventListener('touchend', function (e) {
+                                e.preventDefault();
+                                var li = lnk.parentElement;
+                                if (!li) return;
+                                var siblings = li.parentElement ? li.parentElement.children : [];
+                                Array.prototype.forEach.call(siblings, function (sib) {
+                                    if (sib !== li) sib.classList.remove('hover-active');
+                                });
+                                li.classList.toggle('hover-active');
+                            });
                         });
                     }
 

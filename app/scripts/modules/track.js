@@ -10,16 +10,21 @@
         },
 
         bind: function (box) {
-            box.find('.track').on('click', function () {
-                var me = $(this);
+            var root = (box && box[0]) ? box[0] : (box || document);
+            var nodes = root.querySelectorAll ? root.querySelectorAll('.track') : [];
 
-                var cate = me.data('cate') || 'normal';
-                var act = me.data('act') || 'jump';
-                var label = me.data('label') || me.attr('title') || app.docu.find('title').text();
-                var which = me.data('which') || 'ga';
+            nodes.forEach(function (el) {
+                el.addEventListener('click', function () {
+                    var cate = el.dataset.cate || 'normal';
+                    var act = el.dataset.act || 'jump';
+                    var label = el.dataset.label || el.getAttribute('title') || document.title;
+                    var which = el.dataset.which || 'ga';
 
-                app.track.send(cate, act, label, which);
-            }).removeClass('track').addClass('tracked');
+                    app.track.send(cate, act, label, which);
+                    el.classList.remove('track');
+                    el.classList.add('tracked');
+                }, { once: true });
+            });
         },
 
         send: function (cate, act, label, which) {

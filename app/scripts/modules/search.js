@@ -67,12 +67,18 @@
                 items = $(items);
                 app.search.box.append(items);
 
-                app.search.box.find('.post-image img:last').one('load', function() {
+                var imgEl = app.search.box.find('.post-image img:last')[0];
+                var handler = function () {
                     app.waitFor(0.4).then(function () {
                         app.search.$grid.isotope('appended', items).isotope('layout');
                         app.search.box.addClass('grid-loaded');
                     });
-                });
+                };
+                if (imgEl) {
+                    imgEl.addEventListener('load', handler, { once: true });
+                } else {
+                    handler();
+                }
 
                 if (data.total <= (data.pos*1+1)*data.limit) {
                     $('#showMore').addClass('hidden');

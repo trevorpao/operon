@@ -320,33 +320,32 @@ const createApp = () => {
          * @return promise
          */
         waitFor: function (condition, limit) {
-            var dfr = $.Deferred();
             var times = 0;
             var during = 70;
-            limit = limit || 9; // Longest duration :  during * (limit+1)
+            var max = limit || 9; // Longest duration : during * (limit+1)
 
-            if (Number(condition) === condition) {
-                setTimeout(function () {
-                    dfr.resolve();
-                }, condition * 1000);
-            }
-            else {
+            return new Promise(function (resolve, reject) {
+                if (Number(condition) === condition) {
+                    setTimeout(resolve, condition * 1000);
+                    return;
+                }
+
                 var timer = setInterval(function () {
                     times++;
-                    if (condition()) {
+                    try {
+                        if (typeof condition === 'function' && condition()) {
+                            clearInterval(timer);
+                            resolve();
+                        } else if (times > max) {
+                            clearInterval(timer);
+                            reject(new Error('waitFor timeout'));
+                        }
+                    } catch (err) {
                         clearInterval(timer);
-                        dfr.resolve();
-                    }
-
-                    if (times > limit) {
-                        clearInterval(timer);
-                        dfr.reject();
+                        reject(err);
                     }
                 }, during);
-
-            }
-
-            return dfr.promise();
+            });
         },
 
         stdErr: function (e, redo) {
@@ -407,14 +406,8 @@ const createApp = () => {
             }
         },
 
-        cleanArray: function (actual) {
-          var newArray = [];
-          for (var i = 0; i < actual.length; i++) {
-                if (actual[i]) {
-                    newArray.push(actual[i]);
-                }
-          }
-          return newArray;
+                cleanArray: function (actual) {
+                        return Array.isArray(actual) ? actual.filter(Boolean) : [];
         },
 
         formatHelper: {
