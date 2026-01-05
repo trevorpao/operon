@@ -194,10 +194,6 @@
         me.html(html);
     }, 'init');
 
-    gee.hook('initSwitchery', function(me) {
-        new Switchery(me[0], me.data());
-    }, 'init');
-
     gee.hook('initPagination', function(me) {
         var el = (me && me[0]) ? me[0] : null;
         if (!el) { return; }

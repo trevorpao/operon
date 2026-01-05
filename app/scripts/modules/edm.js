@@ -34,14 +34,22 @@
             var tmpl = app.edm.box.data('tmpl');
 
             if (typeof app.tmplStores[tmpl] === 'undefined') {
-                app.tmplStores[tmpl] = $.templates(app.edm.box.html());
+                var html = app.edm.box.html();
+                var fn = (window.templates && window.templates[tmpl]) ? window.templates[tmpl] : (window.Handlebars && Handlebars.compile ? Handlebars.compile(html) : null);
+                app.tmplStores[tmpl] = fn || function () { return ''; };
             }
 
             app.renderBox(app.edm.box, data, 1);
             $('.pre-gee').addClass('gee');
 
-            var tabs = $.templates($('.nav-tabs').html());
-            $('.nav-tabs').html(tabs.render(data));
+            var navEl = document.querySelector('.nav-tabs');
+            if (navEl) {
+                var tpl = navEl.innerHTML;
+                var tabsFn = (window.Handlebars && Handlebars.compile) ? Handlebars.compile(tpl) : null;
+                if (tabsFn) {
+                    navEl.innerHTML = tabsFn(data);
+                }
+            }
 
 
 

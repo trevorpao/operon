@@ -1,6 +1,15 @@
 ;(function(app, gee, $){
     'use strict';
 
+    var renderTmpl = function (selector, data) {
+        var tmplEl = document.querySelector(selector);
+        if (!tmplEl || !window.Handlebars || typeof Handlebars.compile !== 'function') {
+            return '';
+        }
+        var fn = Handlebars.compile(tmplEl.innerHTML);
+        return fn(data);
+    };
+
     app.menu = {
         apiUri: 'http://hl.sense-info.co/api/menu',
 
@@ -13,7 +22,14 @@
                 if (this.code !== 1) {
                     app.stdErr(this);
                 } else {
-                    box.html($.templates('#menuTmpl').render({data: this.data}));
+                    var html = renderTmpl('#menuTmpl', { data: this.data });
+                    var boxEl = (box && box[0]) ? box[0] : box;
+                    if (boxEl) {
+                        boxEl.innerHTML = html;
+                    }
+                    else if (box && typeof box.html === 'function') {
+                        box.html(html);
+                    }
 
                     // TODO: try do this in gee way
                     if (!app.body.is('.device-lg, .device-md')) {
@@ -54,7 +70,14 @@
                 if (this.code !== 1) {
                     app.stdErr(this);
                 } else {
-                    box.prepend($.templates('#footerMenuTmpl').render({data: this.data}));
+                    var html = renderTmpl('#footerMenuTmpl', { data: this.data });
+                    var boxEl = (box && box[0]) ? box[0] : box;
+                    if (boxEl) {
+                        boxEl.insertAdjacentHTML('afterbegin', html);
+                    }
+                    else if (box && typeof box.prepend === 'function') {
+                        box.prepend(html);
+                    }
                 }
             };
 

@@ -248,15 +248,7 @@ const createApp = () => {
                 if (!idx || !row.hasOwnProperty(idx)) return;
                 var val = row[idx];
                 if (el.type === 'checkbox') {
-                    if (el.value === String(val)) {
-                        el.checked = true;
-                        if (window.Switchery && el.nextSibling && el.nextSibling.classList && el.nextSibling.classList.contains('switchery')) {
-                            el.nextSibling.remove();
-                        }
-                        if (window.Switchery && typeof Switchery === 'function') {
-                            new Switchery(el, el.dataset);
-                        }
-                    }
+                    el.checked = (el.value === String(val));
                 } else if (el.type === 'radio') {
                     el.checked = (el.value === String(val));
                 } else {
