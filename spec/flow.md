@@ -20,12 +20,15 @@
    2) 將 feature 的規則整理進 `spec/rule.md`。
    3) 將 feature 的特殊詞彙整理進 `spec/glossary.md`。
    4) 建立 `optimization.md` ，說明可能的改進思路。
+   5) `spec/<feature>/` 移動到 `spec/Archived/<feature>/`
 8) AI 協作要點：
   - 要求 AI 產出綱要、里程碑、風險與 fallback；
   - 請 AI 生成或比對 checklist，避免遺漏；
   - 在 PR 說明中附上 AI 提供的重點與驗收結果摘要。
 
 ## 專用指令
+
+根據情境，選擇指令
 
 ### Done 情境
 
@@ -36,6 +39,7 @@
 3) 根據 check 文件，檢查優化
 4) 根據檢查結果，進一步優化
 5) 根據 check 文件，檢查優化
+6) 產生 git commit 時所需的說明
 
 ### Optimization 情境
 
@@ -45,4 +49,5 @@
 2) 將 feature 開發過程中建立的商業邏輯整理進 `spec/rule.md`。
 3) 將 feature 的特殊詞彙整理進 `spec/glossary.md`。
 4) 建立 `optimization.md` ，說明可能的改進思路。
+5) 產生 git commit 時所需的說明
 
