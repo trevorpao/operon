@@ -5,4 +5,4 @@ export { default as head } from './head';
 export { default as extend } from './extend';
 export { default as formatHelper } from './formatHelper';
 export { default as sprintf } from './sprintf';
-export { default as postMessage } from './jquery.ba-postmessage';
+export { postMessage, receiveMessage } from './postmessage';

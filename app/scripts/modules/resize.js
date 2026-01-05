@@ -1,4 +1,8 @@
-;(function(app, gee, $){
+import app from '../app';
+import gee from 'trevorpao/geneEH';
+import { postMessage } from '../lib/postmessage';
+
+;(function(app, gee, $, postMessage){
     'use strict';
 
     var Resize = function (box){
@@ -21,11 +25,7 @@
                     'if_ta': q.ta
                 };
 
-                $.postMessage(
-                    params,
-                    q.canonical,
-                    window.parent
-                );
+                postMessage(params, q.canonical, window.parent);
             },
 
             dalay: function(d, opt) {
@@ -54,4 +54,4 @@
 
     app.resize = new Resize($('#js-embed-box'));
 
-}(app, gee, jQuery));
+}(app, gee, jQuery, postMessage));

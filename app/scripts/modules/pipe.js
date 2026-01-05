@@ -1,3 +1,7 @@
+import app from '../app';
+import gee from 'trevorpao/geneEH';
+import { receiveMessage } from '../lib/postmessage';
+
 ;(function(app, gee, $){
     'use strict';
 
@@ -80,6 +84,6 @@
 
     app.pipe = new Pipe();
 
-    $.receiveMessage(app.pipe.handleParams, app.pipe.handleCors);
+    receiveMessage(app.pipe.handleParams, app.pipe.handleCors);
 
 }(app, gee, jQuery));
