@@ -9,6 +9,26 @@ const createApp = () => {
 
     const that = {};
 
+    const toElement = (target) => {
+        if (!target) return null;
+        if (target instanceof Element) return target;
+        if (typeof target === 'string') {
+            return document.getElementById(target) || document.querySelector(target);
+        }
+        if (target[0] instanceof Element) return target[0];
+        return null;
+    };
+
+    const getTemplateFn = (tmplName, source) => {
+        if (window.templates && typeof window.templates[tmplName] === 'function') {
+            return window.templates[tmplName];
+        }
+        if (window.Handlebars && typeof window.Handlebars.compile === 'function' && source) {
+            return window.Handlebars.compile(source);
+        }
+        return null;
+    };
+
     that.config = {
         baseUrl: window.apiUrl,
         detectWidth: 600,
@@ -84,15 +104,21 @@ const createApp = () => {
         },
 
         resetCurrent: function (box) {
-            var tmpl = box.data('tmpl');
-            app.pageBox = box;
+            const boxEl = toElement(box);
+            if (!boxEl) {
+                return;
+            }
 
-            if (typeof app.tmplStores[tmpl] === 'undefined') {
-                app.tmplStores[tmpl] = $.templates(box.html());
+            const tmpl = boxEl.dataset.tmpl;
+            app.pageBox = boxEl;
+
+            if (!app.tmplStores[tmpl]) {
+                const source = boxEl.innerHTML || '';
+                app.tmplStores[tmpl] = getTemplateFn(tmpl, source) || (() => '');
             }
 
             app.pageCounter = 1;
-            app.pageBox.html('');
+            boxEl.innerHTML = '';
             app.destroyPaginate();
         },
 
@@ -111,62 +137,67 @@ const createApp = () => {
             $('#paginate').empty().removeData('twbs-pagination').off('page');
         },
 
-        loadHtml: function(src, ta, redirect) {
-            var newPath = '/'+ src;
-            var success = function(html, status, xhr) {
-                if ( status === 'error' ) {
-                    gee.alert({
-                        title: 'Alert!',
-                        txt: 'Sorry but there was an error: '+ xhr.status + ' ' + xhr.statusText
-                    });
-                }
-                else {
-                    app.htmlStores['file-'+ src] = html;
-                    if (redirect === 1) {
-                        app.redirect({path: newPath, ta: ta});
-                    }
-                    gee.init();
-                }
-            };
-            ta = (typeof ta === 'string') ? $('#'+ ta) : ta;
-            redirect = (redirect) ? redirect : '';
+        loadHtml: async function(src, ta, redirect) {
+            const target = toElement(ta || src);
+            const newPath = '/' + src;
+            const cacheKey = 'file-' + src;
+            const redirectFlag = redirect ? redirect : '';
 
-            if (typeof app.htmlStores['file-'+ src] === 'undefined') {
-                gee.clog('load: ' + app.tmplPath + newPath + '.html');
-                ta.load(gee.mainUri + app.tmplPath + newPath +'.html?var=' + app.cuVersion, success);
-            }
-            else {
-                ta.html(app.htmlStores['file-'+ src]);
-                if (redirect === 1) {
-                    app.redirect({path: newPath, ta: ta});
+            const applyHtml = (html) => {
+                if (target) {
+                    target.innerHTML = html;
+                }
+                if (redirectFlag === 1) {
+                    app.redirect({ path: newPath, ta: target });
                 }
                 gee.init();
+            };
+
+            if (app.htmlStores[cacheKey]) {
+                applyHtml(app.htmlStores[cacheKey]);
+                return;
+            }
+
+            const url = `${gee.mainUri}${app.tmplPath}${newPath}.html?var=${app.cuVersion}`;
+            gee.clog('load: ' + url);
+
+            try {
+                const res = await fetch(url, { credentials: 'include' });
+                if (!res.ok) {
+                    gee.alert({
+                        title: 'Alert!',
+                        txt: 'Sorry but there was an error: ' + res.status + ' ' + res.statusText
+                    });
+                    return;
+                }
+                const html = await res.text();
+                app.htmlStores[cacheKey] = html;
+                applyHtml(html);
+            } catch (err) {
+                gee.alert({ title: 'Alert!', txt: 'Sorry but there was an error: ' + err.message });
             }
         },
 
         loadTmpl: function (tmplName, box) {
-            if (typeof app.tmplStores[tmplName] === 'undefined') {
-                var htmlCode = box.html() || '';
-                htmlCode = htmlCode.replace(/&lt;\%/g, '<%').replace(/\%&gt;/g, '%>').replace(/\&amp;/g, '&');
-
-                if (box.is('tbody') || box.hasClass('loop')) { // fix tbody>tr bug
-                    htmlCode = '<%props data%>' + htmlCode + '<%/props%>';
-                }
-                if (box.is('form')) {
-                    app.backend.initForm(box);
-                    htmlCode = box.html();
-                    htmlCode = htmlCode.replace(/&lt;\%/g, '<%').replace(/\%&gt;/g, '%>');
-                }
-
-                htmlCode = htmlCode.replace(/pre-gee/g, 'gee')
-                    // .replace(/pre-gene/g, 'data-gene')
-                    .replace(/pre-src/g, 'src'); // img src
-
-                // gee.clog(htmlCode);
-                app.tmplStores[tmplName] = $.templates(htmlCode);
+            const boxEl = toElement(box);
+            if (!boxEl) {
+                return;
             }
 
-            box.html('');
+            if (!app.tmplStores[tmplName]) {
+                if (boxEl.tagName === 'FORM' && app.backend && typeof app.backend.initForm === 'function') {
+                    app.backend.initForm(box);
+                }
+
+                const htmlCode = (boxEl.innerHTML || '')
+                    .replace(/pre-gee/g, 'gee')
+                    .replace(/pre-src/g, 'src');
+
+                const tmplFn = getTemplateFn(tmplName, htmlCode);
+                app.tmplStores[tmplName] = tmplFn || (() => '');
+            }
+
+            boxEl.innerHTML = '';
         },
 
         setForm: function (ta, row) {
@@ -199,26 +230,33 @@ const createApp = () => {
         },
 
         renderBox: function (box, dataList, clearBox, orientation) {
-            orientation = (orientation) ? orientation : 'down';
-            if (box && dataList) {
-                var tmpl = box.data('tmpl');
+            const boxEl = toElement(box);
+            if (!boxEl || !dataList) {
+                return;
+            }
 
-                if (clearBox) {
-                    box.html('');
-                }
+            const tmpl = boxEl.dataset.tmpl;
+            const tmplFn = app.tmplStores[tmpl];
+            if (typeof tmplFn !== 'function') {
+                return;
+            }
 
-                if (orientation === 'down') {
-                    box.append(app.tmplStores[tmpl].render(dataList));
+            const html = tmplFn(dataList);
+            const direction = orientation || 'down';
 
-                    if (app.pageCounter === 1) {
-                        app.toTop();
-                    }
-                }
-                else {
+            if (clearBox) {
+                boxEl.innerHTML = '';
+            }
+
+            if (direction === 'down') {
+                boxEl.insertAdjacentHTML('beforeend', html);
+
+                if (app.pageCounter === 1) {
                     app.toTop();
-
-                    box.prepend(app.tmplStores[tmpl].render(dataList));
                 }
+            } else {
+                app.toTop();
+                boxEl.insertAdjacentHTML('afterbegin', html);
             }
         },
 
@@ -415,8 +453,10 @@ const createApp = () => {
 
 const app = createApp();
 
-if (typeof $ !== 'undefined' && $.views && typeof $.views.helpers === 'function') {
-    $.views.helpers(app.formatHelper);
+if (typeof Handlebars !== 'undefined' && typeof Handlebars.registerHelper === 'function') {
+    Object.entries(app.formatHelper).forEach(function ([name, fn]) {
+        Handlebars.registerHelper(name, fn);
+    });
 }
 
 export default app;
