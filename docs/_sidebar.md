@@ -1,23 +1,21 @@
 - 入門指南
   - [專案介紹](intro.md)
-  - [快速開始](README.md#quick-start-fresh-project)
-  - [Vite 設定](README.md#vite-configuration-viteconfigjs)
-  - [主題設定](README.md#theme-srcstylescss)
-  - [範例組件](README.md#handlebars-partial-example-srcpartialssms-formhbs)
-  - [主程式邏輯](README.md#main-logic-mainjs)
-  - [為什麼這個範本](README.md#why-this-starter)
+  - [快速開始](README.md)
 
-- geneEH
-  - [總覽](geneEH/intro.md)
-  - [Validatr 驗證](geneEH/validatr.md)
-  - [yell 請求助手](geneEH/yell.md)
-  - [customElem 自訂元素](geneEH/customElem.md)
+- Spec 文檔
+  - [開發流程](flow.md)
+  - [Spec 總覽](spec/intro.md)
+  - [開發歷程](spec/history.md)
+  - [商業規則](spec/rule.md)
+  - [術語表](glossary.md)
 
-- 重構指南
-  - [UpdateApp 規格](update-app.md)
-
-- 整合與進階
-  - [Vite + Twig SSR](vite-twig-ssr.md)
+- 第三方套件簡介
+  - geneEH
+    - [總覽](packages/geneEH/intro.md)
+    - [Validatr 驗證](packages/geneEH/validatr.md)
+    - [yell 請求助手](packages/geneEH/yell.md)
+    - [customElem 自訂元素](packages/geneEH/customElem.md)
+  - [Vite + Twig SSR](packages/vite-twig-ssr.md)
 
 - 參考資源
   - [Demo 頁面](https://trevorpao.github.io/operon/)
