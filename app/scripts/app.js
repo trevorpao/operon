@@ -58,6 +58,8 @@ const createApp = () => {
 
         redo: null,
 
+        plugins: new Map(),
+
         tmplStores: {},
         htmlStores: {},
         tmplPath: 'tmpls',
@@ -495,6 +497,51 @@ const createApp = () => {
             }
 
             return str;
+        },
+
+        use: async function (plugin) {
+            if (!plugin || typeof plugin.install !== 'function') {
+                throw new Error('Plugin must provide install(ctx)');
+            }
+            var name = (plugin.name || '').trim();
+            if (!name) {
+                throw new Error('Plugin must provide name');
+            }
+            if (app.plugins.has(name)) {
+                return app.plugins.get(name).api;
+            }
+
+            var ctx = { app: app, gee: gee, config: that.config };
+            var installed = await Promise.resolve(plugin.install(ctx));
+            var api = (installed && installed.api) ? installed.api : {};
+            var init = (installed && typeof installed.init === 'function') ? installed.init : null;
+            var destroy = (installed && typeof installed.destroy === 'function') ? installed.destroy : null;
+
+            app.plugins.set(name, { api: api, init: init, destroy: destroy });
+            if (init) {
+                await init();
+            }
+
+            return api;
+        },
+
+        get: function (name) {
+            var entry = app.plugins.get(name);
+            if (!entry) {
+                throw new Error('Plugin "' + name + '" not found');
+            }
+            return entry.api;
+        },
+
+        destroy: async function (name) {
+            var entry = app.plugins.get(name);
+            if (!entry) {
+                return;
+            }
+            if (typeof entry.destroy === 'function') {
+                await entry.destroy();
+            }
+            app.plugins.delete(name);
         },
 
         serializeForm,
