@@ -20,7 +20,21 @@
    2) 通過後更新文件/依賴，記錄「已移除/替換」資產。
    3) 將 feature 的規則整理進 `spec/rule.md`。
    4) 將 feature 的特殊詞彙整理進 `spec/glossary.md`。
+   5) 建立 `optimization.md` ，說明可能的改進思路。
 8) AI 協作要點：
   - 要求 AI 產出綱要、里程碑、風險與 fallback；
   - 請 AI 生成或比對 checklist，避免遺漏；
   - 在 PR 說明中附上 AI 提供的重點與驗收結果摘要。
+
+## 專用指令
+
+### 落實
+
+落實 spec/<feature> 之 stage <step-number>
+
+1) 載入 `spec/<feature>` 內之 plan 及 check 文檔
+2) 根據 plan 文件，執行優化
+3) 根據 check 文件，檢查優化
+4) 根據檢查結果，進一步優化
+5) 根據 check 文件，檢查優化
+
