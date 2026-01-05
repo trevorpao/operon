@@ -22,5 +22,5 @@ indent_size = 4
 [*.css]
 max_line_length = 80
 
-[{package,bower}.json]
+[package.json]
 indent_size = 2
