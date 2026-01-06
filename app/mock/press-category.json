@@ -1,4 +1,23 @@
 {
+    "assetsUri": "/assets/",
+    "opts": {
+        "social": {
+            "facebook_page": "https://www.facebook.com/kengzi.river.recreational.farm",
+            "gmap_page": "https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d14454.30897992522!2d121.305589!3d25.082314!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3442a15e1d5b9b71%3A0x40234da359dfd0bb!2z5aSW56S-6LyV5L6_6LuK6LuK56uZ!5e0!3m2!1szh-TW!2stw!4v1752014188218!5m2!1szh-TW!2stw",
+            "line_page": "@381qkjil"
+        },
+        "default": {
+            "contact_mail": "service@sense-info.co",
+            "contact_phone": "+ 33 9 07 45 12 6566",
+            "contact_address": "4200 rue Moulbert 75016 Paris"
+        }
+    },
+    "feVersion": "250819001",
+    "theme": "v1",
+    "uri": "https://loc.f3cms.com:4433",
+    "main_domain": "f3cms.com",
+    "lang": "tw",
+    "year": "2026",
     "cu":
     {
         "id": 201,
