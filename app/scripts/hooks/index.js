@@ -2,3 +2,7 @@ export { default as installGreetHook } from './greet';
 export { default as installTrackHook } from './track';
 export { default as installResourceHook } from './resource';
 export { default as installMenuHook } from './menu';
+export { default as installArenaHook } from './arena';
+export { default as installContactHook } from './contact';
+export { default as installSliderHook } from './slider';
+export { default as installGalleryHook } from './gallery';
