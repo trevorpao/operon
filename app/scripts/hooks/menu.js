@@ -50,12 +50,7 @@ const attachDropdownHandlers = (root) => {
     return unbinders;
 };
 
-const selectors = {
-    main: '[data-hook="getMainMenu"],[data-gee="getMainMenu"],[gee="getMainMenu"]',
-    footer: '[data-hook="getFooterMenu"],[data-gee="getFooterMenu"],[gee="getFooterMenu"]',
-};
-
-export default function installMenuHook(root) {
+export default function installMenuHook() {
     let api;
     try {
         api = app.get('data.menu');
@@ -63,10 +58,11 @@ export default function installMenuHook(root) {
         return () => {};
     }
 
-    const scope = root && root.nodeType ? root : document;
     const teardownFns = [];
 
-    const renderMainMenu = (el) => {
+    const renderMainMenu = (me) => {
+        const el = me && me[0] ? me[0] : me;
+        if (!el) return false;
         const menuID = el.dataset.menuId;
         api.fetchMenu(menuID)
             .then((data) => {
@@ -84,7 +80,9 @@ export default function installMenuHook(root) {
             });
     };
 
-    const renderFooterMenu = (el) => {
+    const renderFooterMenu = (me) => {
+        const el = me && me[0] ? me[0] : me;
+        if (!el) return false;
         const menuID = el.dataset.menuId;
         api.fetchMenu(menuID)
             .then((data) => {
@@ -101,11 +99,10 @@ export default function installMenuHook(root) {
             });
     };
 
-    const mainNodes = scope.querySelectorAll ? scope.querySelectorAll(selectors.main) : [];
-    const footerNodes = scope.querySelectorAll ? scope.querySelectorAll(selectors.footer) : [];
-
-    mainNodes.forEach(renderMainMenu);
-    footerNodes.forEach(renderFooterMenu);
+    if (typeof gee !== 'undefined' && typeof gee.hook === 'function') {
+        gee.hook('getMainMenu', renderMainMenu);
+        gee.hook('getFooterMenu', renderFooterMenu);
+    }
 
     return function teardown() {
         teardownFns.forEach((fn) => fn());

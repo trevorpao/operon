@@ -1,7 +1,7 @@
 import gee from 'trevorpao/geneEH';
 import app from '../app';
 import installTrackHook from './track';
-import { toNumberSafe } from '../lib/shared';
+import { toNumberSafe, toElement } from '../lib/shared';
 
 const compileTemplate = (tmplName, boxEl) => {
     if (app.tmplStores[tmplName]) {
@@ -43,21 +43,13 @@ const applyCarousel = (root) => {
     });
 };
 
-const selectors = {
-    load: '[data-hook="resource.load"],[data-gee="resource.load"],[gee="resource.load"]',
-    top10: '[data-hook="loadTop10"],[data-gee="loadTop10"],[gee="loadTop10"]',
-};
-
-export default function installResourceHook(root) {
+export default function installResourceHook() {
     let api;
     try {
         api = app.get('data.resource');
     } catch (err) {
         return () => {};
     }
-
-    const scope = root && root.nodeType ? root : document;
-    const teardownFns = [];
 
     const renderAndEnhance = (boxEl, html) => {
         if (!boxEl || typeof html !== 'string') return;
@@ -67,9 +59,11 @@ export default function installResourceHook(root) {
         gee.init();
     };
 
-    const handleLoad = (el) => {
+    const handleLoad = (me) => {
+        const el = toElement(me);
+        if (!el) return false;
         const tmpl = el.dataset.tmpl;
-        if (!tmpl) return;
+        if (!tmpl) return false;
         const pid = el.dataset.pid;
         const limit = el.dataset.limit ? toNumberSafe(el.dataset.limit) : undefined;
         const meta = toNumberSafe(el.dataset.meta, 0);
@@ -86,9 +80,11 @@ export default function installResourceHook(root) {
             });
     };
 
-    const handleTop10 = (el) => {
+    const handleTop10 = (me) => {
+        const el = toElement(me);
+        if (!el) return false;
         const tmpl = el.dataset.tmpl;
-        if (!tmpl) return;
+        if (!tmpl) return false;
         const limit = toNumberSafe(el.dataset.limit, 5);
 
         api.loadTop10({ limit })
@@ -103,13 +99,10 @@ export default function installResourceHook(root) {
             });
     };
 
-    const loadNodes = scope.querySelectorAll ? scope.querySelectorAll(selectors.load) : [];
-    const topNodes = scope.querySelectorAll ? scope.querySelectorAll(selectors.top10) : [];
+    if (typeof gee !== 'undefined' && typeof gee.hook === 'function') {
+        gee.hook('resource.load', handleLoad);
+        gee.hook('loadTop10', handleTop10);
+    }
 
-    loadNodes.forEach(handleLoad);
-    topNodes.forEach(handleTop10);
-
-    return function teardown() {
-        teardownFns.forEach((fn) => fn());
-    };
+    return function teardown() {};
 }

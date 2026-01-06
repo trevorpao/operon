@@ -1,19 +1,10 @@
 import app from '../app';
 import { toElement, ensureBrowser } from '../lib/shared';
 
-const disableBtn = (btn) => {
-    if (!btn) return () => {};
-    const original = { html: btn.innerHTML, disabled: btn.disabled };
-    btn.disabled = true;
-    btn.innerHTML = `${btn.innerHTML}<i class="fa fa-spinner fa-pulse fa-fw"></i>`;
-    return () => {
-        btn.disabled = original.disabled;
-        btn.innerHTML = original.html;
-    };
-};
-
-export default function installContactHook(root) {
+// Hook registration via gee.hook to honor data-gene="submit:contact.submit" bindings.
+export default function installContactHook() {
     if (!ensureBrowser()) return () => {};
+
     let api;
     try {
         api = app.get('data.contact');
@@ -21,40 +12,58 @@ export default function installContactHook(root) {
         return () => {};
     }
 
-    const scope = root && root.nodeType ? root : document;
-    const teardown = [];
+    const handler = function (me) {
+        const btn = toElement(me);
+        const form = btn ? toElement(btn.closest('form')) : null;
+        if (!form) return false;
 
-    const submitHandler = (btn) => async (evt) => {
-        evt.preventDefault();
-        const form = toElement(btn.closest('form'));
-        if (!form) return;
-        if (typeof form.reportValidity === 'function' && !form.reportValidity()) return;
-        const enable = disableBtn(btn);
-        try {
-            const formData = new FormData(form);
-            const payload = Object.fromEntries(formData.entries());
-            await api.send(payload);
-            form.reset();
-            if (typeof app.stdSuccess === 'function') {
-                app.stdSuccess({ msg: 'sent' });
-            }
-        } catch (err) {
-            if (typeof app.stdErr === 'function') {
-                app.stdErr(err);
-            }
-        } finally {
-            enable();
+        if (typeof form.reportValidity === 'function' && !form.reportValidity()) {
+            return false;
         }
+
+        // Fallback to app.validateForm if reportValidity is unavailable
+        if (typeof form.reportValidity !== 'function' && typeof app.validateForm === 'function' && !app.validateForm(form)) {
+            return false;
+        }
+
+        // Progress indication
+        const restore = (() => {
+            if (!btn) return () => {};
+            const original = { html: btn.innerHTML, disabled: btn.disabled };
+            btn.disabled = true;
+            btn.innerHTML = `${btn.innerHTML}<i class="fa fa-spinner fa-pulse fa-fw"></i>`;
+            return () => {
+                btn.disabled = original.disabled;
+                btn.innerHTML = original.html;
+            };
+        })();
+
+        const submit = async () => {
+            try {
+                const formData = new FormData(form);
+                const payload = Object.fromEntries(formData.entries());
+                await api.send(payload);
+                form.reset();
+                if (typeof app.stdSuccess === 'function') {
+                    app.stdSuccess({ msg: 'sent' });
+                }
+            } catch (err) {
+                if (typeof app.stdErr === 'function') {
+                    app.stdErr(err);
+                }
+            } finally {
+                restore();
+            }
+        };
+
+        submit();
     };
 
-    const buttons = scope.querySelectorAll('[data-hook="contact.submit"]');
-    buttons.forEach((btn) => {
-        const handler = submitHandler(btn);
-        btn.addEventListener('click', handler);
-        teardown.push(() => btn.removeEventListener('click', handler));
-    });
+    if (typeof gee !== 'undefined' && typeof gee.hook === 'function') {
+        gee.hook('contact.submit', handler);
+    }
 
-    return function teardownFn() {
-        teardown.forEach((fn) => fn());
-    };
+    // gee.hook does not expose unregister; return no-op teardown
+    return function teardownFn() {};
 }
+ 
