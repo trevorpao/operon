@@ -1,0 +1,18 @@
+{
+    "layout": "press-search_results",
+    "searchStr": "晶片",
+    "page": {
+        "title": "查詢結果",
+        "keyword": "科技新聞,搜尋,半導體",
+        "img": "https://techpulse.news/media/social-img",
+        "ga": "G-TPULSE",
+        "site_name": "TechPulse News",
+        "site_subtitle": "中文科技新聞平台",
+        "canonical": "/presses",
+        "breadcrumb": [{
+            "slug": "/presses",
+            "str": "查詢結果"
+        }]
+    },
+    "srcType": "search"
+}

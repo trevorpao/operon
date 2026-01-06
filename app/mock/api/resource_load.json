@@ -1,0 +1,86 @@
+{
+    "code": 1,
+    "data": [
+        {
+            "id": "701",
+            "link": "/p/tsmc-2nm-ramp",
+            "title": "台積電 2nm 量產進度與 CoWoS 擴產",
+            "status": "Enabled",
+            "weight": "1",
+            "cover": "/assets/images/tech/hero-2nm.jpg",
+            "uri": "https://techpulse.news/p/tsmc-2nm-ramp",
+            "theme": null,
+            "background": "",
+            "subtitle": "BREAKING",
+            "content": "N2/N2P 時程、良率與先進封裝產能解法。",
+            "meta": {
+                "_video_id": "IcVV8BUsLr4",
+                "play_icon": "no",
+                "txt_algin": "left",
+                "txt_color": "dark",
+                "btn_txt": "read"
+            }
+        },
+        {
+            "id": "702",
+            "link": "/p/nvidia-blackwell-roadmap",
+            "title": "NVIDIA Blackwell 後續與 Grace CPU 路線圖",
+            "status": "Enabled",
+            "weight": "2",
+            "cover": "/assets/images/tech/nvidia-blackwell.jpg",
+            "uri": "https://techpulse.news/p/nvidia-blackwell-roadmap",
+            "theme": null,
+            "background": "",
+            "content": "GPU/CPU 量產節點、雲端採購與供應鏈排程。",
+            "subtitle": "BREAKING",
+            "meta": {
+                "_video_id": "R7PknZqMPwU",
+                "play_icon": "no",
+                "txt_algin": "right",
+                "txt_color": "dark",
+                "btn_txt": "read"
+            }
+        },
+        {
+            "id": "703",
+            "link": "/p/openai-pricing-2026",
+            "title": "OpenAI API 收費調整：SaaS 成本試算",
+            "status": "Enabled",
+            "weight": "3",
+            "cover": "/assets/images/tech/openai-pricing.jpg",
+            "uri": "https://techpulse.news/p/openai-pricing-2026",
+            "theme": null,
+            "background": "",
+            "content": "三種用量情境試算，對比 Anthropic 與 Gemini。",
+            "subtitle": "ANALYSIS",
+            "meta": {
+                "_video_id": "Pi4hUMJobmo",
+                "play_icon": "no",
+                "txt_algin": "right",
+                "txt_color": "dark",
+                "btn_txt": "read"
+            }
+        },
+        {
+            "id": "704",
+            "link": "/p/holostack-series-b",
+            "title": "HoloStack B 輪 4500 萬美元，攻企業 AR 協作",
+            "status": "Enabled",
+            "weight": "4",
+            "cover": "/assets/images/tech/ar-startup.jpg",
+            "uri": "https://techpulse.news/p/holostack-series-b",
+            "theme": null,
+            "background": "",
+            "content": "領投方 Lightspeed，製造與維運場景落地。",
+            "subtitle": "STARTUP",
+            "meta": {
+                "_video_id": "qXT9-0X3dIg",
+                "play_icon": "no",
+                "txt_algin": "left",
+                "txt_color": "light",
+                "btn_txt": "read"
+            }
+        }
+    ],
+    "csrf": "techpulse.resource.20260106"
+}

@@ -1,0 +1,36 @@
+{
+    "cu": {
+        "id": "5",
+        "status": "Enabled",
+        "slug": "contact",
+        "cover": "/assets/images/tech/contact.jpg",
+        "last_ts": "2026-01-06 10:10:00",
+        "last_user": "1",
+        "insert_ts": "2025-12-20 09:00:00",
+        "insert_user": "1",
+        "lang": "en",
+        "issue": "#000",
+        "title": "Contact TechPulse",
+        "content": "<p>Please leave your contact info and what you need. Our editors will respond quickly. You can also email <a href=\"mailto:contact@techpulse.news\">contact@techpulse.news</a> for press or partnership inquiries.</p>",
+        "issue": "#000"
+    },
+    "layout": "contact",
+    "page": {
+        "title": "Contact TechPulse",
+        "keyword": "tech news,contact,press",
+        "img": "https://techpulse.news/media/social-img",
+        "ga": "G-TPULSE",
+        "site_name": "TechPulse News",
+        "site_subtitle": "中文科技新聞平台",
+        "canonical": "/contact",
+        "share_link": "https://techpulse.news/contact",
+        "breadcrumb": [{
+            "slug": "/home",
+            "str": "Home"
+        }, {
+            "slug": "/contact",
+            "str": "Contact"
+        }]
+    },
+    "lang": "en"
+}

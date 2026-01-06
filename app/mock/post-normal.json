@@ -1,0 +1,29 @@
+{
+    "cu": {
+        "id": "3",
+        "status": "Enabled",
+        "slug": "about",
+        "cover": "/assets/images/tech/about-team.jpg",
+        "last_ts": "2026-01-06 10:00:00",
+        "last_user": "1",
+        "insert_ts": "2025-12-20 09:00:00",
+        "insert_user": "1",
+        "lang": "tw",
+        "title": "關於 TechPulse News",
+        "content": "<p>TechPulse News 聚焦全球與台灣科技新聞，關注晶片產業、AI、雲端、資安與新創投融資。我們以數據、訪談與文件佐證，為讀者整理清晰脈絡。</p><p>我們相信：科技的變化不該是碎片化消息，而是可追溯、可行動的洞察。</p><ul><li>團隊：來自半導體、雲端與資安領域的記者、分析師。</li><li>報導原則：至少兩個來源交叉驗證，標示數據口徑與時間。</li><li>讀者對象：工程師、產品經理、創業者與決策者。</li></ul><p>新聞線索或合作洽談：<a href=\"mailto:contact@techpulse.news\">contact@techpulse.news</a>。</p>"
+    },
+    "layout": "post",
+    "page": {
+        "ga": "G-TPULSE",
+        "canonical": "/post/about",
+        "site_name": "TechPulse News",
+        "site_subtitle": "中文科技新聞平台",
+        "breadcrumb": [{
+            "slug": "/home",
+            "str": "首頁"
+        }, {
+            "slug": "/post/about",
+            "str": "關於我們"
+        }]
+    }
+}

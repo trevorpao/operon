@@ -1,0 +1,235 @@
+{
+    "hero": [
+    {
+        "id": 101,
+        "title": "台積電 2nm 量產進度與台美供應鏈新布局",
+        "status": "Enabled",
+        "weight": 10,
+        "cover": "/assets/images/tech/hero-2nm.jpg",
+        "theme": null,
+        "background": "",
+        "subtitle": "晶圓代工 · 2026 Q1",
+        "content": "TSMC 與設備、材料夥伴的最新時程，外界關注的良率與 CoWoS 產能瓶頸如何解法。",
+        "meta": [],
+        "link": "/p/tsmc-2nm-ramp"
+    }],
+    "recommendation": [
+    {
+        "id": 102,
+        "title": "OpenAI API 收費調整：對 SaaS 團隊的成本衝擊試算",
+        "status": "Enabled",
+        "weight": 10,
+        "cover": "/assets/images/tech/openai-pricing.jpg",
+        "theme": null,
+        "background": "",
+        "subtitle": "2026-01-02 08:30:00",
+        "content": "以 3 種用量檔位估算 API 成本變化，並比較 Anthropic、Gemini 的代碼生成與聊天模型。",
+        "meta":
+        {
+            "press_id": "602",
+            "cate_id": "11"
+        },
+        "link": "/p/openai-pricing-2026",
+        "tags": [
+        {
+            "id": 11,
+            "slug": "ai",
+            "title": "AI",
+            "counter": 0
+        },
+        {
+            "id": 12,
+            "slug": "cloud",
+            "title": "雲端",
+            "counter": 0
+        }],
+        "authors": [
+        {
+            "id": 21,
+            "slug": "ivy-chen",
+            "cover": "/assets/images/authors/ivy.jpg",
+            "title": "Ivy Chen",
+            "slogan": "產業記者",
+            "jobtitle": "記者",
+            "summary": "關注雲端、SaaS 與產業策略。"
+        }],
+        "cate":
+        {
+            "id": 11,
+            "slug": "analysis",
+            "title": "深度分析"
+        }
+    }],
+    "intro": [
+    {
+        "id": 103,
+        "title": "生成式 AI 投資熱潮冷卻？五張圖看懂融資趨勢",
+        "status": "Enabled",
+        "weight": 10,
+        "cover": "/assets/images/tech/ai-funding.jpg",
+        "theme": null,
+        "background": "",
+        "subtitle": "資料圖解",
+        "content": "整理 2023-2025 年全球 GenAI 融資事件，觀察金額、賽道與估值中位數。",
+        "meta": [],
+        "link": "/p/genai-funding-trend"
+    }],
+    "links": [
+    {
+        "id": 104,
+        "title": "TechPulse Podcast",
+        "status": "Enabled",
+        "weight": 10,
+        "cover": "/assets/images/tech/podcast.jpg",
+        "theme": null,
+        "background": "",
+        "subtitle": "每週三更新",
+        "content": "10 分鐘帶你掌握本週最值得關注的科技事件。",
+        "meta": [],
+        "link": "https://podcast.techpulse.news"
+    }],
+    "about":
+    {
+        "id": 375,
+        "status": "Enabled",
+        "slug": "about-us-home",
+        "cover": "/assets/images/tech/about-team.jpg",
+        "layout": "na",
+        "last_ts": "2026-01-06 10:00:00",
+        "last_user": 1,
+        "insert_ts": "2025-12-20 09:00:00",
+        "insert_user": 1,
+        "from_ai": "No",
+        "lang": "tw",
+        "title": "關於 TechPulse",
+        "content": "<p>TechPulse News 聚焦半導體、AI、雲端與資安。每則報導提供來源鏈結、關鍵數據與延伸閱讀，幫助讀者快速決策。</p>"
+    },
+    "news": [
+    {
+        "id": 602,
+        "title": "NVIDIA 公布 Blackwell 後續：新世代 Grace CPU 量產時程",
+        "info": "GPU/CPU 路線圖更新，供應鏈排程與雲端客戶採購狀況。",
+        "last_ts": "2026-01-05 18:30:00",
+        "cover": "/assets/images/tech/nvidia-blackwell.jpg",
+        "status": "Published",
+        "slug": "nvidia-blackwell-roadmap",
+        "online_date": "2026-01-05 08:00:00",
+        "account": "editorial",
+        "category": "快訊",
+        "category_slug": "breaking",
+        "authors": [
+        {
+            "id": 22,
+            "slug": "leo-wang",
+            "cover": "/assets/images/authors/leo.jpg",
+            "title": "Leo Wang",
+            "slogan": "半導體記者",
+            "jobtitle": "編輯",
+            "summary": "聚焦晶片設計與代工產業鏈。"
+        }]
+    },
+    {
+        "id": 603,
+        "title": "AWS 宣布台北第二區域評估進度，目標 2027 上線",
+        "info": "探討潛在資料中心位置、供電與海纜佈局，以及對在地開發者的延遲影響。",
+        "last_ts": "2026-01-04 15:10:00",
+        "cover": "/assets/images/tech/aws-taiwan.jpg",
+        "status": "Published",
+        "slug": "aws-taiwan-second-region",
+        "online_date": "2026-01-04 07:30:00",
+        "account": "editorial",
+        "category": "雲端",
+        "category_slug": "cloud",
+        "authors": [
+        {
+            "id": 23,
+            "slug": "mia-lin",
+            "cover": "/assets/images/authors/mia.jpg",
+            "title": "Mia Lin",
+            "slogan": "雲端與基礎設施",
+            "jobtitle": "編輯",
+            "summary": "關注資料中心與網路基礎建設。"
+        }]
+    },
+    {
+        "id": 604,
+        "title": "台灣新創 HoloStack 完成 B 輪，主攻企業 AR 協作",
+        "info": "融資 4500 萬美元，領投方為 Lightspeed，產品落地製造與維運場景。",
+        "last_ts": "2026-01-03 11:20:00",
+        "cover": "/assets/images/tech/ar-startup.jpg",
+        "status": "Published",
+        "slug": "holostack-series-b",
+        "online_date": "2026-01-03 08:45:00",
+        "account": "editorial",
+        "category": "新創",
+        "category_slug": "startup",
+        "authors": [
+        {
+            "id": 21,
+            "slug": "ivy-chen",
+            "cover": "/assets/images/authors/ivy.jpg",
+            "title": "Ivy Chen",
+            "slogan": "產業記者",
+            "jobtitle": "編輯",
+            "summary": "關注雲端、SaaS 與產業策略。"
+        }]
+    }],
+    "partners": [
+    {
+        "id": 801,
+        "title": "Silicon Insights Research",
+        "info": "半導體產業研究顧問合作夥伴。",
+        "last_ts": "2026-01-05 09:00:00",
+        "cover": "/assets/images/partners/silicon-insights.jpg",
+        "status": "Published",
+        "slug": "silicon-insights",
+        "online_date": "2025-12-28 10:00:00",
+        "account": "editorial",
+        "category": "合作夥伴",
+        "category_slug": "partners"
+    },
+    {
+        "id": 802,
+        "title": "Cloud Native Taiwan User Group",
+        "info": "雲原生社群內容合作。",
+        "last_ts": "2026-01-05 09:00:00",
+        "cover": "/assets/images/partners/cntug.jpg",
+        "status": "Published",
+        "slug": "cntug",
+        "online_date": "2025-12-20 10:00:00",
+        "account": "editorial",
+        "category": "合作夥伴",
+        "category_slug": "partners"
+    },
+    {
+        "id": 803,
+        "title": "Taiwan Startup Stadium",
+        "info": "國際商務與募資活動支援。",
+        "last_ts": "2026-01-05 09:00:00",
+        "cover": "/assets/images/partners/tss.jpg",
+        "status": "Published",
+        "slug": "taiwan-startup-stadium",
+        "online_date": "2025-12-18 10:00:00",
+        "account": "editorial",
+        "category": "合作夥伴",
+        "category_slug": "partners"
+    }],
+    "layout": "index",
+    "page":
+    {
+        "title": "首頁",
+        "keyword": "科技新聞,半導體,AI,雲端,資安",
+        "img": "https://techpulse.news/media/social-img",
+        "ga": "G-TPULSE",
+        "desc": "TechPulse News｜半導體、AI、雲端、資安的中文科技新聞平台",
+        "site_name": "TechPulse News",
+        "site_subtitle": "中文科技新聞平台",
+        "canonical": "/home",
+        "share_link": "https://techpulse.news/home",
+        "breadcrumb": [
+        {
+            "slug": "/home",
+            "str": "首頁"
+        }]
+    }
+}

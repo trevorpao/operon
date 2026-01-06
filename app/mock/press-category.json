@@ -1,0 +1,39 @@
+{
+    "cu":
+    {
+        "id": 201,
+        "status": "Enabled",
+        "sorter": 0,
+        "group": "press",
+        "slug": "semiconductor",
+        "cover": "/assets/images/tech/category-chip.jpg",
+        "last_ts": "2026-01-06 10:15:00",
+        "last_user": 1,
+        "insert_ts": "2025-12-20 09:00:00",
+        "insert_user": 1,
+        "lang": "tw",
+        "title": "半導體",
+        "info": "晶片製程、封裝與供應鏈",
+        "tags": []
+    },
+    "srcType": "category",
+    "layout": "press-category",
+    "page":
+    {
+        "title": "半導體",
+        "desc": "晶片製程、封裝與供應鏈",
+        "img": "/assets/images/tech/category-chip.jpg",
+        "alternate": "",
+        "keyword": "半導體,製程,封裝",
+        "ga": "G-TPULSE",
+        "site_name": "TechPulse News",
+        "site_subtitle": "中文科技新聞平台",
+        "canonical": "/tw/category/semiconductor",
+        "share_link": "https://techpulse.news/tw/category/semiconductor",
+        "breadcrumb": [
+        {
+            "slug": "/tw/category/semiconductor",
+            "str": "半導體"
+        }]
+    }
+}

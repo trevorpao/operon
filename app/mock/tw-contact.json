@@ -1,0 +1,35 @@
+{
+    "cu": {
+        "id": "5",
+        "status": "Enabled",
+        "slug": "contact",
+        "cover": "/assets/images/tech/contact.jpg",
+        "last_ts": "2026-01-06 10:10:00",
+        "last_user": "1",
+        "insert_ts": "2025-12-20 09:00:00",
+        "insert_user": "1",
+        "lang": "tw",
+        "issue": "#000",
+        "title": "聯絡 TechPulse",
+        "content": "<p>留下您的聯絡方式與需求，編輯部會盡快回覆。媒體合作、採訪邀約歡迎來信 <a href=\"mailto:contact@techpulse.news\">contact@techpulse.news</a>。</p>",
+        "issue": "#000"
+    },
+    "layout": "contact",
+    "page": {
+        "title": "聯絡 TechPulse",
+        "keyword": "科技新聞,聯絡,合作",
+        "img": "https://techpulse.news/media/social-img",
+        "ga": "G-TPULSE",
+        "site_name": "TechPulse News",
+        "site_subtitle": "中文科技新聞平台",
+        "canonical": "/contact",
+        "share_link": "https://techpulse.news/contact",
+        "breadcrumb": [{
+            "slug": "/home",
+            "str": "首頁"
+        }, {
+            "slug": "/contact",
+            "str": "聯絡我們"
+        }]
+    }
+}

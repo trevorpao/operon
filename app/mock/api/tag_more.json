@@ -1,0 +1,185 @@
+{
+    "code": 1,
+    "data": {
+        "subset": [
+            {
+                "id": 602,
+                "title": "NVIDIA 公布 Blackwell 後續：新世代 Grace CPU 量產時程",
+                "info": "GPU/CPU 路線圖更新，供應鏈排程與雲端客戶採購狀況。",
+                "last_ts": "2026-01-05 18:30:00",
+                "cover": "/assets/images/tech/nvidia-blackwell.jpg",
+                "status": "Published",
+                "slug": "nvidia-blackwell-roadmap",
+                "online_date": "2026-01-05 08:00:00",
+                "account": "editorial",
+                "tags": [
+                    {
+                        "id": 11,
+                        "slug": "ai",
+                        "title": "AI",
+                        "counter": null
+                    }
+                ],
+                "authors": [
+                    {
+                        "id": 22,
+                        "slug": "leo-wang",
+                        "cover": "/assets/images/authors/leo.jpg",
+                        "title": "Leo Wang",
+                        "slogan": "半導體記者",
+                        "jobtitle": "編輯",
+                        "summary": "聚焦晶片設計與代工產業鏈。"
+                    }
+                ]
+            },
+            {
+                "id": 603,
+                "title": "AWS 宣布台北第二區域評估進度，目標 2027 上線",
+                "info": "資料中心位置、供電與海纜佈局，對在地延遲的影響。",
+                "last_ts": "2026-01-04 15:10:00",
+                "cover": "/assets/images/tech/aws-taiwan.jpg",
+                "status": "Published",
+                "slug": "aws-taiwan-second-region",
+                "online_date": "2026-01-04 07:30:00",
+                "account": "editorial",
+                "tags": [
+                    {
+                        "id": 12,
+                        "slug": "cloud",
+                        "title": "雲端",
+                        "counter": null
+                    }
+                ],
+                "authors": [
+                    {
+                        "id": 23,
+                        "slug": "mia-lin",
+                        "cover": "/assets/images/authors/mia.jpg",
+                        "title": "Mia Lin",
+                        "slogan": "雲端與基礎設施",
+                        "jobtitle": "編輯",
+                        "summary": "關注資料中心與網路基礎建設。"
+                    }
+                ]
+            },
+            {
+                "id": 604,
+                "title": "台灣新創 HoloStack 完成 B 輪，主攻企業 AR 協作",
+                "info": "融資 4500 萬美元，領投方為 Lightspeed，產品落地製造與維運場景。",
+                "last_ts": "2026-01-03 11:20:00",
+                "cover": "/assets/images/tech/ar-startup.jpg",
+                "status": "Published",
+                "slug": "holostack-series-b",
+                "online_date": "2026-01-03 08:45:00",
+                "account": "editorial",
+                "tags": [
+                    {
+                        "id": 13,
+                        "slug": "startup",
+                        "title": "新創",
+                        "counter": null
+                    }
+                ],
+                "authors": [
+                    {
+                        "id": 21,
+                        "slug": "ivy-chen",
+                        "cover": "/assets/images/authors/ivy.jpg",
+                        "title": "Ivy Chen",
+                        "slogan": "產業記者",
+                        "jobtitle": "編輯",
+                        "summary": "關注雲端、SaaS 與產業策略。"
+                    }
+                ]
+            },
+            {
+                "id": 605,
+                "title": "OpenAI API 收費調整：對 SaaS 團隊的成本衝擊試算",
+                "info": "以三種用量檔位估算成本變化，並比較其他主流模型。",
+                "last_ts": "2026-01-02 10:00:00",
+                "cover": "/assets/images/tech/openai-pricing.jpg",
+                "status": "Published",
+                "slug": "openai-pricing-2026",
+                "online_date": "2026-01-02 08:30:00",
+                "account": "editorial",
+                "tags": [
+                    {
+                        "id": 11,
+                        "slug": "ai",
+                        "title": "AI",
+                        "counter": null
+                    },
+                    {
+                        "id": 12,
+                        "slug": "cloud",
+                        "title": "雲端",
+                        "counter": null
+                    }
+                ],
+                "authors": [
+                    {
+                        "id": 21,
+                        "slug": "ivy-chen",
+                        "cover": "/assets/images/authors/ivy.jpg",
+                        "title": "Ivy Chen",
+                        "slogan": "產業記者",
+                        "jobtitle": "編輯",
+                        "summary": "關注雲端、SaaS 與產業策略。"
+                    }
+                ]
+            },
+            {
+                "id": 606,
+                "title": "微軟推出新一代 Copilot Studio，聚焦企業資料連結",
+                "info": "強化 plugins 與私有資料接入，並降低部署延遲。",
+                "last_ts": "2026-01-01 12:00:00",
+                "cover": "/assets/images/tech/copilot-studio.jpg",
+                "status": "Published",
+                "slug": "microsoft-copilot-studio",
+                "online_date": "2026-01-01 09:00:00",
+                "account": "editorial",
+                "tags": [
+                    {
+                        "id": 11,
+                        "slug": "ai",
+                        "title": "AI",
+                        "counter": null
+                    },
+                    {
+                        "id": 14,
+                        "slug": "enterprise",
+                        "title": "企業應用",
+                        "counter": null
+                    }
+                ],
+                "authors": [
+                    {
+                        "id": 21,
+                        "slug": "ivy-chen",
+                        "cover": "/assets/images/authors/ivy.jpg",
+                        "title": "Ivy Chen",
+                        "slogan": "產業記者",
+                        "jobtitle": "編輯",
+                        "summary": "關注雲端、SaaS 與產業策略。"
+                    }
+                ]
+            }
+        ],
+        "total": 5,
+        "limit": 12,
+        "count": 1,
+        "pos": 0,
+        "filter": {
+            "m.status": "Published",
+            "ORDER": {
+                "m.online_date": "DESC",
+                "m.insert_ts": "DESC"
+            },
+            "LIMIT": [
+                0,
+                12
+            ]
+        }
+    },
+    "csrf": "techpulse.tag_more.20260106"
+}
