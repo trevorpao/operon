@@ -3,6 +3,13 @@ import { toElement, ensureBrowser } from '../lib/shared';
 
 const defaultFontTargets = '#article-press .text p, #article-press .text li, #article-post .text p, #article-post .text li';
 
+const removeClassByPrefix = (el, prefix) => {
+    if (!el || !el.classList) return;
+    Array.from(el.classList)
+        .filter((cls) => cls.startsWith(prefix))
+        .forEach((cls) => el.classList.remove(cls));
+};
+
 export default function installArenaHook() {
     if (!ensureBrowser()) return () => {};
     let api;
@@ -68,7 +75,22 @@ export default function installArenaHook() {
     const handleLoadMain = (me) => {
         const el = toElement(me);
         if (!el || !el.dataset.src) return false;
-        app.loadHtml(el.dataset.src, 'main-box', 1);
+        const target = el.dataset.ta || 'main-box';
+        if (target !== 'main-box' && app.body) {
+            if (app.body.classList) {
+                removeClassByPrefix(app.body, 'open-');
+                app.body.classList.add(`open-${target}`);
+            }
+            if (app.site && typeof app.site.registerBack === 'function') {
+                app.site.registerBack(() => {
+                    if (app.body && app.body.classList) {
+                        app.body.classList.remove(`open-${target}`);
+                    }
+                });
+            }
+        }
+        app.loadHtml(el.dataset.src, target, 1);
+        window.scrollTo({ top: 0, behavior: 'auto' });
     };
 
     const handleLoadBox = (me) => {
@@ -153,6 +175,246 @@ export default function installArenaHook() {
         }
     };
 
+    const handleAdjustFontSize = (me) => {
+        const el = toElement(me);
+        const targetSel = el && el.dataset && el.dataset.ta ? el.dataset.ta : defaultFontTargets;
+        if (api.cycleFont) {
+            api.cycleFont(0.15, 1, 1.3, 1, targetSel);
+        }
+    };
+
+    const handleHideMsg = () => {
+        document.querySelectorAll('.modal').forEach((modal) => modal.classList.remove('block'));
+        const mainBox = document.getElementById('main-box');
+        if (mainBox) mainBox.classList.remove('no-scroll');
+    };
+
+    const handleLoadZip = (me) => {
+        const el = toElement(me);
+        if (!el) return;
+        const targetId = el.dataset ? el.dataset.ta : null;
+        const county = el.value || (el.dataset ? el.dataset.county : null);
+        const placeholder = el.dataset && el.dataset.placeholder ? el.dataset.placeholder : '請選擇地區*';
+        if (targetId && county && api.loadZipOptions) {
+            api.loadZipOptions(targetId, county, placeholder);
+        }
+    };
+
+    const handleSwitchTab = (me) => {
+        const el = toElement(me);
+        if (!el) return;
+        const boxSelector = el.dataset ? el.dataset.ta : null;
+        const box = boxSelector ? document.querySelector(boxSelector) : null;
+        const state = el.dataset ? el.dataset.state : null;
+        const back = el.dataset && el.dataset.back ? el.dataset.back : 'welcome';
+
+        const tabs = el.closest ? el.closest('.j-tabs') : null;
+        if (tabs) {
+            tabs.querySelectorAll('.active').forEach((node) => {
+                if (node !== el) node.classList.remove('active');
+            });
+            el.classList.add('active');
+        }
+
+        if (box && state) {
+            removeClassByPrefix(box, 'js-state-');
+            box.classList.add(`js-state-${state}`);
+            if (app.site && typeof app.site.registerBack === 'function') {
+                app.site.registerBack(() => {
+                    removeClassByPrefix(box, 'js-state-');
+                    box.classList.add(`js-state-${back}`);
+                });
+            }
+        }
+    };
+
+    const handleReadySubmit = (me) => {
+        const el = toElement(me);
+        const target = (me && me.event && me.event.target) ? me.event.target : el;
+        const form = el && el.dataset && el.dataset.ta ? document.getElementById(el.dataset.ta) : (target && target.closest ? target.closest('form') : null);
+
+        if (target && window.validatr && typeof window.validatr.chkElement === 'function') {
+            if (window.validatr.chkElement(target)) {
+                const errGroup = target.closest('.input-group.has-error');
+                if (errGroup) errGroup.classList.remove('has-error');
+            }
+        }
+
+        if (api.updateSubmitState) {
+            api.updateSubmitState(form);
+        }
+    };
+
+    const handleSwitchPasswd = (me) => {
+        const el = toElement(me);
+        if (!el) return;
+        const group = el.closest ? el.closest('.passwd-group') : null;
+        const input = group ? group.querySelector('.field-passwd') : null;
+        if (api.togglePasswordInput) {
+            const visible = api.togglePasswordInput(input);
+            if ('checked' in el) el.checked = visible;
+        }
+    };
+
+    const handleNextStep = (me) => {
+        const el = toElement(me);
+        if (!el) return;
+        const form = el.dataset && el.dataset.ta ? document.getElementById(el.dataset.ta) : (el.closest ? el.closest('form') : null);
+        const step = el.getAttribute('step') || (el.dataset ? el.dataset.step : null);
+        const box = el.closest ? el.closest('.step-box') : null;
+        if (!step) return;
+        const [mod, fn] = step.split('.');
+        const stepFn = app && app[mod] ? app[mod][fn] : null;
+        if (!stepFn) {
+            if (typeof gee !== 'undefined' && typeof gee.alert === 'function') {
+                gee.alert({ title: 'Alert!', txt: 'No such step!!' });
+            }
+            return;
+        }
+
+        const finalize = () => {
+            if (typeof app.doneBtn === 'function') app.doneBtn(el);
+            if (box && el.dataset && el.dataset.num) {
+                removeClassByPrefix(box, 'on-step-');
+                box.classList.add(`on-step-${el.dataset.num}`);
+            }
+        };
+
+        if (typeof app.progressingBtn === 'function') app.progressingBtn(el);
+
+        try {
+            const result = stepFn(form, el, finalize);
+            if (result && typeof result.then === 'function') {
+                result.then(finalize).catch((err) => {
+                    if (typeof app.stdErr === 'function') app.stdErr(err);
+                    finalize();
+                });
+            } else if (stepFn.length < 3) {
+                finalize();
+            }
+        } catch (err) {
+            if (typeof app.stdErr === 'function') app.stdErr(err);
+            finalize();
+        }
+    };
+
+    const handleBackStep = (me) => {
+        const el = toElement(me);
+        const box = el && el.closest ? el.closest('.step-box') : null;
+        if (box && el && el.dataset && el.dataset.num) {
+            removeClassByPrefix(box, 'on-step-');
+            box.classList.add(`on-step-${el.dataset.num}`);
+        }
+    };
+
+    const handleNxtCol = (me) => {
+        const el = toElement(me);
+        const eventObj = me && me.event;
+        const code = eventObj && (eventObj.keyCode || eventObj.which);
+        if (!el) return;
+        const maxLength = Number(el.getAttribute('maxlength') || 0);
+        if (maxLength && String(el.value).length === maxLength) {
+            const targetId = el.dataset ? el.dataset.ta : null;
+            const ta = targetId ? document.getElementById(targetId) : null;
+            const nextInput = ta || (el.nextElementSibling && el.nextElementSibling.tagName === 'INPUT' ? el.nextElementSibling : null);
+            if (nextInput) {
+                nextInput.focus();
+                if (typeof nextInput.select === 'function') nextInput.select();
+            } else {
+                if (typeof gee.readySubmit === 'function') gee.readySubmit(me);
+                if (code === 13 && !(eventObj && eventObj.shiftKey)) {
+                    const form = el.closest ? el.closest('form') : null;
+                    const btn = form ? form.querySelector('button.btn-submit') : null;
+                    if (btn && typeof btn.click === 'function') btn.click();
+                }
+            }
+        }
+    };
+
+    const handleArenaCopy = async (me) => {
+        const el = toElement(me);
+        if (!el || !api.copyText) return;
+        const taId = el.dataset ? el.dataset.ta : null;
+        const textEl = taId ? document.getElementById(taId) : null;
+        const text = textEl ? (textEl.value || textEl.textContent || '') : '';
+        const copied = await api.copyText(text);
+        if (copied) {
+            if (el.classList) el.classList.add('copied');
+            if (el.dataset && el.dataset.txt) {
+                // eslint-disable-next-line no-alert
+                alert(`${el.dataset.txt}: ${text}`);
+            }
+        }
+    };
+
+    const handleArenaToggleCls = (me) => {
+        const el = toElement(me);
+        if (!el || !api.toggleClass) return;
+        const targetId = el.dataset ? el.dataset.target : null;
+        const cls = (el.dataset && el.dataset.cls) ? el.dataset.cls : 'active';
+        const target = targetId ? document.getElementById(targetId) : null;
+        const labelText = (el.dataset && el.dataset.label) ? el.dataset.label : '內容';
+        const isOpen = api.toggleClass(target, cls);
+        api.toggleClass(el, 'opened');
+        el.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+        el.setAttribute('aria-label', `${isOpen ? '關閉' : '展開'}${labelText}`);
+    };
+
+    const handleCalDateLimit = (me) => {
+        const el = toElement(me);
+        if (!el || !api.setDateLimit) return;
+        const min = el.dataset && el.dataset.min ? Number(el.dataset.min) : undefined;
+        const max = el.dataset && el.dataset.max ? Number(el.dataset.max) : undefined;
+        api.setDateLimit(el, min, max);
+    };
+
+    const handleOpenNav = (me) => {
+        const el = toElement(me);
+        const targetId = el && el.dataset ? el.dataset.ta : null;
+        const target = targetId ? document.getElementById(targetId) : null;
+        api.openNav(target);
+    };
+
+    const handleCloseNav = (me) => {
+        const el = toElement(me);
+        const targetId = el && el.dataset ? el.dataset.ta : null;
+        const target = targetId ? document.getElementById(targetId) : null;
+        api.closeNav(target);
+    };
+
+    const handleOpenInlineModal = (me) => {
+        const el = toElement(me);
+        const targetId = el && el.dataset ? el.dataset.ta : null;
+        const target = targetId ? document.getElementById(targetId) : null;
+        api.showInlineModal(target);
+    };
+
+    const handleOpenYTModal = (me) => {
+        const el = toElement(me);
+        const targetId = el && el.dataset ? el.dataset.ta : null;
+        const youtubeId = el && el.dataset ? el.dataset.youtubeid : null;
+        const target = targetId ? document.getElementById(targetId) : null;
+        api.showYouTubeModal(target, youtubeId);
+    };
+
+    const handleCloseInlineModal = (me) => {
+        const el = toElement(me);
+        const targetId = el && el.dataset ? el.dataset.ta : null;
+        const target = targetId ? document.getElementById(targetId) : null;
+        api.hideInlineModal(target);
+    };
+
+    const handleCloseYTModal = (me) => {
+        const el = toElement(me);
+        const targetId = el && el.dataset ? el.dataset.ta : null;
+        const target = targetId ? document.getElementById(targetId) : null;
+        api.hideYouTubeModal(target);
+    };
+
+    const handleSetCookiePrivacy = () => {
+        if (api.setCookiePrivacy) api.setCookiePrivacy();
+    };
+
     if (typeof gee !== 'undefined' && typeof gee.hook === 'function') {
         gee.hook('largerFont', handleFont(0.1));
         gee.hook('smallerFont', handleFont(-0.1));
@@ -176,6 +438,25 @@ export default function installArenaHook() {
         }, 'init');
         gee.hook('react', handleReact);
         gee.hook('reactSubmit', handleReactSubmit);
+        gee.hook('adjustFontSize', handleAdjustFontSize);
+        gee.hook('hideMsg', handleHideMsg);
+        gee.hook('loadZip', handleLoadZip);
+        gee.hook('switchTab', handleSwitchTab);
+        gee.hook('readySubmit', handleReadySubmit);
+        gee.hook('switchPasswd', handleSwitchPasswd);
+        gee.hook('nextstep', handleNextStep);
+        gee.hook('backstep', handleBackStep);
+        gee.hook('nxtCol', handleNxtCol, 'keyup');
+        gee.hook('arena/copy', handleArenaCopy);
+        gee.hook('arena/toggleCls', handleArenaToggleCls);
+        gee.hook('calDateLimit', handleCalDateLimit);
+        gee.hook('arena/openNav', handleOpenNav);
+        gee.hook('arena/closeNav', handleCloseNav);
+        gee.hook('arena/openModal', handleOpenInlineModal);
+        gee.hook('arena/openYTModal', handleOpenYTModal);
+        gee.hook('arena/closeModal', handleCloseInlineModal);
+        gee.hook('arena/closeYTModal', handleCloseYTModal);
+        gee.hook('arena/setCookiePrivacy', handleSetCookiePrivacy);
     }
 
     // goTop visibility via scroll
