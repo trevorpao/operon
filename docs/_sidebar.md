@@ -10,6 +10,18 @@
   - [開發指引](spec/guide.md)
   - [術語表](glossary.md)
 
+- Archived Spec
+  - Modulize
+    - [idea](spec/Archived/Modulize/idea.md)
+    - [plan](spec/Archived/Modulize/plan.md)
+    - [check](spec/Archived/Modulize/check.md)
+    - [optimization](spec/Archived/Modulize/optimization.md)
+  - UpdateApp
+    - [idea](spec/Archived/UpdateApp/idea.md)
+    - [plan](spec/Archived/UpdateApp/plan.md)
+    - [check](spec/Archived/UpdateApp/check.md)
+    - [optimization](spec/Archived/UpdateApp/optimization.md)
+
 - 第三方套件簡介
   - geneEH
     - [總覽](packages/geneEH/intro.md)

@@ -8,3 +8,8 @@
 - `pageCounter`：分頁當前頁數狀態，配合原生分頁按鈕更新。
 - `reportValidity`：原生表單驗證 API；提交前必須通過。
 - `track`：帶 `data-cate/data-act/data-label` 的追蹤標記，透過原生 click handler 呼叫 GA/FB。
+- Modulize：將舊 modules 拆為 plugins（純邏輯）與 hooks（DOM/gene 綁定），降低全域耦合。
+- plugin registry：`app.use(plugin)` 安裝後以 `app.get('namespace.name')` 取得 API；key 採 `namespace.name`（例：`data.resource`）。
+- hook teardown：每個 hook 回傳的解除函式，避免重複 init 後殘留事件或 class。
+- `defaultPlugin`：提供標準欄位（`name`、`install(ctx)`、可選 `init/destroy`）的基底，供新 plugin 延展。
+- `gee.hook` SOP：用 `data-gene="event:behavior"` 綁定；handler 先驗證/取 dataset，再呼叫 plugin API；無需掃描 `data-hook`。

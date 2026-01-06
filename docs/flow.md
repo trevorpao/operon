@@ -47,7 +47,7 @@
 
 ### Optimization 情境
 
-執行 `docs/spec/<feature>/idea.md` 之文件化及優化
+執行 `docs/spec/<feature>` 之文件化及優化
 
 1) 將 feature 開發過程中建立的商業邏輯整理進 `docs/spec/rule.md`
 2) 將 feature 的特殊詞彙整理進 `docs/glossary.md`。

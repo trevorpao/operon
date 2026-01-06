@@ -1,5 +1,25 @@
 # 開發歷程記錄
 
+## Modulize 規格（plugin + hook 拆分）
+
+完成日期 2026/01/06
+
+說明：將舊 modules 拆為 plugins（純邏輯）與 hooks（DOM/gene 綁定），降低耦合並符合 gee.hook SOP；提供 teardown、防重複綁定與純 JS 原則，適合初階工程師依序實作。
+
+開發細節入口：
+- [`Modulize idea`](spec/Archived/Modulize/idea.md)
+- [`Modulize plan`](spec/Archived/Modulize/plan.md)
+- [`Modulize check`](spec/Archived/Modulize/check.md)
+- [`Modulize optimization`](spec/Archived/Modulize/optimization.md)
+
+重點規格（新 → 舊順序）：
+- Registry：`app.use(plugin)`/`app.get(name)`，key 採 `namespace.name`，禁止重複安裝。
+- 職責分離：plugin 無 DOM；hook 只處理 DOM/事件與 `gee.hook` 綁定，必須回傳 teardown。
+- 綁定時機：hooks 在 `gee.init` 之後註冊，重複 init 不得殘留 listener/class。
+- UI/模板：使用 Handlebars 預編譯或原生 DOM；禁止回引 JsRender/Bootstrap modal/owl/simpleLightbox/twbsPagination。
+- 表單/追蹤：`reportValidity` 驗證、按鈕 disable+spinner、GA/FB data-* fallback（`normal/jump/title`）。
+- 風險與驗收：每模組需通過 `Modulize check` 勾選；async fetch 需序列化/可取消，命名空間避免衝突。
+
 ## UpdateApp 規格
 
 完成日期 2025/01/05
