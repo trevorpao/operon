@@ -1,25 +1,26 @@
-import gee from 'trevorpao/geneEH';
 import app from '../app';
+import { toElement, ensureBrowser } from '../lib/shared';
 
-// Demo hook: binds a click handler to elements with data-gene="greet-btn".
-// Not auto-registered; call installGreetHook() after installing the plugin.
+// Demo hook: data-gene="click:greet-btn" triggers hello directly (no extra listener).
 export default function installGreetHook() {
+    if (!ensureBrowser()) return () => {};
+
     let api;
     try {
         api = app.get('util.greet');
     } catch (err) {
-        // plugin not installed; no-op
         return () => {};
     }
 
-    const unbind = gee.hook('greet-btn', (el) => {
-        const who = el.dataset.name || 'World';
-        el.addEventListener('click', () => api.hello(who));
-    });
-
-    return function teardown() {
-        if (typeof unbind === 'function') {
-            unbind();
-        }
+    const handler = (me) => {
+        const el = toElement(me);
+        const who = el && el.dataset && el.dataset.name ? el.dataset.name : 'World';
+        api.hello(who);
     };
+
+    if (typeof gee !== 'undefined' && typeof gee.hook === 'function') {
+        gee.hook('click:greet-btn', handler);
+    }
+
+    return function teardown() {};
 }

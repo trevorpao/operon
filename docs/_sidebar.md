@@ -7,6 +7,7 @@
   - [Spec 總覽](spec/intro.md)
   - [開發歷程](spec/history.md)
   - [商業規則](spec/rule.md)
+  - [開發指引](spec/guide.md)
   - [術語表](glossary.md)
 
 - 第三方套件簡介

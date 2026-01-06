@@ -1,5 +1,5 @@
 import app from '../app';
-import { toElement } from '../lib/shared';
+import { toElement, ensureBrowser } from '../lib/shared';
 
 const wrapImages = (container) => {
     if (!container) return;
@@ -12,7 +12,9 @@ const wrapImages = (container) => {
     });
 };
 
-export default function installSliderHook(root) {
+export default function installSliderHook() {
+    if (!ensureBrowser()) return () => {};
+
     let api;
     try {
         api = app.get('ui.slider');
@@ -20,13 +22,13 @@ export default function installSliderHook(root) {
         return () => {};
     }
 
-    const scope = root && root.nodeType ? root : document;
     const unbind = [];
 
-    const containers = scope.querySelectorAll('[data-hook="slider.init"]');
-    containers.forEach((el) => {
-        const target = el.dataset.ta ? document.querySelector(el.dataset.ta) : (el.nodeType ? el : null);
-        if (!target) return;
+    const initSlider = (me) => {
+        const el = toElement(me);
+        if (!el) return false;
+        const target = el.dataset && el.dataset.ta ? document.querySelector(el.dataset.ta) : el;
+        if (!target) return false;
         wrapImages(target);
         target.querySelectorAll('a.slbox').forEach((lnk) => {
             const handler = (evt) => {
@@ -36,7 +38,11 @@ export default function installSliderHook(root) {
             lnk.addEventListener('click', handler);
             unbind.push(() => lnk.removeEventListener('click', handler));
         });
-    });
+    };
+
+    if (typeof gee !== 'undefined' && typeof gee.hook === 'function') {
+        gee.hook('slider.init', initSlider, 'init');
+    }
 
     const teardownClose = api.bindClose();
     if (teardownClose) {

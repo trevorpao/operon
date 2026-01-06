@@ -1,4 +1,6 @@
-# UpdateApp 商業邏輯規則
+# 商業邏輯規則
+
+## UpdateApp
 
 - 內容載入
   - 模板載入後必須呼叫 `gee.init()` 讓 gene 標記生效。
