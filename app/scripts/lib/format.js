@@ -1,4 +1,5 @@
 import app from '../app';
+import { toStringSafe, toNumberSafe } from './shared';
 
 const resolveDeps = () => {
     const win = (typeof window !== 'undefined') ? window : undefined;
@@ -20,12 +21,6 @@ const log = (msg) => {
 };
 const timeagoOrRaw = (ts) => ($ && typeof $.timeago === 'function') ? $.timeago(ts) : ts;
 
-const toStr = (val) => (val == null ? '' : String(val));
-const toNum = (val) => {
-    const num = Number(val);
-    return Number.isFinite(num) ? num : 0;
-};
-
 const THUMBNAIL_PRESETS = {
     all_thn: [128, 128],
     default_thn: [300, 300],
@@ -35,7 +30,7 @@ const THUMBNAIL_PRESETS = {
 
 const fmt = (ts, pattern, fallback = '') => {
     if (!hasMoment()) {
-        return fallback || toStr(ts);
+        return fallback || toStringSafe(ts);
     }
 
     const inst = moment(ts);
@@ -43,7 +38,7 @@ const fmt = (ts, pattern, fallback = '') => {
 };
 
 const formatMoney = (val) => {
-    const raw = toStr(val);
+    const raw = toStringSafe(val);
 
     if (hasFormatMoney()) {
         return $.fn.formatMoney(raw, 0);
@@ -62,7 +57,7 @@ const formatMoney = (val) => {
 };
 
 const resolveThumbnail = (str, type, presets, prefix) => {
-    const safe = toStr(str);
+    const safe = toStringSafe(str);
     const parts = safe.split('.');
     if (parts.length < 2) {
         return safe;
@@ -79,14 +74,14 @@ const resolveThumbnail = (str, type, presets, prefix) => {
     return (newPath.indexOf('/upload') === 0 ? prefix : '') + newPath;
 };
 
-const applyTextTransforms = (str, transforms) => transforms.reduce((acc, fn) => fn(acc), toStr(str));
+const applyTextTransforms = (str, transforms) => transforms.reduce((acc, fn) => fn(acc), toStringSafe(str));
 
-const formatISO = (ts) => (hasMoment() ? moment(ts).toISOString() : toStr(ts));
+const formatISO = (ts) => (hasMoment() ? moment(ts).toISOString() : toStringSafe(ts));
 
 const percent = (num, divide = 1, decimals = 0) => {
     const base = Math.pow(10, decimals);
-    const n = toNum(num);
-    const d = toNum(divide) || 1;
+    const n = toNumberSafe(num);
+    const d = toNumberSafe(divide) || 1;
     return Math.ceil((n * 100 * base) / d) / base;
 };
 
@@ -95,21 +90,21 @@ const formatHelper = {
 
     sum: (price, qty) => {
         const currencyFn = (app.tmplHelpers && typeof app.tmplHelpers.currency === 'function') ? app.tmplHelpers.currency : formatMoney;
-        return currencyFn(toNum(qty) * toNum(price));
+        return currencyFn(toNumberSafe(qty) * toNumberSafe(price));
     },
 
     loadPic: (path) => {
         const prefix = (gee && gee.picUri) ? gee.picUri : '';
-        return prefix + toStr(path);
+        return prefix + toStringSafe(path);
     },
 
     average: (sumVal, divide) => {
-        const d = toNum(divide);
-        return d !== 0 ? Math.round((toNum(sumVal) * 10) / d) / 10 : 0;
+        const d = toNumberSafe(divide);
+        return d !== 0 ? Math.round((toNumberSafe(sumVal) * 10) / d) / 10 : 0;
     },
 
     s2m: (num) => {
-        const total = toNum(num);
+        const total = toNumberSafe(num);
         const s = total % 60;
         const m = Math.floor(total / 60);
         return s > 0 ? `${m} 分 ${s} 秒` : `${m} 分`;
@@ -129,17 +124,17 @@ const formatHelper = {
 
     showDate: (status, flow, schedule, createDate, publishDate) => {
         const ts = publishDate || createDate;
-        return `${toStr(status)} 於 ${fmt(ts, 'MM/DD HH:mm', toStr(ts))}`;
+        return `${toStringSafe(status)} 於 ${fmt(ts, 'MM/DD HH:mm', toStringSafe(ts))}`;
     },
 
     formatISO: (ts) => formatISO(ts),
     iso8601: (ts) => formatISO(ts),
 
-    getYear: (ts) => fmt(ts, 'YYYY', toStr(ts)),
-    getMon: (ts) => fmt(ts, 'MMMM', toStr(ts)),
-    getWeek: (ts) => fmt(ts, 'ddd', toStr(ts)),
-    getDay: (ts) => fmt(ts, 'DD', toStr(ts)),
-    getTime: (ts) => fmt(ts, 'HH:mm', toStr(ts)),
+    getYear: (ts) => fmt(ts, 'YYYY', toStringSafe(ts)),
+    getMon: (ts) => fmt(ts, 'MMMM', toStringSafe(ts)),
+    getWeek: (ts) => fmt(ts, 'ddd', toStringSafe(ts)),
+    getDay: (ts) => fmt(ts, 'DD', toStringSafe(ts)),
+    getTime: (ts) => fmt(ts, 'HH:mm', toStringSafe(ts)),
 
     formatDate: (str, pattern) => {
         if (!hasMoment()) {
@@ -168,7 +163,7 @@ const formatHelper = {
 
     linkAPI: (str) => {
         const prefix = (gee && gee.mainUri) ? gee.mainUri : '';
-        return prefix + toStr(str);
+        return prefix + toStringSafe(str);
     },
 
     percent: (num, divide = 1, decimals = 0) => percent(num, divide, decimals),
@@ -197,7 +192,7 @@ const formatHelper = {
 
     repathImg: (str) => {
         const prefix = (gee && gee.picUri) ? gee.picUri : '';
-        const safe = toStr(str);
+        const safe = toStringSafe(str);
         return (safe.indexOf('/upload') === 0 ? prefix : '') + safe;
     },
 

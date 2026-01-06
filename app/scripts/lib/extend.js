@@ -1,137 +1,166 @@
+import app from '../app';
+import {
+    isBrowser,
+    toStringSafe,
+    toNumberSafe,
+    toNodes,
+    toElement,
+    ensureBrowser,
+    WHITESPACE_RE,
+} from './shared';
 
-(function(w, $){
-    'use strict';
+const supportsPlaceholder = () => isBrowser && ('placeholder' in document.createElement('input'));
 
-    $.fn.placeholder = function(options) {
-        return this.each(function() {
-            if (!('placeholder' in document.createElement(this.tagName.toLowerCase()))) {
-                var $this = $(this);
-                var placeholder = $this.attr('placeholder');
-                $this.val(placeholder).data('color', $this.css('color')).css('color', '#aaa');
-                $this.focus(function() {
-                        if ($.trim($this.val()) === placeholder) {
-                            $this.val('').css('color', $this.data('color'));
-                        }
-                    })
-                    .blur(function() {
-                        if (!$.trim($this.val())) {
-                            $this.val(placeholder).data('color', $this.css('color')).css('color', '#aaa');
-                        }
-                    });
-            }
-        });
-    };
+const placeholderHandlers = (el, text, originalColor) => ({
+    apply: () => {
+        if (!el.value) {
+            el.value = text;
+            el.dataset.color = originalColor;
+            el.style.color = '#aaa';
+        }
+    },
+    clear: () => {
+        if (el.value === text) {
+            el.value = '';
+            el.style.color = el.dataset.color || '';
+        }
+    },
+});
 
-    // https://gist.github.com/peteboere/1517285
-    $.fn.alterClass = function ( removals, additions ) {
-        var self = this;
-        if ( removals.indexOf( '*' ) === -1 ) {
-            // Use native jQuery methods if there is no wildcard matching
-            self.removeClass( removals );
-            return !additions ? self : self.addClass( additions );
+const placeholder = (elements) => {
+    if (!ensureBrowser() || supportsPlaceholder()) return;
+    toNodes(elements).forEach((el) => {
+        const text = el.getAttribute('placeholder');
+        if (!text) return;
+        const originalColor = el.style.color;
+        const { apply, clear } = placeholderHandlers(el, text, originalColor);
+        apply();
+        el.addEventListener('focus', clear);
+        el.addEventListener('blur', apply);
+    });
+};
+
+const applyClasses = (el, list, op) => {
+    if (!list) return;
+    list.split(WHITESPACE_RE).forEach((cls) => {
+        if (!cls) return;
+        if (op === 'add') el.classList.add(cls);
+        if (op === 'remove') el.classList.remove(cls);
+    });
+};
+
+const removeWildcardClasses = (el, pattern) => {
+    if (!pattern) return;
+    const patt = new RegExp(`\\s${pattern.replace(/\*/g, '[A-Za-z0-9-_]+').split(' ').join('\\s|\\s')}\\s`, 'g');
+    const current = ` ${el.className} `;
+    el.className = current.replace(patt, ' ').trim();
+};
+
+const alterClass = (elements, removals, additions) => {
+    toNodes(elements).forEach((el) => {
+        if (!removals) {
+            applyClasses(el, additions, 'add');
+            return;
         }
 
-        var patt = new RegExp( '\\s' +
-                removals.
-                    replace( /\*/g, '[A-Za-z0-9-_]+' ).
-                    split( ' ' ).
-                    join( '\\s|\\s' ) +
-                '\\s', 'g' );
-
-        self.each( function ( i, it ) {
-            var cn = ' ' + it.className + ' ';
-            while ( patt.test( cn ) ) {
-                cn = cn.replace( patt, ' ' );
-            }
-            it.className = $.trim( cn );
-        });
-        return !additions ? self : self.addClass( additions );
-    };
-
-    $.fn.inArray = function(ary, str) {
-        var inArray = 0;
-
-        for (var i in ary) {
-            if (ary[i] == str) inArray++;
+        if (removals.indexOf('*') === -1) {
+            applyClasses(el, removals, 'remove');
+        } else {
+            removeWildcardClasses(el, removals);
         }
 
-        return (inArray > 0) ? true : false;
-    };
+        applyClasses(el, additions, 'add');
+    });
+};
 
-    $.fn.formatNum = function (n, c, d, t, s) {
-        n = n * 1;
-        c = isNaN(c = Math.abs(c)) ? 2 : c;
-        d = typeof d === 'undefined' ? '.' : d;
-        t = typeof t === 'undefined' ? ',' : t;
-        s = (s === 1) ? ('') : ((n < 0) ? '-' : '');
-        var i = parseInt(n = Math.abs(+n || 0).toFixed(c)) + '';
-        var j = (j = i.length) > 3 ? j % 3 : 0;
+const inArray = (ary, value) => Array.isArray(ary) ? ary.indexOf(value) !== -1 : false;
 
-        return s + (j ? i.substr(0, j) + t : '') + i.substr(j).replace(/(\d{3})(?=\d)/g, '$1' + t) + (c ? d + Math.abs(n - i).toFixed(c).slice(2) : '');
-    };
+const formatIntegerPart = (intPart, sep) => {
+    const j = intPart.length > 3 ? intPart.length % 3 : 0;
+    return (j ? intPart.substr(0, j) + sep : '') + intPart.substr(j).replace(/(\d{3})(?=\d)/g, `$1${sep}`);
+};
 
-    $.fn.serializeFormJSON = function () {
-        var o = {};
-        var a = this.serializeArray();
-        $.each(a, function () {
-            if (o[this.name]) {
-                if (!o[this.name].push) {
-                    o[this.name] = [o[this.name]];
-                }
-                o[this.name].push(this.value || '');
-            } else {
-                o[this.name] = this.value || '';
-            }
-        });
-        return o;
-    };
+const formatFraction = (abs, decimals, dec) => (decimals ? dec + Math.abs(abs - parseInt(abs, 10)).toFixed(decimals).slice(2) : '');
 
-    $.fn.extend({
-        /**
-         * hasMutilClass
-         * @param  {String}  nameStr classA|classB for OR, classA&classB for AND
-         * @return {Boolean} return true if those classes are assigned to this element
-         */
-        hasMutilClass: function (nameStr) {
-            var split = (nameStr.indexOf('|') !== -1) ? '|' : '&';
-            var ary = nameStr.split(split);
-            var ta = $(this)[0];
-            var check = (split === '|' || ary.length === 0) ? false : true;
-            $.each(ary, function (idx, val) {
-                var tmpChk = ta.classList.contains(val);
-                if (tmpChk && split === '|') {
-                    check = true;
-                }
-                if (!tmpChk && split === '&') {
-                    check = false;
-                }
-            });
-            return check;
+const formatNum = (n, c, d, t, s) => {
+    const num = toNumberSafe(n);
+    const decimals = Number.isNaN(c = Math.abs(c)) ? 2 : c;
+    const dec = typeof d === 'undefined' ? '.' : d;
+    const sep = typeof t === 'undefined' ? ',' : t;
+    const sign = (s === 1) ? '' : (num < 0 ? '-' : '');
+    const abs = Math.abs(num || 0).toFixed(decimals);
+    const intPart = parseInt(abs, 10) + '';
+
+    return sign + formatIntegerPart(intPart, sep) + formatFraction(abs, decimals, dec);
+};
+
+const serializeFormJSON = (form) => {
+    const result = {};
+    if (!ensureBrowser() || !form) return result;
+
+    const data = new FormData(form);
+    data.forEach((value, key) => {
+        const val = value == null ? '' : value;
+        if (Object.prototype.hasOwnProperty.call(result, key)) {
+            if (!Array.isArray(result[key])) result[key] = [result[key]];
+            result[key].push(val);
+        } else {
+            result[key] = val;
         }
     });
 
-    /**
-     * Copyright 2012, Digital Fusion
-     * Licensed under the MIT license.
-     * http://teamdf.com/jquery-plugins/license/
-     *
-     * @author Sam Sehnert
-     * @desc A small plugin that checks whether elements are within
-     *       the user visible viewport of a web browser.
-     *       only accounts for vertical position, not horizontal.
-     */
-    $.fn.visible = function(partial){
+    return result;
+};
 
-        var $t              = $(this),
-            $w              = $(window),
-            viewTop         = $w.scrollTop(),
-            viewBottom      = viewTop + $w.height(),
-            _top            = $t.offset().top,
-            _bottom         = _top + $t.height(),
-            compareTop      = partial === true ? _bottom : _top,
-            compareBottom   = partial === true ? _top : _bottom;
+const parseClassExpr = (nameStr) => {
+    const split = nameStr.indexOf('|') !== -1 ? '|' : '&';
+    return { split, list: nameStr.split(split).filter(Boolean) };
+};
 
-        return ((compareBottom <= viewBottom) && (compareTop >= viewTop));
-    };
+const hasMutilClass = (element, nameStr) => {
+    const el = toElement(element);
+    if (!el || !nameStr) return false;
+    const { split, list } = parseClassExpr(nameStr);
+    if (list.length === 0) return false;
+    return split === '|' ? list.some((cls) => el.classList.contains(cls)) : list.every((cls) => el.classList.contains(cls));
+};
 
-})(window, jQuery);
+const getViewport = () => ({
+    top: 0,
+    bottom: (window.innerHeight || document.documentElement.clientHeight),
+});
+
+const visible = (element, partial) => {
+    const el = toElement(element);
+    if (!ensureBrowser() || !el) return false;
+    const rect = el.getBoundingClientRect();
+    const { top, bottom } = getViewport();
+    const compareTop = partial ? rect.bottom : rect.top;
+    const compareBottom = partial ? rect.top : rect.bottom;
+    return compareBottom <= bottom && compareTop >= top;
+};
+
+const dom = { placeholder, alterClass, serializeFormJSON, hasMutilClass, visible };
+const number = { formatNum };
+const text = { inArray };
+const utils = { toNodes, toElement, toStringSafe, toNumberSafe };
+
+const extendHelper = {
+    ...dom,
+    ...number,
+    ...text,
+    dom,
+    number,
+    text,
+    utils,
+};
+
+const extendPlugin = {
+    name: 'util.extend',
+    async install() {
+        app.extendHelper = extendHelper;
+        return { api: extendHelper };
+    },
+};
+
+export default extendPlugin;
