@@ -1,8 +1,8 @@
 # 開發規則
 
-## Plugin & Hook
+## Plugin & Hook 
 
-SOP 重點：用 `gee.hook` 綁定 `data-gene`，驗證先行，事件與資料邏輯分層。
+用 `gee.hook` 綁定 `data-gene`，驗證先行，事件與資料邏輯分層。
 
 - 綁定方式：`gee.hook('xxx.action', handler)`，不要掃描 `data-hook`。`handler` 接收 `me`，用 `toElement` 取原生 DOM 後再操作。
 - 目標定位：轉成 Element 後向上找容器或 form，找不到就 `return false` 避免例外。
