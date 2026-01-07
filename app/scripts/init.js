@@ -4,7 +4,7 @@
 
 import app from './app';
 import gee from 'trevorpao/geneEH';
-import { trackPlugin, formatPlugin, extendPlugin, resourcePlugin, menuPlugin, arenaPlugin, contactPlugin, sliderPlugin, galleryPlugin } from './plugins';
+import { trackPlugin, formatPlugin, extendPlugin, previewPlugin, resourcePlugin, menuPlugin, arenaPlugin, contactPlugin, sliderPlugin, galleryPlugin } from './plugins';
 import { installTrackHook, installResourceHook, installMenuHook, installArenaHook, installContactHook, installSliderHook, installGalleryHook } from './hooks';
 
 $(async function() {
@@ -15,6 +15,7 @@ $(async function() {
     // Helpers/plugins
     await app.use(formatPlugin);
     await app.use(extendPlugin);
+    await app.use(previewPlugin);
     await app.use(resourcePlugin);
     await app.use(menuPlugin);
     await app.use(arenaPlugin);

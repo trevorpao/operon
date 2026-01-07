@@ -30,6 +30,7 @@ const createApp = () => {
         htmlStores: {},
         tmplPath: 'tmpls',
         cuVersion: '',
+        onPreview: 0,
         errMsg: {
             'e9100': '資料庫發生錯誤',
             'e9101': '資料庫發生錯誤',

@@ -53,10 +53,38 @@ const createNet = ({ app, gee }) => {
         });
     };
 
-    const yell = (url, data, callback, type) => {
+    let previewApi;
+
+    const getPreview = () => {
+        if (previewApi !== undefined) return previewApi;
+        try {
+            previewApi = app.get('data.preview');
+        } catch (err) {
+            previewApi = null;
+        }
+        return previewApi;
+    };
+
+    const yell = async (url, data, callback, type) => {
         var cb = (typeof callback === 'function') ? callback : function () {};
         var method = type || 'POST';
+        var shouldMock = (typeof app.isDev === 'function' && app.isDev() && app.onPreview === 1);
+
+        if (shouldMock) {
+            var preview = getPreview();
+            if (preview && typeof preview.mock === 'function') {
+                try {
+                    const res = await preview.mock(url, data);
+                    cb.call(res);
+                    return res;
+                } catch (err) {
+                    console.warn('[yell] preview mock failed, fallback to gee.yell', err);
+                }
+            }
+        }
+
         gee.yell(url, data, cb, cb, method);
+        return null;
     };
 
     const setCookie = (key, val, days) => {

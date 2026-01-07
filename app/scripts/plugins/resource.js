@@ -1,26 +1,28 @@
-import gee from 'trevorpao/geneEH';
-
 const normalizeList = (list) => {
     if (!Array.isArray(list)) return [];
     if (list.length && list[0] === null) return [];
     return list;
 };
 
-const callYell = (endpoint, payload) => new Promise((resolve, reject) => {
-    const handler = function () {
-        if (!this || this.code !== 1) {
-            reject(this);
-        } else {
-            resolve(this);
-        }
-    };
-
-    gee.yell(endpoint, payload, handler, handler);
-});
-
 const resourcePlugin = {
     name: 'data.resource',
-    async install() {
+    async install({ app }) {
+        const yellFn = (app && typeof app.yell === 'function') ? app.yell : null;
+
+        const callYell = (endpoint, payload) => new Promise((resolve, reject) => {
+            if (!yellFn) return reject(new Error('yell unavailable'));
+
+            const handler = function () {
+                if (!this || this.code !== 1) {
+                    reject(this);
+                } else {
+                    resolve(this);
+                }
+            };
+
+            yellFn('resource/' + endpoint, payload, handler, handler);
+        });
+
         const load = async ({ pid, limit, meta }) => {
             const res = await callYell('load', { pid, limit, meta: meta || 0 });
             const payload = res && res.data ? res.data : {};

@@ -217,14 +217,15 @@ const arenaPlugin = {
 
         const fetchZipOptions = async (county) => {
             if (!county) return [];
-            if (typeof gee !== 'undefined' && typeof gee.yell === 'function') {
+            const yellFn = (app && typeof app.yell === 'function') ? app.yell : (gee && typeof gee.yell === 'function' ? gee.yell.bind(gee) : null);
+            if (yellFn) {
                 return new Promise((resolve, reject) => {
                     const callback = (res) => {
                         if (res && res.code === 1 && Array.isArray(res.data)) return resolve(res.data);
                         if (res && Array.isArray(res.data)) return resolve(res.data);
                         return reject(res || new Error('zipcodes request failed'));
                     };
-                    gee.yell('option/zipcodes', { county }, callback, reject);
+                    yellFn('option/zipcodes', { county }, callback, reject);
                 }).catch(() => []);
             }
 

@@ -1,5 +1,6 @@
 import gee from 'trevorpao/geneEH';
 import app from '../app';
+import { toElement } from '../lib/dom/utils';
 
 const getTemplateFn = (name, selector, fallbackEl) => {
     if (app.tmplStores[name]) return app.tmplStores[name];
@@ -17,8 +18,7 @@ const getTemplateFn = (name, selector, fallbackEl) => {
     return fn;
 };
 
-const renderTemplate = (name, selector, boxEl, context) => {
-    const fn = getTemplateFn(name, selector, boxEl);
+const renderTemplate = (fn, context) => {
     if (!fn) return '';
     return typeof fn.render === 'function' ? fn.render(context) : fn(context);
 };
@@ -58,53 +58,62 @@ export default function installMenuHook() {
         return () => {};
     }
 
-    const teardownFns = [];
+    if (!api || typeof api.fetchMenu !== 'function') {
+        return () => {};
+    }
 
-    const renderMainMenu = (me) => {
-        const el = me && me[0] ? me[0] : me;
-        if (!el) return false;
-        const menuID = el.dataset.menuId;
-        api.fetchMenu(menuID)
-            .then((data) => {
-                const html = renderTemplate('menuTmpl', '#menuTmpl', el, { data });
-                if (html) {
-                    el.innerHTML = html;
-                    teardownFns.push(...attachDropdownHandlers(el));
-                    gee.init();
-                }
-            })
-            .catch((err) => {
-                if (typeof app.stdErr === 'function') {
-                    app.stdErr(err);
-                }
-            });
+    const teardownFns = new Set();
+    const runTeardowns = () => {
+        teardownFns.forEach((fn) => fn());
+        teardownFns.clear();
     };
 
-    const renderFooterMenu = (me) => {
-        const el = me && me[0] ? me[0] : me;
+    const renderMenu = async (target, tmplName) => {
+        const el = toElement(target);
         if (!el) return false;
+
+        const tmplFn = getTemplateFn(tmplName, '#' + tmplName, el);
+        if (!tmplFn) return false;
+
         const menuID = el.dataset.menuId;
-        api.fetchMenu(menuID)
-            .then((data) => {
-                const html = renderTemplate('footerMenuTmpl', '#footerMenuTmpl', el, { data });
-                if (html && el.insertAdjacentHTML) {
-                    el.insertAdjacentHTML('afterbegin', html);
-                    gee.init();
-                }
-            })
-            .catch((err) => {
-                if (typeof app.stdErr === 'function') {
-                    app.stdErr(err);
-                }
-            });
+
+        try {
+            const data = await api.fetchMenu(menuID);
+            const html = renderTemplate(tmplFn, { data });
+            if (!html) return false;
+
+            runTeardowns();
+            el.innerHTML = html;
+            attachDropdownHandlers(el).forEach((fn) => teardownFns.add(fn));
+
+            const waiter = (typeof app.waitFor === 'function') ? app.waitFor(0.1) : Promise.resolve();
+            await waiter;
+            if (typeof gee.init === 'function') gee.init();
+            if (app.track && typeof app.track.bind === 'function') {
+                app.track.bind(el);
+            }
+        } catch (err) {
+            if (typeof app.stdErr === 'function') {
+                app.stdErr(err);
+            }
+        }
+        return true;
+    };
+
+    const makeHandler = (forcedTmpl) => (me) => {
+        const el = toElement(me);
+        if (!el) return false;
+        const tmplName = forcedTmpl || el.dataset.tmpl || 'menuTmpl';
+        return renderMenu(el, tmplName);
     };
 
     if (typeof gee !== 'undefined' && typeof gee.hook === 'function') {
-        gee.hook('getMainMenu', renderMainMenu);
-        gee.hook('getFooterMenu', renderFooterMenu);
+        gee.hook('menu/load', makeHandler());
+        gee.hook('getMainMenu', makeHandler('menuTmpl'));
+        gee.hook('getFooterMenu', makeHandler('footerMenuTmpl'));
     }
 
     return function teardown() {
-        teardownFns.forEach((fn) => fn());
+        runTeardowns();
     };
 }

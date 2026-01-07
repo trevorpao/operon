@@ -15,6 +15,13 @@
 - 職責分離：Plugin 負責資料/邏輯與 DOM 生成；Hook 負責 DOM/事件與資料格式整理，不直接寫資料層邏輯。
 - 驗收清單：`data-gene` 能觸發；驗證會阻擋非法輸入；成功/失敗皆恢復按鈕；Plugin 缺席時不爆錯；純 JS（無 jQuery 依賴）。
 
+### Preview / Mock 流程
+
+- Plugin：使用 `data.preview` 插件提供 `mock(url, payload)`，路徑對應 `/app/mock/api/<url>.json`（例如 `menu/lotsMenu` → `/app/mock/api/menu/lotsMenu.json`）。
+- 開關：在 dev 環境設定 `app.onPreview = 1` 後，`app.yell` 會優先呼叫 preview mock；mock 不存在時會退回 `gee.yell`，並在 console 提示。
+- 延遲：可用 query `?latency=200` 或 `config.previewLatency` 設定模擬延遲（毫秒）。
+- 擴充：`registerMock(url, pathOrHandler)` 可覆寫單一路徑；handler 可自行組裝回傳物件，建議回傳 `{ code: 1, data }`。
+
 ## Gene Event Handler
 
 - 載入方式（IIFE）：引入 `gene.min.js` 後設定全域，再 `gee.init()`。
