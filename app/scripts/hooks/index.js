@@ -6,3 +6,4 @@ export { default as installArenaHook } from './arena';
 export { default as installContactHook } from './contact';
 export { default as installSliderHook } from './slider';
 export { default as installGalleryHook } from './gallery';
+export { default as installSearchHook } from './search';

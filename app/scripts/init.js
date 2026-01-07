@@ -4,8 +4,8 @@
 
 import app from './app';
 import gee from 'trevorpao/geneEH';
-import { trackPlugin, formatPlugin, extendPlugin, previewPlugin, resourcePlugin, menuPlugin, arenaPlugin, contactPlugin, sliderPlugin, galleryPlugin } from './plugins';
-import { installTrackHook, installResourceHook, installMenuHook, installArenaHook, installContactHook, installSliderHook, installGalleryHook } from './hooks';
+import { trackPlugin, formatPlugin, extendPlugin, previewPlugin, resourcePlugin, menuPlugin, arenaPlugin, contactPlugin, sliderPlugin, galleryPlugin, searchPlugin } from './plugins';
+import { installTrackHook, installResourceHook, installMenuHook, installArenaHook, installContactHook, installSliderHook, installGalleryHook, installSearchHook } from './hooks';
 
 $(async function() {
     'use strict';
@@ -22,6 +22,7 @@ $(async function() {
     await app.use(contactPlugin);
     await app.use(sliderPlugin);
     await app.use(galleryPlugin);
+    await app.use(searchPlugin);
 
     if (app.isProd()) {
         await app.use(trackPlugin);
@@ -36,6 +37,7 @@ $(async function() {
     installContactHook();
     installSliderHook();
     installGalleryHook();
+    installSearchHook();
 
     modules.push('site'); // the final one
 
