@@ -11,15 +11,15 @@
   - [術語表](glossary.md)
   - Lib Guide
     - [總覽](lib/README.md)
-    - [shared](lib/shared.md)
-    - [detect](lib/detect.md)
-    - [event](lib/event.md)
-    - [postmessage](lib/postmessage.md)
-    - [dom](lib/dom.md)
-    - [forms](lib/forms.md)
-    - [number](lib/number.md)
-    - [format](lib/format.md)
-    - [head](lib/head.md)
+    - [Shared Runtime Helpers](lib/shared.md)
+    - [Detect Capabilities](lib/detect.md)
+    - [Event Emitter](lib/event.md)
+    - [PostMessage Helpers](lib/postmessage.md)
+    - [DOM Helpers](lib/dom.md)
+    - [Form Helpers](lib/forms.md)
+    - [Number & Formatting](lib/number.md)
+    - [Format Plugin](lib/format.md)
+    - [Head Plugin & Analytics](lib/head.md)
 
 - Archived Spec
   - RefactorLib

@@ -1,5 +1,10 @@
 # 開發規則
 
+## Lib 參考
+- 所有 `app/scripts/lib/*` 的 API、SSR 守則、teardown 模式已集中於 [Lib Guide 總覽](../lib/README.md)。
+- 撰寫 Plugin/Hook、移除 legacy adapter、或需要 `withBrowser`/`requestResponse` 等範例時，請先查閱對應章節（例如 [Shared Runtime Helpers](../lib/shared.md)、[PostMessage Helpers](../lib/postmessage.md)）。
+- 更新或新增 lib 功能時，請同步覆蓋對應 docs，並在 `docs/lib/README.md` 的匯出矩陣/缺漏記錄中註記，避免遺漏或重複撰寫。
+
 ## Plugin & Hook 
 
 用 `gee.hook` 綁定 `data-gene`，驗證先行，事件與資料邏輯分層。

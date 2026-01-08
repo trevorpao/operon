@@ -22,7 +22,7 @@
 - [x] `npm run test:run` 成功（2026-01-08）；`npm run test:run -- --filter=dom` 不被 Vitest CLI 支援已記錄。示例程式碼於 VS Code JS/TS server 中檢查無語法錯誤。
 
 ## Stage 4 – Index & Final QA
-- [ ] `docs/lib/README.md` 收錄索引表、函式對照與撰寫模板，並標註未完成章節的 TODO。
-- [ ] `_sidebar.md` 與 `docs/spec/guide.md` 皆新增至「Lib Guide」連結。
-- [ ] `docs/spec/Docute260108/check.md` 勾選最新狀態並紀錄 smoke tester 名稱/日期。
-- [ ] 所有 docs PR 合併後進行最終校對，確認沒有遺留的 legacy adapter 建議。
+- [x] `docs/lib/README.md` 收錄索引表、函式對照與撰寫模板，並標註未完成章節的 TODO / lint 待辦。
+- [x] `_sidebar.md` 與 `docs/spec/guide.md` 皆更新為「Lib Guide」導覽與引用段落，確保新文檔可被查閱。
+- [x] `docs/spec/Docute260108/check.md` 更新並記錄 smoke tester：Copilot（`npm run test:run`, 2026-01-08）；lint 仍因缺少 `eslint.config.js` 待建置、Reviewer 待指派。
+- [x] 最終校對完成，已確認所有章節均導向 RefactorLib 實作且醒目註記 legacy adapter 移除需求。
