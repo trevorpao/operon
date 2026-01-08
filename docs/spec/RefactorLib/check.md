@@ -17,9 +17,9 @@
 - [x] SSR smoke run proves both modules avoid `window` access during import.
 
 ## Stage 3 – Utility Module Decomposition
-- [ ] `extend.js` split into domain helpers with teardown handles; all consumers updated.
-- [ ] `format.js` functions modularized, optional Handlebars registration API documented.
-- [ ] Jest/Vitest suites added for thumbnail paths, percent math, placeholder lifecycle.
+- [x] `extend.js` split into domain helpers with teardown handles; all consumers updated.
+- [x] `format.js` functions modularized, optional Handlebars registration API documented.
+- [x] Jest/Vitest suites added for thumbnail paths, percent math, placeholder lifecycle.
 
 ## Stage 4 – Remaining Libs & Barrel Cleanup
 - [ ] `postmessage.js` gains schema validation + promise wrappers; teardown handles covered by tests.
