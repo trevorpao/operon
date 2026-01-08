@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="{{ setting.langScript }}">
+
+<head>
+  {% include 'partial/meta.twig' %}
+  {% include 'partial/styles.twig' %}
+</head>
+
+<body class="{{lang}} {{layout}} {{setting.themeName}} {{setting.colorName}} logout j-loading sdk-error">
+  {% include 'partial/nav.twig' %}
+  <main id="main-content" role="main">
+    <section class="contact-page" aria-labelledby="contact-section-title">
+      <div class="container-xl">
+        <nav class="breadcrumb" aria-label="麵包屑導覽">
+          <ol>
+            <li><a href="/">首頁</a></li>
+            <li aria-current="page">{{ cu.title | raw }}</li>
+          </ol>
+        </nav>
+      </div>
+      {% include 'partial/gmap.twig' %}
+      <div class="content-pd">
+        <div class="container-xs">
+          <header class="section-header">
+            <p class="section-subtitle">CONTACT</p>
+            <h2 id="contact-section-title" class="section-title">{{ cu.title | raw }}</h2>
+          </header>
+          <article class="article-content fr-view primary-gray">{{ cu.content | raw }}</article>
+          <form class="contact-form gee" data-gene="keyup:readySubmit,submit:contact/submit" data-nopde="1" novalidate onsubmit="return false;" aria-labelledby="contactFormTitle">
+            <h2 id="contactFormTitle" class="aria-only">聯絡表單</h2>
+
+            <div class="info">
+              <div class="input-group">
+                <label for="name">姓名<span aria-hidden="true">*</span></label>
+                <input type="text" id="name" name="name" class="form-control" placeholder="請輸入姓名" autocomplete="on" required aria-required="true">
+              </div>
+
+              <div class="input-group">
+                <label for="email">Email<span aria-hidden="true">*</span></label>
+                <input type="email" id="email" name="email" class="form-control" placeholder="請輸入Email" autocomplete="on" required aria-required="true">
+              </div>
+
+              <div class="input-group">
+                <label for="phone">電話</label>
+                <input type="tel" id="phone" name="phone" class="form-control" placeholder="請輸入電話" autocomplete="on">
+              </div>
+
+              <div class="input-group">
+                <label for="type">問題類型</label>
+                <select id="type" name="type" class="form-control custom-select">
+                  <option value="">請選擇</option>
+                  <option value="general" selected >一般問題</option>
+                  <option value="feedback">意見回饋</option>
+                  <option value="other">其他</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="msg">
+              <div class="input-group">
+                <label for="message">問題與反饋<span aria-hidden="true">*</span></label>
+                <textarea id="message" name="message" rows="6" class="form-control" required aria-required="true" placeholder="請輸入您的訊息"></textarea>
+              </div>
+            </div>
+
+            {# <div class="msg">
+              <div class="input-group">
+                <label for="captcha">驗證碼<span aria-hidden="true">*</span></label>
+                <div class="flex captcha-group">
+                  <input type="text" id="captcha" name="captcha" class="form-control" placeholder="請輸入驗證碼" required aria-required="false">
+                  <div class="flex">
+                    <img data-src="{{uri}}/contact/captcha" class="captcha-img" width="150" height="46" alt="圖形驗證碼" style="border-radius: 6px;" >
+                    <a href="javascript:void(0);" class="btn gee" data-gene="init:contact/recaptcha,click:contact/recaptcha" title="重新產生">
+                      <img class="reload-icon" src="/assets/image/refresh.svg" alt="" aria-hidden="true">
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div> #}
+
+            <div class="form-footer">
+              <button type="submit" class="btn btn-submit btn-disabled" aria-label="送出表單">送出</button>
+              <input type="hidden" name="csrf" value="{{ csrf }}">
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+  {% include 'partial/footer_thin.twig' %}
+  {% include 'partial/scripts.twig' %}
+</body>
+
+</html>

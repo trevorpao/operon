@@ -1,0 +1,22 @@
+<!-- BEGIN Post Nav -->
+<nav class="nav-links" aria-label="文章導覽">
+  {% if prev %}
+  <a href="/{{lang}}/p/{{ prev.id }}/{{ prev.slug }}" class="nav-previous" rel="prev" aria-label="上一則：文章標題">
+    <img src="/assets/image/arr-left.svg" alt="" aria-hidden="true">
+    <div>
+      <span lang-key="prev_press">上一則</span>
+      <span class="title">{{ prev.title }}</span>
+    </div>
+  </a>
+  {% endif %}
+  {% if next %}
+  <a href="/{{lang}}/p/{{ next.id }}/{{ next.slug }}" class="nav-next" rel="next" aria-label="下一則：文章標題">
+    <div>
+      <span class="flex ml-auto" lang-key="next_press">下一則</span>
+      <span class="title">{{ next.title }}</span>
+    </div>
+    <img src="/assets/image/arr-right.svg" alt="" aria-hidden="true">
+  </a>
+  {% endif %}
+</nav>
+<!-- END Post Nav -->

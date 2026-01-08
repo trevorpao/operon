@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="{{ setting.langScript }}">
+
+<head>
+  {% include 'partial/meta.twig' %}
+  {% include 'partial/styles.twig' %}
+</head>
+
+<body class="{{lang}} {{layout}} {{setting.themeName}} {{setting.colorName}} logout j-loading sdk-error">
+  {% include 'partial/nav.twig' %}
+  <main id="main-content" role="main">
+    <section>
+      <div class="container-xl">
+        <!-- BEGIN Breadcrumb -->
+        <nav class="breadcrumb" aria-label="麵包屑導覽">
+          <ol>
+            <li><a href="/" title="回首頁" lang-key="breadcrumb_home">首頁</a></li>
+            <li aria-current="page" lang-key="search_results">搜尋結果</li>
+          </ol>
+        </nav>
+        <!-- END Breadcrumb -->
+        <div class="results-summary">
+          <h2><span lang-key="search_start">搜尋到有關</span><span class="keyword">{{ searchStr }}</span><span lang-key="search_end">的結果</span></h2>
+          <!-- if no matching -->
+        </div>
+      <!-- BEGIN Card List -->
+        <div class="article-card-list search-table">
+          <h2 class="no-matching" lang-key="no_matching">找不到相關的內容</h2>
+          <!-- large card or small card -->
+          <div class="card-list small-card gee" data-gene="init:search.load,click:react" data-src="press/more" data-pid="{{cu.slug}}" data-limit="12" data-nopde="1" id="press-box" data-tmpl="press-card"> </div>
+          <div class="pagination j-pagination"></div>
+        </div>
+      <!-- END  Card List -->
+      </div>
+    </section>
+  </main>
+
+  {% include 'partial/footer_thin.twig' %}
+  {% include 'partial/scripts.twig' %}
+  {% include 'press/partial/card.twig' %}
+</body>
+
+</html>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="{{ setting.langScript }}">
+
+<head>
+  {% include 'partial/meta.twig' %}
+  {% include 'partial/styles.twig' %}
+</head>
+
+<body class="{{lang}} {{layout}} {{setting.themeName}} {{setting.colorName}} logout j-loading sdk-error">
+  {% include 'partial/nav.twig' %}
+  <main id="main-content" role="main">
+    <section class="article-list-section" aria-labelledby="article-section-title">
+      <div class="container-xl">
+      <!-- BEGIN Breadcrumb -->
+        <nav class="breadcrumb" aria-label="麵包屑導覽">
+          <ol>
+            <li><a href="/" title="回首頁" lang-key="breadcrumb_home">首頁</a></li>
+            <li aria-current="page">{{cu.title}}</li>
+          </ol>
+        </nav>
+      <!-- END Breadcrumb -->
+
+      <!-- BEGIN Section Title -->
+        <h2 id="article-section-title" class="section-title"><img src="/assets/image/tag-i.svg" alt="" aria-hidden="true">{{cu.title}}</h2>
+      <!-- END Section Title -->
+
+      <!-- BEGIN Tags -->
+        <div class="tags hide">
+          <ul class="tag-filter" role="listbox" aria-label="分類篩選">
+            <li><a href="#" class="tag active" aria-current="true">全部</a></li>
+            <li><a href="#" class="tag">農業科技</a></li>
+            <li><a href="#" class="tag">有機栽培</a></li>
+            <li><a href="#" class="tag">季節農產</a></li>
+          </ul>
+        </div>
+      <!-- END Tags -->
+
+      <!-- BEGIN Card List -->
+        <div class="article-card-list">
+          <!-- large card or small card -->
+          <div class="card-list large-card gee" data-gene="init:search.load,click:react" data-src="{{srcType}}/more" data-pid="{{cu.slug}}" data-limit="12" data-nopde="1" id="press-box" data-tmpl="press-card"> </div>
+          <div class="pagination j-pagination"></div>
+        </div>
+      <!-- END  Card List -->
+
+      </div>
+    </section>
+  </main>
+    {% include 'partial/footer_thin.twig' %}
+    {% include 'partial/scripts.twig' %}
+    {% include 'press/partial/card.twig' %}
+</body>
+
+</html>

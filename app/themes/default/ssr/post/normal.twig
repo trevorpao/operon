@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="{{ setting.langScript }}">
+
+<head>
+  {% include 'partial/meta.twig' %}
+  {% include 'partial/styles.twig' %}
+</head>
+
+<body class="{{lang}} {{layout}} {{setting.themeName}} {{setting.colorName}} logout j-loading sdk-error s-{{ cu.id }}">
+  <div class="loading hidden"><img src="/assets/image/loader.svg" class="loader" alt="" role="presentation" aria-hidden="true"></div>
+  {% include 'partial/nav.twig' %}
+  <main id="main-content" role="main" class="article-content normal-page">
+    <section>
+    <!-- BEGIN Breadcrumb -->
+      <div class="container-xl">
+        <nav class="breadcrumb" aria-label="麵包屑導覽">
+          <ol>
+            <li><a href="/" title="回首頁">首頁</a></li>
+            <li aria-current="page">{{cu.title | raw}}</li>
+          </ol>
+        </nav>
+      </div>
+    <!-- END Breadcrumb -->
+      <div class="content-pd">
+        <div class="container-xs">
+          <header class="section-header">
+            <h2 class="section-title">{{ cu.title | raw }}</h2>
+          </header>
+          <article>
+            <div class="flex">
+              {% include 'press/partial/toolBar.twig' %}
+            </div>
+            <div class="article-content fr-view">
+              {% if cu.from_ai == 'Yes' %}<p class="translated-by-ai">Translated by AI</p>{% endif %}
+              {{ cu.content | raw }}</div>
+            <div class="article-footer">
+              <p class="date"><span lang-key="last_modify">上次修改於</span> <time datetime="">{{ cu.last_ts | date("Y-m-d") }}</time></p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+  </main>
+  {% include 'partial/footer_thin.twig' %}
+  {% include 'partial/scripts.twig' %}
+</body>
+
+</html>

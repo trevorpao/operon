@@ -1,0 +1,29 @@
+<div class="hide loop gee" data-gene="init:initTmpl" data-tmpl="press-card">
+  <div class="card-wrap">
+    <a href="/{{lang}}/p/<%:prop.id%>/<%:prop.slug%>" class="card-link card-image">
+      <img pre-src="<%:~loadPic(prop.cover)%>" alt="<%:prop.title%>封面圖" onerror="defaultPic()" />
+    </a>
+    <div class="card-content">
+      <a href="/{{lang}}/p/<%:prop.id%>/<%:prop.slug%>" class="card-link"><p class="card-title"><%:prop.title%></p></a>
+      <div class="article-info" aria-label="文章資訊">
+        <ul class="article-meta" role="list">
+          <li class="meta-item" role="listitem">
+            <img src="/assets/image/date-i.svg" alt="" aria-hidden="true">
+            <time datetime=""><%:~formatDate(prop.online_date, 'YYYY.MM.DD')%></time>
+          </li>
+          <li class="meta-item" role="listitem">
+            <img src="/assets/image/author-i.svg" alt="" aria-hidden="true">
+            <%props prop.authors%><span class="author" aria-label="作者"><%:prop.title%></span><%/props%>
+          </li>
+        </ul>
+      </div>
+      <p class="card-excerpt"><%:prop.info%></p>
+    </div>
+  </div>
+</div>
+
+<div class="hide gee" data-gene="init:initTmpl" data-tmpl="empty-card">
+  <div class="card-empty">
+    <p>找不到相關的內容</p>
+  </div>
+</div>

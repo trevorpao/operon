@@ -1,0 +1,39 @@
+<aside class="article-sidebar" aria-label="側邊內容">
+  <div class="sidebar-wrap">
+    <!-- 最新消息 -->
+    <section class="sidebar-block" aria-labelledby="sidebar-news">
+      <p id="sidebar-news"><span lang-key="latest_news">最新消息</span><span class="sub-title">NEWS</span></p>
+      <ul class="sidebar-list">
+        {% for row in news %}
+        <li>
+          <time datetime="{{row.online_date | date('Y-m-d')}}">{{row.online_date | date('Y-m-d')}}</time>
+          <a href="/{{lang}}/p/{{row.id}}/{{row.slug}}" class="track" title="{{ row.title }}" data-cate="related" data-act="curiosity" data-value="2">{{ row.title }}</a>
+        </li>
+        {% endfor %}
+      </ul>
+    </section>
+    {# <!-- 活動 banner -->
+    <section class="sidebar-block banner" aria-labelledby="event-banner-heading">
+      <p id="event-banner-heading" class="aria-only">最新活動推薦</p>
+      <a href="#" aria-label="點擊查看春日祭典活動詳情">
+        <img src="/assets/image/photo-02.jpg" alt="春日祭典，和風體驗，活動日期從2025年3月1日至3月15日">
+      </a>
+    </section> #}
+    <!-- 相關推薦 -->
+    {% if recommends %}<section class="sidebar-block" aria-labelledby="sidebar-recommend">
+      <p id="sidebar-recommend"><span lang-key="recommended">相關推薦</span><span class="sub-title">RECOMMENED</span></p>
+      <ul class="sidebar-list">
+        {% for further in recommends %}
+        <li>
+          <time datetime="{{ further.online_date | date('Y-m-d') }}">{{ further.online_date | date('Y-m-d') }}</time>
+          <a href="/{{lang}}/p/{{ further.id }}/{{ further.slug }}" class="track" title="{{ row.title }}" data-cate="related" data-act="curiosity" data-value="2">{{ further.title }}</a>
+        </li>
+        {% endfor %}
+      </ul>
+    </section>{% endif %}
+    {% if opts.social.facebook_page %}<section class="sidebar-block" aria-labelledby="sidebar-fans">
+      <p id="sidebar-fans"><span lang-key="fb_page">FB 粉絲頁</span><span class="sub-title">FANS</span></p>
+      <iframe title="FB 粉絲頁" src="https://www.facebook.com/plugins/page.php?tabs=timeline,events&small_header=false&adapt_container_width=true&hide_cover=false&show_facepile=true&appId&href={{opts.social.facebook_page}}" class="facebook-fans-iframe" scrolling="no" frameborder="0" allow="encrypted-media"></iframe>
+    </section>{% endif %}
+  </div>
+</aside>

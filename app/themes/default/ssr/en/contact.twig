@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="{{ setting.langScript }}">
+
+<head>
+  {% include 'partial/meta.twig' %}
+  {% include 'partial/styles.twig' %}
+</head>
+
+<body class="{{lang}} {{layout}} {{setting.themeName}} {{setting.colorName}} logout j-loading sdk-error">
+  {% include 'partial/nav.twig' %}
+    <main id="main-content" role="main">
+      <section class="contact-page" aria-labelledby="contact-section-title">
+        <div class="container-xl">
+          <nav class="breadcrumb" aria-label="breadcrumb">
+            <ol>
+              <li><a href="/">Home</a></li>
+              <li aria-current="page">{{ cu.title | raw }}</li>
+            </ol>
+          </nav>
+        </div>
+        {% include 'partial/gmap.twig' %}
+        <div class="content-pd">
+          <div class="container-xs">
+            <header class="section-header">
+              <p class="section-subtitle">CONTACT</p>
+              <h2 id="contact-section-title" class="section-title">{{ cu.title | raw }}</h2>
+            </header>
+            <article class="article-content fr-view primary-gray">{{ cu.content | raw }}</article>
+            <form class="contact-form gee" data-gene="keyup:readySubmit,submit:contact/submit" data-nopde="1" novalidate onsubmit="return false;" aria-labelledby="contactFormTitle">
+              <h2 id="contactFormTitle" class="aria-only">contact form</h2>
+
+              <div class="info">
+                <div class="input-group">
+                  <label for="name">Name<span aria-hidden="true">*</span></label>
+                  <input type="text" id="name" name="name" class="form-control" placeholder="Please enter your name" autocomplete="on" required aria-required="true">
+                </div>
+
+                <div class="input-group">
+                  <label for="email">Email<span aria-hidden="true">*</span></label>
+                  <input type="email" id="email" name="email" class="form-control" placeholder="Please enter your email" autocomplete="on" required aria-required="true">
+                </div>
+
+                <div class="input-group">
+                  <label for="phone">Phone</label>
+                  <input type="tel" id="phone" name="phone" class="form-control" placeholder="Please enter your phone number" autocomplete="on">
+                </div>
+
+                <div class="input-group">
+                  <label for="type">Inquiry Type</label>
+                  <select id="type" name="type" class="form-control custom-select">
+                    <option value="general" selected>General</option>
+                    <option value="feedback">Feedback</option>
+                    <option value="other">Other</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="msg">
+                <div class="input-group">
+                  <label for="message">Message<span aria-hidden="true">*</span></label>
+                  <textarea id="message" name="message" rows="6" class="form-control" required aria-required="true" placeholder="Please enter your message"></textarea>
+                </div>
+              </div>
+
+            {# <div class="msg">
+              <div class="input-group">
+                <label for="captcha">CAPTCHA<span aria-hidden="true">*</span></label>
+                <div class="flex captcha-group">
+                  <input type="text" id="captcha" name="captcha" class="form-control" placeholder="Please enter the verification code" required aria-required="false">
+                  <div class="flex">
+                    <img data-src="{{uri}}/contact/captcha" class="captcha-img" width="150" height="46" alt="CAPTCHA" style="border-radius: 6px;" >
+                    <a href="javascript:void(0);" class="btn gee" data-gene="init:contact/recaptcha,click:contact/recaptcha" title="Reload captcha">
+                      <img class="reload-icon" src="/assets/image/refresh.svg" alt="" aria-hidden="true">
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div> #}
+
+              <div class="form-footer">
+                <button type="submit" class="btn btn-submit btn-disabled" aria-label="Submit Form">Submit</button>
+                <input type="hidden" name="csrf" value="{{ csrf }}">
+              </div>
+            </form>
+          </div>
+        </div>
+      </section>
+    </main>
+  {% include 'partial/footer_thin.twig' %}
+  {% include 'partial/scripts.twig' %}
+</body>
+
+</html>

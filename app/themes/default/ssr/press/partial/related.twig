@@ -1,0 +1,43 @@
+{% if relateds %}
+<div class="related-sec"  aria-labelledby="related-articles">
+  <p id="related-articles" class="title"><span lang-key="related_articles">相關文章</span><span class="sub-title">RELATED</span></p>
+  <div class="card-list layout-horizontal col-2">
+    {% for further in relateds %}
+    <!--- Card X 2 --->
+    <div class="card-wrap">
+      <a href="/{{lang}}/p/{{ further.id }}/{{ further.slug }}"
+        class="track card-link card-image"
+        title="{{ further.title }}"
+        data-cate="related"
+        data-act="curiosity"
+        data-value="2">
+        <img src="{{ further.cover|thumbnail('press')|repathImg }}" alt="{{ further.title | raw }}封面圖" />
+      </a>
+      <div class="card-content">
+        <div class="article-info" aria-label="文章資訊">
+          <ul class="article-meta" role="list">
+            <li class="meta-item" role="listitem">
+              <img src="/assets/image/date-i.svg" alt="" aria-hidden="true">
+              <time datetime="">{{ further.online_date | date("Y-m-d") }}</time>
+            </li>
+            <li class="meta-item" role="listitem">
+              <img src="/assets/image/author-i.svg" alt="" aria-hidden="true">
+              {% for author in further.authors %}<span class="author" aria-label="作者">{{ author.title }}</span>{% endfor %}
+            </li>
+          </ul>
+        </div>
+        <a href="/{{lang}}/p/{{ further.id }}/{{ further.slug }}"
+          class="track card-link"
+          title="{{ further.title }}"
+          data-cate="related"
+          data-act="curiosity"
+          data-value="2"
+        >
+          <p class="card-title">{{ further.title | raw }}</p>
+        </a>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+{% endif %}

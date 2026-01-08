@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="{{ setting.langScript }}">
+
+<head>
+  {% include 'partial/meta.twig' %}
+  {% include 'partial/styles.twig' %}
+  {{ ldjson | raw }}
+</head>
+
+<body class="{{lang}} {{layout}} {{setting.themeName}} {{setting.colorName}} logout j-loading sdk-error p-{{ cu.id }}">
+  <input type="hidden" id="canonical" value="{{ uri }}{{ page.canonical }}">
+  <div class="loading hidden"><img src="/assets/image/loader.svg" class="loader" alt="" role="presentation" aria-hidden="true"></div>
+  {% include 'partial/nav.twig' %}
+  <main id="main-content" role="main" class="article-content">
+    <section>
+    <!-- BEGIN Breadcrumb -->
+      <div class="container-xl">
+        <nav class="breadcrumb" aria-label="麵包屑導覽">
+          <ol>
+            <li><a href="/" title="回首頁" lang-key="breadcrumb_home">首頁</a></li>
+            <li><a href="/{{lang}}/tag/{{ tags[0].slug }}" title="{{ tag.title }}">{{ tags[0].title }}</a></li>
+            <li aria-current="page">{{cu.title | raw}}</li>
+          </ol>
+        </nav>
+      </div>
+    <!-- END Breadcrumb -->
+      <div class="container post">
+        <div class="grid-layout">
+        <!-- BEGIN Left Main Content -->
+          <article>
+            {% if cu.banner %}<div class="cover-image">
+              <img src="{{ cu.banner | repathImg }}" alt="{{cu.title | raw}}">
+            </div>{% endif %}
+            <div class="content-wrapper">
+              {% include 'press/partial/shareBar.twig' %}
+              <div class="j-article-box" data-pid="{{ cu.id }}"  >
+                <h2 class="article-title">{{cu.title | raw}}</h2>
+                <div class="content-info">
+                  <section class="article-info">
+                    <div class="date"><span lang-key="publish_date">發布日期</span>：{{cu.online_date | date("Y-m-d")}}</div>
+                    <div class="author">
+                      <span lang-key="article_author">作者</span>：{% for author in authors %}<span>{{ author.title }}</span>{% endfor %}
+                    </div>
+                  </section>
+                  {% include 'press/partial/toolBar.twig' %}
+                </div>
+                <section class="article-intro">{{cu.info | raw | nl2br}}</section>
+                <div class="article-content fr-view">
+                  {% if cu.from_ai == 'Yes' %}<p class="translated-by-ai">Translated by AI</p>{% endif %}
+                  {{ cu.content | raw }}
+                  <!-- 第一層小標為h3 -->
+                  {% if medias %}{% for img in medias %}
+                    <figure><img src="{{ img.pic | repathImg }}" class="fr-fic fr-dib img-responsive" alt="{{ img.title }}"> <figcaption>{{ img.title }}</figcaption> </figure>
+                  {% endfor %}{% endif %}
+                </div>
+                <div class="article-footer">
+                  <p class="date"><span lang-key="publish_on">文章發布於</span>
+                    <time datetime="{{cu.online_date}}">{{cu.online_date | date("Y-m-d")}}</time>
+                  {% if metas.source_link %}<br><span lang-key="source_link">文章來源網址</span>
+                    <span>{{ metas.source_link }}</span>
+                  {% endif %}
+                  </p>
+                </div>
+              <!-- BEGIN Tags -->
+                <div class="article-tags">
+                  {% for tag in tags %}
+                  <a href="/{{lang}}/tag/{{ tag.slug }}" class="track tags" title="{{ tag.title }}" data-cate="press-tags" data-act="curiosity" data-value="2">{{ tag.title }}</a>
+                  {% endfor %}
+                </div>
+              <!-- END Tags -->
+              {% include 'press/partial/neighbor.twig' %}
+              <!-- BEGIN Related Articles -->
+              {% include 'press/partial/related.twig' %}
+              <!-- END Related Articles -->
+              <!-- BEGIN 字典 -->
+                {% if terms %} {% include 'press/partial/term.twig' %} {% endif %}
+              <!-- END 字典 -->
+              </div>
+            </div>
+          </article>
+        <!-- END Left Main Content -->
+        {% include 'press/partial/sidebar.twig' %}
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- BEGIN Lightbox -->
+    <div id="lightbox" class="lightbox" hidden role="dialog" aria-modal="true" aria-label="圖片預覽視窗">
+      <button class="lightbox-close" aria-label="關閉圖片預覽">&times;</button>
+      <div class="lightbox-inner">
+        <div class="img-wrap">
+          <img id="lightbox-img" src="" alt="">
+          <button class="lightbox-prev" aria-label="上一張圖片">⟨</button>
+          <button class="lightbox-next" aria-label="下一張圖片">⟩</button>
+        </div>
+        <div class="lightbox-caption">
+          <p id="lightbox-figcaption" class="figcaption"></p>
+          <p id="lightbox-illustrate" class="illustrate"></p>
+        </div>
+      </div>
+    </div>
+  <!-- END Lightbox -->
+
+  {% include 'partial/footer_thin.twig' %}
+  {% include 'partial/scripts.twig' %}
+</body>
+
+</html>

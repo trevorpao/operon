@@ -1,0 +1,16 @@
+<div class="share-links">
+    <div class="links-content">
+        <div class="list">
+            <span lang-key="share_bar">分享</span>
+            <a class="track" data-act="share_fb" data-cate="share" aria-label="分享到 facebook：另開新視窗" data-label="{{ cu.title }}" data-value="3" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u={{
+                    page.share_link | urlencode
+                  }}"><img src="/assets/image/fb-i.svg" alt="" aria-hidden="true"></a>
+            {# <a class="btn-icon track" data-act="share_twitter" data-cate="share" data-label="{{ cu.title }}" data-value="3" target="_blank" href="https://twitter.com/intent/tweet?text={{
+                    cu.title | urlencode
+                  }}&url={{ page.share_link | urlencode }}"><img src="/assets/image/x-i.svg" alt="" aria-hidden="true"></a> #}
+            {# <a class="btn-icon hide_desktop track" data-act="share_line" data-cate="share" title="{{ cu.title }}" data-label="{{ cu.title }}" data-value="3" target="_blank" href="line://msg/text/{{ page.share_link }}"><img src="/assets/image/line-i.svg" alt="" aria-hidden="true"></a> #}
+            <a href="javascript:;" class="gee" data-gene="click:arena/copy" data-ta="canonical"><img src="/assets/image/share-link-i.svg" alt="" aria-hidden="true"><span class="copied-tip" lang-key="already_copied">已複製連結</span></a>
+            {# <a href="javascript:;" class="gee" data-gene="loadMain" data-src="subscribe" data-ta="second-box"><img src="/assets/image/mail-black.svg" class="subscribe-i" alt="" aria-hidden="true"></a> #}
+        </div>
+    </div>
+</div>

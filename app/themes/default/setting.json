@@ -1,0 +1,26 @@
+{
+    "themeName": "v1",
+    "colorName": "color-theme-1",
+    "lang": "tw",
+    "langScript": "zh-Hant",
+    "press": {
+        "thumbnail": "300x300",
+        "prePage": 4
+    },
+    "product": {
+        "thumbnail": "300x300",
+        "prePage": 6
+    },
+    "langAry": [{
+        "label": "繁中",
+        "key": "tw"
+    }],
+    "plugin": {
+        "inquiry": 1,
+        "member": 1,
+        "order": 0,
+        "subscription": 0,
+        "shipping": 0,
+        "donation": 0
+    }
+}
