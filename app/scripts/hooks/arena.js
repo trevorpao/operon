@@ -20,28 +20,31 @@ export default function installArenaHook() {
         return () => {};
     }
 
+    let modalApi = null;
+    try {
+        modalApi = app.get('ui.modal');
+    } catch (err) {
+        modalApi = null;
+    }
+
+    const openModal = (id, options = {}) => {
+        if (!id) return;
+        if (modalApi && typeof modalApi.show === 'function') {
+            modalApi.show(id, options);
+            return;
+        }
+        const modalEl = document.getElementById(id);
+        if (!modalEl) return;
+        modalEl.classList.remove('hide');
+        modalEl.classList.add('is-active');
+        modalEl.removeAttribute('hidden');
+        modalEl.setAttribute('aria-hidden', 'false');
+    };
+
     const handleFont = (delta) => (me) => {
         const el = toElement(me);
         const targetSel = el && el.dataset && el.dataset.ta ? el.dataset.ta : defaultFontTargets;
         api.changeFont(delta, targetSel);
-    };
-
-    const handleModalShow = (me) => {
-        const el = toElement(me);
-        if (!el) return false;
-        const target = el.dataset.target || 'arena-modal';
-        const src = el.dataset.src;
-        if (src) {
-            api.showModal(target, `<iframe src="${src}" frameborder="0"></iframe>`);
-        } else {
-            api.showModal(target);
-        }
-    };
-
-    const handleModalHide = (me) => {
-        const el = toElement(me);
-        const target = (el && el.dataset && el.dataset.target) ? el.dataset.target : 'arena-modal';
-        api.hideModal(target);
     };
 
     const handleGoTop = () => window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -118,7 +121,8 @@ export default function installArenaHook() {
         app.loadHtml(`modal/${type}`, `${width}-modal-box`);
         const label = document.getElementById(`${width}-modalLabel`);
         if (label) label.textContent = type;
-        api.showModal(`${width}-modal`);
+        const modalSize = width === 'std' ? 'md' : width;
+        openModal(`${width}-modal`, { size: modalSize });
     };
 
     const handleReplaceMe = (me) => {
@@ -392,41 +396,12 @@ export default function installArenaHook() {
         api.closeNav(target);
     };
 
-    const handleOpenInlineModal = (me) => {
-        const el = toElement(me);
-        const targetId = el && el.dataset ? el.dataset.ta : null;
-        const target = targetId ? document.getElementById(targetId) : null;
-        api.showInlineModal(target);
-    };
-
-    const handleOpenYTModal = (me) => {
-        const el = toElement(me);
-        const targetId = el && el.dataset ? el.dataset.ta : null;
-        const youtubeId = el && el.dataset ? el.dataset.youtubeid : null;
-        const target = targetId ? document.getElementById(targetId) : null;
-        api.showYouTubeModal(target, youtubeId);
-    };
-
-    const handleCloseInlineModal = (me) => {
-        const el = toElement(me);
-        const targetId = el && el.dataset ? el.dataset.ta : null;
-        const target = targetId ? document.getElementById(targetId) : null;
-        api.hideInlineModal(target);
-    };
-
-    const handleCloseYTModal = (me) => {
-        const el = toElement(me);
-        const targetId = el && el.dataset ? el.dataset.ta : null;
-        const target = targetId ? document.getElementById(targetId) : null;
-        api.hideYouTubeModal(target);
-    };
-
     const handleSetCookiePrivacy = () => {
         if (api.setCookiePrivacy) api.setCookiePrivacy();
     };
 
     const legacyPlainHooks = [
-        'largerFont', 'smallerFont', 'hideModal', 'goTop', 'loadMain', 'loadBox', 'loadModal',
+        'largerFont', 'smallerFont', 'goTop', 'loadMain', 'loadBox', 'loadModal',
         'replaceMe', 'reExe', 'reXPos', 'initAutolink', 'initPagination', 'initTmpl', 'react',
         'reactSubmit', 'adjustFontSize', 'hideMsg', 'loadZip', 'switchTab', 'readySubmit',
         'switchPasswd', 'nextstep', 'backstep', 'nxtCol', 'calDateLimit',
@@ -439,9 +414,6 @@ export default function installArenaHook() {
     registerHooks('arena', {
         largerFont: handleFont(0.1),
         smallerFont: handleFont(-0.1),
-        'modal.show': handleModalShow,
-        'modal.iframe': handleModalShow,
-        hideModal: handleModalHide,
         goTop: handleGoTop,
         loadMain: handleLoadMain,
         loadBox: handleLoadBox,
@@ -468,10 +440,6 @@ export default function installArenaHook() {
         calDateLimit: handleCalDateLimit,
         openNav: handleOpenNav,
         closeNav: handleCloseNav,
-        openModal: handleOpenInlineModal,
-        openYTModal: handleOpenYTModal,
-        closeModal: handleCloseInlineModal,
-        closeYTModal: handleCloseYTModal,
         setCookiePrivacy: handleSetCookiePrivacy,
     }, {
         legacy: legacyMap,

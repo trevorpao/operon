@@ -4,8 +4,8 @@
 
 import app from './app';
 import gee from 'trevorpao/geneEH';
-import { trackPlugin, formatPlugin, extendPlugin, previewPlugin, resourcePlugin, menuPlugin, arenaPlugin, contactPlugin, sliderPlugin, galleryPlugin, searchPlugin } from './plugins';
-import { installTrackHook, installResourceHook, installMenuHook, installArenaHook, installContactHook, installSliderHook, installGalleryHook, installSearchHook } from './hooks';
+import { trackPlugin, formatPlugin, extendPlugin, previewPlugin, resourcePlugin, menuPlugin, modalPlugin, arenaPlugin, contactPlugin, sliderPlugin, galleryPlugin, searchPlugin } from './plugins';
+import { installTrackHook, installResourceHook, installMenuHook, installModalHook, installArenaHook, installContactHook, installSliderHook, installGalleryHook, installSearchHook } from './hooks';
 
 $(async function() {
     'use strict';
@@ -18,6 +18,7 @@ $(async function() {
     await app.use(previewPlugin);
     await app.use(resourcePlugin);
     await app.use(menuPlugin);
+    await app.use(modalPlugin);
     await app.use(arenaPlugin);
     await app.use(contactPlugin);
     await app.use(sliderPlugin);
@@ -33,6 +34,7 @@ $(async function() {
 
     installResourceHook();
     installMenuHook();
+    installModalHook();
     installArenaHook();
     installContactHook();
     installSliderHook();

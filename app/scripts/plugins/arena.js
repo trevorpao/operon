@@ -94,44 +94,6 @@ const arenaPlugin = {
             el.style.height = '0%';
         };
 
-        const showInlineModal = (el, html) => {
-            if (!el) return;
-            if (html) {
-                const body = el.querySelector('.modal-body');
-                if (body) body.innerHTML = html;
-            }
-            el.classList.remove('hide');
-            el.removeAttribute('hidden');
-            el.setAttribute('aria-hidden', 'false');
-        };
-
-        const hideInlineModal = (el) => {
-            if (!el) return;
-            const body = el.querySelector('.modal-body');
-            if (body) body.innerHTML = '';
-            el.classList.add('hide');
-            el.setAttribute('hidden', 'true');
-            el.setAttribute('aria-hidden', 'true');
-        };
-
-        const showYouTubeModal = (el, videoId) => {
-            if (!el || !videoId) return;
-            const iframe = el.querySelector('iframe');
-            if (iframe) {
-                iframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
-            }
-            showInlineModal(el);
-        };
-
-        const hideYouTubeModal = (el) => {
-            if (!el) return;
-            const iframe = el.querySelector('iframe');
-            if (iframe) {
-                iframe.src = '';
-            }
-            hideInlineModal(el);
-        };
-
         const setCookiePrivacy = (days = 400) => {
             if (typeof app.setCookie === 'function') {
                 app.setCookie('cookie_privacy', 1, days);
@@ -249,8 +211,17 @@ const arenaPlugin = {
             renderZipOptions(target, data, placeholder);
         };
 
-        const showModal = (id, html) => {
-            const modalEl = document.getElementById(id);
+        const getModalApi = () => {
+            try {
+                return app.get('ui.modal');
+            } catch (err) {
+                return null;
+            }
+        };
+
+        const fallbackShowModal = (id, html) => {
+            const targetId = id || 'arena-modal';
+            const modalEl = document.getElementById(targetId);
             if (!modalEl) return;
             const body = modalEl.querySelector('.modal-body');
             if (body && html) body.innerHTML = html;
@@ -261,14 +232,37 @@ const arenaPlugin = {
             modalEl.setAttribute('aria-hidden', 'false');
         };
 
-        const hideModal = (id) => {
-            const modalEl = document.getElementById(id);
+        const fallbackHideModal = (id) => {
+            const targetId = id || 'arena-modal';
+            const modalEl = document.getElementById(targetId);
             if (!modalEl) return;
             const body = modalEl.querySelector('.modal-body');
             if (body) body.innerHTML = '';
             modalEl.style.display = 'none';
             modalEl.classList.remove('is-active');
             modalEl.setAttribute('aria-hidden', 'true');
+        };
+
+        const showModal = (id, html, options = {}) => {
+            const targetId = id || 'arena-modal';
+            const modalApi = getModalApi();
+            if (modalApi && typeof modalApi.show === 'function') {
+                const opts = { ...options };
+                if (html) opts.html = html;
+                modalApi.show(targetId, opts);
+                return;
+            }
+            fallbackShowModal(targetId, html);
+        };
+
+        const hideModal = (id, options = {}) => {
+            const targetId = id || 'arena-modal';
+            const modalApi = getModalApi();
+            if (modalApi && typeof modalApi.hide === 'function') {
+                modalApi.hide(targetId, options);
+                return;
+            }
+            fallbackHideModal(targetId);
         };
 
         const state = {
@@ -287,10 +281,6 @@ const arenaPlugin = {
                 toggleClass,
                 openNav,
                 closeNav,
-                showInlineModal,
-                hideInlineModal,
-                showYouTubeModal,
-                hideYouTubeModal,
                 setCookiePrivacy,
                 setDateLimit,
                 updateSubmitState,

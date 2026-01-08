@@ -5,6 +5,7 @@ export { default as extendPlugin } from '../lib/extend';
 export { default as previewPlugin } from './preview';
 export { default as resourcePlugin } from './resource';
 export { default as menuPlugin } from './menu';
+export { default as modalPlugin } from './modal';
 export { default as arenaPlugin } from './arena';
 export { default as contactPlugin } from './contact';
 export { default as sliderPlugin } from './slider';

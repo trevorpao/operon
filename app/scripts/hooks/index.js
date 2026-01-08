@@ -7,3 +7,4 @@ export { default as installContactHook } from './contact';
 export { default as installSliderHook } from './slider';
 export { default as installGalleryHook } from './gallery';
 export { default as installSearchHook } from './search';
+export { default as installModalHook } from './modal';
