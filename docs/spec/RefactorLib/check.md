@@ -1,9 +1,9 @@
 # check
 
 ## Stage 0 – Alignment & Guardrails
-- [ ] Inventory completed for every `app/scripts/lib/*.js` consumer with jQuery/global flags captured.
-- [ ] Vitest scaffold + lint rule preventing `window` mutations merged.
-- [ ] Legacy adapter list agreed upon (detect/head) with owners assigned.
+- [x] Inventory completed for every `app/scripts/lib/*.js` consumer with jQuery/global flags captured.
+- [x] Vitest scaffold + lint rule preventing `window` mutations merged.
+- [x] Legacy adapter list agreed upon (detect/head) with owners assigned.
 
 ## Stage 1 – Core Infrastructure
 - [ ] `lib/runtime/deps.ts` exposes peer resolution + `withBrowser()` helpers and is consumed by downstream modules.

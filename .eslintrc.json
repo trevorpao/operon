@@ -16,6 +16,13 @@
         "semi": ["error", "always"],
         "linebreak-style": ["error", "unix"],
         "quotes": ["error", "single"],
+        "no-restricted-syntax": [
+            "error",
+            {
+                "selector": "AssignmentExpression[left.object.name='window']",
+                "message": "Avoid mutating window globals directly; route through runtime adapters."
+            }
+        ],
         "no-console": 2,
         "no-unused-vars": 0,
         "no-extra-semi": 0

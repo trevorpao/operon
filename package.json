@@ -14,7 +14,9 @@
     "preview": "vite preview",
     "docs": "http-server docs -p 3000 -c-1 -o index.html",
     "lint": "npx eslint ./app/scripts/**/*.js ./app/scripts/*.js",
-    "fix": "npx eslint ./app/scripts/**/*.js --fix"
+    "fix": "npx eslint ./app/scripts/**/*.js --fix",
+    "test": "vitest",
+    "test:run": "vitest run --passWithNoTests"
   },
   "browserslist": [
     "> 0.5%",
@@ -24,10 +26,12 @@
   ],
   "devDependencies": {
     "http-server": "^14.1.1",
+    "jsdom": "^27.4.0",
     "sass": "^1.97.1",
     "vite": "^7.3.0",
     "vite-plugin-handlebars": "^2.0.0",
-    "vite-twig-ssr": "file:vite-twig-ssr-0.3.0.tgz"
+    "vite-twig-ssr": "file:vite-twig-ssr-0.3.0.tgz",
+    "vitest": "^4.0.16"
   },
   "eslintConfig": {
     "env": {
@@ -43,8 +47,8 @@
     }
   },
   "dependencies": {
-    "gene-event-handler": "file:gene-event-handler-2.1.tgz",    
     "bulma": "^1.0.4",
+    "gene-event-handler": "file:gene-event-handler-2.1.tgz",
     "handlebars": "^4.7.8"
   }
 }
