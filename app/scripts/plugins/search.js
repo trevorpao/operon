@@ -1,4 +1,6 @@
-const searchPlugin = {
+import { createPlugin } from '../lib/defaultPlugin';
+
+const searchPlugin = createPlugin({
     name: 'data.search',
     install({ app, gee }) {
         const yellFn = (app && typeof app.yell === 'function')
@@ -47,6 +49,6 @@ const searchPlugin = {
 
         return { api: { fetchList } };
     },
-};
+});
 
 export default searchPlugin;

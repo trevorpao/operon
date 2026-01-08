@@ -1,3 +1,4 @@
+import { createPlugin } from '../lib/defaultPlugin';
 import { ensureBrowser } from '../lib/shared';
 
 const stripWrapper = (html) => {
@@ -18,7 +19,7 @@ const renderWithShowdown = (markdown, options = {}) => {
     return converter.makeHtml(markdown || '');
 };
 
-const markdownPlugin = {
+const markdownPlugin = createPlugin({
     name: 'ui.markdown',
     install() {
         const render = (markdown, options) => stripWrapper(renderWithShowdown(markdown, options));
@@ -36,6 +37,6 @@ const markdownPlugin = {
 
         return { api: { render, stripWrapper, fromEditor } };
     },
-};
+});
 
 export default markdownPlugin;

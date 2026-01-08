@@ -1,4 +1,6 @@
-const isBrowser = typeof window !== 'undefined' && typeof document !== 'undefined';
+import { isBrowserEnv, getWindow, getDocument } from './runtime/deps';
+
+const isBrowser = isBrowserEnv;
 
 const toStringSafe = (val = '') => (val == null ? '' : String(val));
 
@@ -18,6 +20,20 @@ const toElement = (input) => toNodes(input)[0];
 
 const ensureBrowser = () => isBrowser;
 
+const withBrowser = (cb, fallback) => {
+    if (!isBrowser || typeof cb !== 'function') {
+        return typeof fallback === 'function' ? fallback() : fallback;
+    }
+    try {
+        return cb({ window: getWindow(), document: getDocument() });
+    } catch (err) {
+        if (typeof fallback === 'function') {
+            return fallback(err);
+        }
+        return fallback;
+    }
+};
+
 const WHITESPACE_RE = /\s+/;
 
 export {
@@ -27,5 +43,6 @@ export {
     toNodes,
     toElement,
     ensureBrowser,
+    withBrowser,
     WHITESPACE_RE,
 };

@@ -1,3 +1,5 @@
+import { createPlugin } from '../lib/defaultPlugin';
+
 const sanitizePath = (url) => {
     const normalized = (url || '').replace(/^\/+/, '').replace(/\.\.+/g, '').replace(/\/+/, '/');
     return normalized;
@@ -5,7 +7,7 @@ const sanitizePath = (url) => {
 
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
-const previewPlugin = {
+const previewPlugin = createPlugin({
     name: 'data.preview',
     install({ app, config }) {
         const registry = new Map();
@@ -54,6 +56,6 @@ const previewPlugin = {
 
         return { api: { mock, registerMock } };
     },
-};
+});
 
 export default previewPlugin;

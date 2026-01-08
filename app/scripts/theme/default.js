@@ -1,5 +1,6 @@
 import gee from 'trevorpao/geneEH';
 import app from '../app';
+import { createPlugin } from '../lib/defaultPlugin';
 import { toElement, ensureBrowser } from '../lib/shared';
 import registerHooks from '../lib/hooks/register';
 
@@ -101,7 +102,7 @@ const getRegisteredPlugin = (ctx, name) => {
     }
 };
 
-const defaultThemePlugin = {
+const defaultThemePlugin = createPlugin({
     name: 'theme.default',
     install({ app: ctx }) {
         const getPrivacy = () => getRegisteredPlugin(ctx, 'ui.privacy');
@@ -145,7 +146,7 @@ const defaultThemePlugin = {
             },
         };
     },
-};
+});
 
 export function installDefaultTheme() {
     if (!ensureBrowser()) return () => {};

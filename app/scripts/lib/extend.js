@@ -1,4 +1,5 @@
 import app from '../app';
+import { createPlugin } from './defaultPlugin';
 import {
     isBrowser,
     toStringSafe,
@@ -155,12 +156,12 @@ const extendHelper = {
     utils,
 };
 
-const extendPlugin = {
+const extendPlugin = createPlugin({
     name: 'util.extend',
     async install() {
         app.extendHelper = extendHelper;
         return { api: extendHelper };
     },
-};
+});
 
 export default extendPlugin;

@@ -1,10 +1,12 @@
+import { createPlugin } from '../lib/defaultPlugin';
+
 const normalizeList = (list) => {
     if (!Array.isArray(list)) return [];
     if (list.length && list[0] === null) return [];
     return list;
 };
 
-const resourcePlugin = {
+const resourcePlugin = createPlugin({
     name: 'data.resource',
     async install({ app }) {
         const yellFn = (app && typeof app.yell === 'function') ? app.yell : null;
@@ -39,6 +41,6 @@ const resourcePlugin = {
 
         return { api: { load, loadTop10 } };
     },
-};
+});
 
 export default resourcePlugin;

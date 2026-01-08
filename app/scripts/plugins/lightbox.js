@@ -1,4 +1,5 @@
 import app from '../app';
+import createPlugin from '../lib/defaultPlugin';
 
 const defaults = {
     rootSelector: '.fr-view .fr-fic',
@@ -26,7 +27,7 @@ const resolveFigureSet = (node) => {
     return { box, img };
 };
 
-const lightboxPlugin = {
+const lightboxPlugin = createPlugin({
     name: 'ui.lightbox',
     install() {
         let state = {
@@ -200,6 +201,6 @@ const lightboxPlugin = {
 
         return { api };
     },
-};
+});
 
 export default lightboxPlugin;

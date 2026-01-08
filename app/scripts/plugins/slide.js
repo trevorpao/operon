@@ -1,4 +1,5 @@
-import { ensureBrowser } from '../lib/shared';
+import { createPlugin } from '../lib/defaultPlugin';
+import { ensureBrowser, withBrowser } from '../lib/shared';
 
 const pickSelector = (value, fallback) => {
     if (typeof value === 'string' && value.trim()) {
@@ -52,24 +53,26 @@ const stopVideos = (root) => {
 };
 
 const loadVideo = (slide) => {
-    if (!slide || typeof document === 'undefined') return;
-    const container = slide.querySelector('.video-container');
-    if (!container) return;
-    const { src } = container.dataset || {};
-    if (!src) return;
-    container.innerHTML = '';
-    const iframe = document.createElement('iframe');
-    iframe.width = '100%';
-    iframe.height = '100%';
-    iframe.src = src;
-    iframe.title = 'Video player';
-    iframe.frameBorder = '0';
-    iframe.allow = 'autoplay; encrypted-media; picture-in-picture';
-    iframe.allowFullscreen = true;
-    container.appendChild(iframe);
+    if (!slide) return;
+    withBrowser(({ document }) => {
+        const container = slide.querySelector('.video-container');
+        if (!container) return;
+        const { src } = container.dataset || {};
+        if (!src) return;
+        container.innerHTML = '';
+        const iframe = document.createElement('iframe');
+        iframe.width = '100%';
+        iframe.height = '100%';
+        iframe.src = src;
+        iframe.title = 'Video player';
+        iframe.frameBorder = '0';
+        iframe.allow = 'autoplay; encrypted-media; picture-in-picture';
+        iframe.allowFullscreen = true;
+        container.appendChild(iframe);
+    });
 };
 
-const slidePlugin = {
+const slidePlugin = createPlugin({
     name: 'ui.slide',
     install() {
         if (!ensureBrowser()) {
@@ -237,6 +240,6 @@ const slidePlugin = {
 
         return { api: { create, destroy } };
     },
-};
+});
 
 export default slidePlugin;

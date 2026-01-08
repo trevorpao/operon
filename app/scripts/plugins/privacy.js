@@ -1,3 +1,4 @@
+import { createPlugin } from '../lib/defaultPlugin';
 import { ensureBrowser } from '../lib/shared';
 
 const selectBanner = () => {
@@ -20,7 +21,7 @@ const setCookie = (app, key, value, days) => {
     return false;
 };
 
-const privacyPlugin = {
+const privacyPlugin = createPlugin({
     name: 'ui.privacy',
     install({ app }) {
         const cookieKey = 'cookie_privacy';
@@ -58,6 +59,6 @@ const privacyPlugin = {
             },
         };
     },
-};
+});
 
 export default privacyPlugin;

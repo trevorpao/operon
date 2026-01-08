@@ -1,16 +1,12 @@
 import app from '../app';
+import { createPlugin } from './defaultPlugin';
 import { toStringSafe, toNumberSafe } from './shared';
+import { resolveGee, resolveJQuery, resolveMoment, resolveHandlebars } from './runtime/deps';
 
-const resolveDeps = () => {
-    const win = (typeof window !== 'undefined') ? window : undefined;
-    return {
-        gee: (win && win.gee) || (typeof gee !== 'undefined' ? gee : undefined),
-        $: (win && (win.jQuery || win.$)) || (typeof jQuery !== 'undefined' ? jQuery : undefined),
-        moment: (win && win.moment) || (typeof moment !== 'undefined' ? moment : undefined),
-    };
-};
-
-const { gee, $, moment } = resolveDeps();
+const gee = resolveGee();
+const $ = resolveJQuery();
+const moment = resolveMoment();
+const handlebars = resolveHandlebars();
 
 const hasMoment = () => Boolean(moment && typeof moment === 'function');
 const hasFormatMoney = () => Boolean($ && $.fn && typeof $.fn.formatMoney === 'function');
@@ -202,24 +198,24 @@ const formatHelper = {
     },
 };
 
-const formatPlugin = {
+const formatPlugin = createPlugin({
     name: 'util.format',
     async install() {
         app.thumbnail = THUMBNAIL_PRESETS;
         const api = formatHelper;
         app.formatHelper = api;
 
-        if (typeof Handlebars !== 'undefined' && typeof Handlebars.registerHelper === 'function') {
+        if (handlebars && typeof handlebars.registerHelper === 'function') {
             Object.entries(api).forEach(([name, fn]) => {
                 if (typeof fn === 'function') {
-                    Handlebars.registerHelper(name, fn);
+                    handlebars.registerHelper(name, fn);
                 }
             });
         }
 
         return { api };
     },
-};
+});
 
 export default formatPlugin;
 

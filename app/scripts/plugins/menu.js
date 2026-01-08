@@ -1,4 +1,6 @@
-const menuPlugin = {
+import { createPlugin } from '../lib/defaultPlugin';
+
+const menuPlugin = createPlugin({
     name: 'data.menu',
     install({ app: ctxApp, gee: ctxGee }) {
         const yellFn = (ctxApp && typeof ctxApp.yell === 'function')
@@ -27,6 +29,6 @@ const menuPlugin = {
 
         return { api: { fetchMenu } };
     },
-};
+});
 
 export default menuPlugin;

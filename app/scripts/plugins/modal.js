@@ -1,4 +1,6 @@
-const modalPlugin = {
+import { createPlugin } from '../lib/defaultPlugin';
+
+const modalPlugin = createPlugin({
     name: 'ui.modal',
     install() {
         const modalCache = new Map();
@@ -297,6 +299,6 @@ const modalPlugin = {
 
         return { api };
     },
-};
+});
 
 export default modalPlugin;

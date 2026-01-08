@@ -6,10 +6,10 @@
 - [x] Legacy adapter list agreed upon (detect/head) with owners assigned.
 
 ## Stage 1 – Core Infrastructure
-- [ ] `lib/runtime/deps.ts` exposes peer resolution + `withBrowser()` helpers and is consumed by downstream modules.
-- [ ] `createPlugin()` enforces unique names, logs structured errors, and existing plugins migrated.
-- [ ] New event emitter delivers `on/off/once/wildcard`, adapter layer keeps `gee.event` compatible, and unit tests cover success/failure paths.
-- [ ] Smoke tests executed: plugin failure handling, hook registration/unregistration, emitter wildcard case.
+- [x] `lib/runtime/deps.ts` exposes peer resolution + `withBrowser()` helpers and is consumed by downstream modules.
+- [x] `createPlugin()` enforces unique names, logs structured errors, and existing plugins migrated.
+- [x] New event emitter delivers `on/off/once/wildcard`, adapter layer keeps `gee.event` compatible, and unit tests cover success/failure paths.
+- [x] Smoke tests executed: plugin failure handling, hook registration/unregistration, emitter wildcard case.
 
 ## Stage 2 – High-Risk Modules
 - [ ] `detect.js` rewritten as feature API, legacy `jQuery.browser.mobile` shim validated.

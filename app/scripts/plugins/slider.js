@@ -1,3 +1,5 @@
+import { createPlugin } from '../lib/defaultPlugin';
+
 const createOverlay = () => {
     const overlay = document.createElement('div');
     overlay.className = 'sl-overlay-native';
@@ -12,7 +14,7 @@ const createOverlay = () => {
     return { overlay, img };
 };
 
-const sliderPlugin = {
+const sliderPlugin = createPlugin({
     name: 'ui.slider',
     async install() {
         let overlay;
@@ -54,6 +56,6 @@ const sliderPlugin = {
 
         return { api: { show, hide, bindClose } };
     },
-};
+});
 
 export default sliderPlugin;

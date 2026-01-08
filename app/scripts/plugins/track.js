@@ -1,3 +1,5 @@
+import { createPlugin } from '../lib/defaultPlugin';
+
 const resolveYell = (app, gee) => {
     if (app && typeof app.yell === 'function') {
         return app.yell;
@@ -26,7 +28,7 @@ const toElements = (input) => {
     return [];
 };
 
-const trackPlugin = {
+const trackPlugin = createPlugin({
     name: 'track',
     install({ app, gee }) {
         const yellFn = resolveYell(app, gee);
@@ -226,6 +228,6 @@ const trackPlugin = {
 
         return { api, init, destroy };
     },
-};
+});
 
 export default trackPlugin;

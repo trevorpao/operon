@@ -1,8 +1,9 @@
 import app from '../app';
+import { createPlugin } from '../lib/defaultPlugin';
 
 const defaultFontTargets = '#article-press .text p, #article-press .text li, #article-post .text p, #article-post .text li';
 
-const arenaPlugin = {
+const arenaPlugin = createPlugin({
     name: 'ui.arena',
     async install() {
         let store;
@@ -290,6 +291,6 @@ const arenaPlugin = {
             },
         };
     },
-};
+});
 
 export default arenaPlugin;

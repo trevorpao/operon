@@ -1,6 +1,7 @@
 import gee from 'trevorpao/geneEH';
+import { createPlugin } from '../lib/defaultPlugin';
 
-const galleryPlugin = {
+const galleryPlugin = createPlugin({
     name: 'ui.gallery',
     async install() {
         const baseIframe = ({ prefix, width, zidx, uniqid, taUri }) => (
@@ -25,6 +26,6 @@ const galleryPlugin = {
 
         return { api: { renderGrid } };
     },
-};
+});
 
 export default galleryPlugin;

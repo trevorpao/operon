@@ -1,5 +1,7 @@
+import { createPlugin } from '../lib/defaultPlugin';
+
 // Simple demo plugin to validate the plugin registry.
-const greetPlugin = {
+const greetPlugin = createPlugin({
     name: 'util.greet',
     async install() {
         const api = {
@@ -14,6 +16,6 @@ const greetPlugin = {
         };
         return { api };
     },
-};
+});
 
 export default greetPlugin;

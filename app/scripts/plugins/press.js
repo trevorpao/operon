@@ -1,4 +1,6 @@
-const pressPlugin = {
+import createPlugin from '../lib/defaultPlugin';
+
+const pressPlugin = createPlugin({
     name: 'press',
     install() {
         const defaultTrack = {
@@ -131,6 +133,6 @@ const pressPlugin = {
 
         return { api };
     },
-};
+});
 
 export default pressPlugin;

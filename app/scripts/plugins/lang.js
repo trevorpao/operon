@@ -1,4 +1,5 @@
 import app from '../app';
+import createPlugin from '../lib/defaultPlugin';
 
 const langMap = {
     tw: {
@@ -162,7 +163,7 @@ const tsSwitch = {
     },
 };
 
-const langPlugin = {
+const langPlugin = createPlugin({
     name: 'ui.lang',
     async install() {
         const opts = [
@@ -328,6 +329,6 @@ const langPlugin = {
             },
         };
     },
-};
+});
 
 export default langPlugin;

@@ -1,3 +1,5 @@
+import { createPlugin } from '../lib/defaultPlugin';
+
 const buildYell = (app, gee) => {
     if (app && typeof app.yell === 'function') {
         return app.yell;
@@ -8,7 +10,7 @@ const buildYell = (app, gee) => {
     return null;
 };
 
-const draftPlugin = {
+const draftPlugin = createPlugin({
     name: 'data.draft',
     install({ app, gee }) {
         const yell = buildYell(app, gee);
@@ -33,6 +35,6 @@ const draftPlugin = {
 
         return { api: { importDraft } };
     },
-};
+});
 
 export default draftPlugin;

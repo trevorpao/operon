@@ -1,4 +1,6 @@
-const contactPlugin = {
+import { createPlugin } from '../lib/defaultPlugin';
+
+const contactPlugin = createPlugin({
     name: 'data.contact',
     async install({ app, gee }) {
         const yellFn = (app && typeof app.yell === 'function') ? app.yell : (gee && typeof gee.yell === 'function' ? gee.yell.bind(gee) : null);
@@ -17,6 +19,6 @@ const contactPlugin = {
 
         return { api: { send } };
     },
-};
+});
 
 export default contactPlugin;
