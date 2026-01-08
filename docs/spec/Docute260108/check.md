@@ -4,10 +4,10 @@
 - [x] PR1 僅含 scaffolding 與導覽骨架，diff 維持純文檔（本階段僅新增 docs/ 導覽/附錄）。
 
 ## Stage 1 – Shared / Event / Detect Docs
-- [ ] `docs/lib/shared.md` 記錄所有 shared helpers（含簽名、用途、SSR 注意、範例與 teardown 指引）。
-- [ ] `docs/lib/event.md` 詳述 emitter API（`createEmitter`, `on/off/once/emit/clear`）與 wildcard/teardown 使用案例。
-- [ ] `docs/lib/detect.md` 說明 capability 結構、`getCapabilities` 與 refresh 流程，並標示禁止 UA sniff。
-- [ ] `npm run test:run` 執行並通過；相關範例經 Markdown preview 驗證。
+- [x] `docs/lib/shared.md` 記錄所有 shared helpers（含簽名、用途、SSR 注意、範例與 teardown 指引）。
+- [x] `docs/lib/event.md` 詳述 emitter API（`createEmitter`, `on/off/once/emit/clear`）與 wildcard/teardown 使用案例。
+- [x] `docs/lib/detect.md` 說明 capability 結構、`getCapabilities` 與 refresh 流程，並標示禁止 UA sniff。
+- [x] `npm run test:run` 執行並通過；2026-01-08 – VS Code Markdown preview/links 自查完成。
 
 ## Stage 2 – Messaging / Head / Format Docs
 - [ ] `docs/lib/postmessage.md` 涵蓋 listener 建立、`createMessageValidator`、`requestResponse` timeout/fallback 實例。
