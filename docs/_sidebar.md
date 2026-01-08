@@ -11,6 +11,12 @@
   - [術語表](glossary.md)
 
 - Archived Spec
+  - RefactorLib
+    - [idea](spec/Archived/RefactorLib/idea.md)
+    - [plan](spec/Archived/RefactorLib/plan.md)
+    - [stage0](spec/Archived/RefactorLib/stage0.md)
+    - [check](spec/Archived/RefactorLib/check.md)
+    - [optimization](spec/Archived/RefactorLib/optimization.md)
   - Modulize
     - [idea](spec/Archived/Modulize/idea.md)
     - [plan](spec/Archived/Modulize/plan.md)

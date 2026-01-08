@@ -1,5 +1,26 @@
 # 開發歷程記錄
 
+## RefactorLib 規格（核心 lib 重構）
+
+完成日期 2026/01/08
+
+說明：重新梳理 `app/scripts/lib/*`，將偵測、事件、postmessage、head plugin 與通用 helpers 拆成純 ESM、SSR 安全且帶測試的模組，並在 Stage 5 拆除所有 legacy adapter，方便初階工程師按表操課。
+
+開發細節入口：
+- [`RefactorLib idea`](spec/Archived/RefactorLib/idea.md)
+- [`RefactorLib plan`](spec/Archived/RefactorLib/plan.md)
+- [`RefactorLib stage0`](spec/Archived/RefactorLib/stage0.md)
+- [`RefactorLib check`](spec/Archived/RefactorLib/check.md)
+- [`RefactorLib optimization`](spec/Archived/RefactorLib/optimization.md)
+
+重點規格（新 → 舊順序）：
+- Runtime/SSR：所有 lib 匯入時禁止直接接觸 `window`/`document`；必要時以 `withBrowser()`、`withDocument()` 包裝並透過 `lib/runtime/deps` 解析可選 peer（Handlebars、moment、gee）。
+- detect/head：裝置判斷依 `getCapabilities()` 快取；`headPlugin` 只在配置 `measurementId` 時注入 GA，並以 `requireModernBrowser()`/`onIncompatible` 處理舊版瀏覽器提示。
+- event bus：`lib/event` 改成 Map-based emitter，hooks 與 `app.site.registerBack` 都用 `on/off/emit/clear` + teardown，`gee.event` 相關寫法禁止再出現。
+- 工具拆分：舊 `extend.js` 切成 `dom/placeholder`、`dom/classList`、`forms/serialize`、`number/format` 等純函式；每個 helper 回傳解除函式以防止多次 init。
+- postmessage：新增 `createMessageValidator()` 及 `requestResponse()`，要求每個跨框訊息先驗證 schema 再送出，並提供 timeout/fallback 方案。
+- Stage 5 收斂：去除 `jQuery.browser.mobile` shim 與 `legacyHead/legacyEventBus`，更新 `rule.md`、`guide.md`、`history.md`，並記錄 regression（`npm run test:run`、privacy banner、draft import、slider）。
+
 ## Modulize 規格（plugin + hook 拆分）
 
 完成日期 2026/01/06

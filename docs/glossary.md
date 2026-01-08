@@ -13,3 +13,10 @@
 - hook teardown：每個 hook 回傳的解除函式，避免重複 init 後殘留事件或 class。
 - `defaultPlugin`：提供標準欄位（`name`、`install(ctx)`、可選 `init/destroy`）的基底，供新 plugin 延展。
 - `gee.hook` SOP：用 `data-gene="event:behavior"` 綁定；handler 先驗證/取 dataset，再呼叫 plugin API；無需掃描 `data-hook`。
+- RefactorLib：核心 lib 重構計畫，目的是將 `app/scripts/lib/*` 模組拆成純 ESM、SSR 安全、可 tree-shake 的工具集。
+- legacy adapter：在 RefactorLib 階段暫時提供的過渡層（例如 `jQuery.browser.mobile` 或 `gee.event` bridge），用來維持舊模組行為並在 Stage 5 全數拆除。
+- `withBrowser()` / `withDocument()`：`lib/shared` 提供的高階函式，透過 callback 延遲存取 `window`/`document`，避免在 SSR 或匯入期觸發副作用。
+- capabilities cache：`detect.getCapabilities()` 產生的結果物件，包含觸控/指標/viewport/偏好設定等特徵並可透過 `refreshCapabilities()` 更新。
+- `createMessageValidator()`：`postmessage` 模組的 schema helper，確保跨視窗訊息 payload 形狀符合預期才交給 listener。
+- `requestResponse()`：封裝 `postMessage` request/response 的 promise API，可設定 `targetOrigin`、timeout 與取消邏輯。
+- placeholder teardown：由 `dom/placeholder` 返回的解除函式，負責拆除 polyfill listener 以防多重初始化。

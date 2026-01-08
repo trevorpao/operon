@@ -44,4 +44,3 @@
 - validatr：API `validateField`/`validateForm`/`attach`/`addRule`；預設錯誤模板 `<div class="validatr-err">{{message}}</div>`，可關閉/覆寫；`data-error` 覆蓋訊息，自訂規則用 `data-{rule}`。
 - yell：`gene.yell(uri, postData, success?, error?, typeOrOpts?, hideLoadAnim?)` 回傳 `{ ok, code, data, error, status }`；物件自動 JSON，FormData/Blob 原樣，預設 `credentials: same-origin`、`mode: cors`。
 - 自訂元素：`customElem.register(tag, fn, { overwrite, mode })`（預設 replace），標記 `data-gee-tagged-{tag}` 防重複；`customElem.apply` 可重複套用。
-

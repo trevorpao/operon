@@ -43,3 +43,19 @@
 - 錯誤與通知
   - 成功/錯誤統一透過 `app.stdSuccess/stdErr` 或 plugin 自訂 notifier；禁止 `alert()`。
   - 事件匯流排請 import `on/emit/clear` 自 `../lib/event`；不再允許透過 `gee.event.subscribe/fire` 溝通。
+
+## RefactorLib（核心 Lib 模組）
+
+- 依賴與 SSR
+  - 匯入 `app/scripts/lib/*` 時不得觸發 DOM/`window` 副作用；若需要瀏覽器物件，務必以 `withBrowser()`、`withDocument()` 或 `ensureBrowser()` 包裹邏輯。
+  - 可選 peers（Handlebars、moment、gee）一律透過 `lib/runtime/deps` 解析，禁止直接讀寫 `window.<dep>` 以維持 SSR 渲染安全並便於測試 mock。
+- 偵測與 Head 流程
+  - 裝置判斷統一使用 `detect.getCapabilities()` 取得快取結果；僅在需要強制刷新時呼叫 `refreshCapabilities(overrides)`，嚴禁自行實作 UA sniff 或復刻 `jQuery.browser.*`。
+  - GA/瀏覽器門檻必須走 `headPlugin.requireModernBrowser()`，並僅在配置 `measurementId` 時呼叫 `injectAnalytics()`；UI 呈現改透過 `onIncompatible` callback 自行注入提示，不得直接 `alert()`。
+- 事件與跨框通訊
+  - 跨模組事件全部使用 `lib/event` emitter（`on/off/once/emit/clear`）與 `registerHooks` 產生的 teardown；`app.site.registerBack` 等 legacy API 亦須改用 emitter 以便回收。
+  - iframe／postMessage 流程使用 `createMessageValidator()` 驗證 payload，再透過 `requestResponse()` 包成 promise；自行建立 listener 時務必回傳 teardown 以避免洩漏。
+- 工具模組拆分
+  - DOM helper 依職責從 `dom/placeholder`、`dom/classList`、`forms/serialize`、`number/format` 匯入；禁止再依賴舊 `extend.js` 整包函式。
+  - Placeholder/事件類工具皆會回傳解除函式；hook/plugin 需保存並在 teardown 釋放以避免多次 init 堆疊。
+  - `format` 僅暴露純函式與 `registerTemplateHelpers(handlebars)`；不允許在 import 期間即註冊 Handlebars helper 或寫入 `app.formatHelper`。
