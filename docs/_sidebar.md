@@ -9,6 +9,17 @@
   - [商業規則](spec/rule.md)
   - [開發指引](spec/guide.md)
   - [術語表](glossary.md)
+  - Lib Guide
+    - [總覽](lib/README.md)
+    - [shared](lib/shared.md)
+    - [detect](lib/detect.md)
+    - [event](lib/event.md)
+    - [postmessage](lib/postmessage.md)
+    - [dom](lib/dom.md)
+    - [forms](lib/forms.md)
+    - [number](lib/number.md)
+    - [format](lib/format.md)
+    - [head](lib/head.md)
 
 - Archived Spec
   - RefactorLib

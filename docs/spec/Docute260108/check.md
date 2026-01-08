@@ -1,7 +1,7 @@
 ## Stage 0 – Scaffolding & Inventory
-- [ ] `docs/lib/README.md` 及各子檔（shared/detect/event/postmessage/dom/forms/number/format/head）建立完成，並加入 sidebar 連結。
-- [ ] 盤點表列出 `module -> exports` 映射且對照 PR，確認無遺漏函式。
-- [ ] PR1 僅含 scaffolding 與導覽骨架，diff 維持純文檔。
+- [x] `docs/lib/README.md` 及各子檔（shared/detect/event/postmessage/dom/forms/number/format/head）建立完成，並加入 sidebar 連結（2026-01-08）。
+- [x] 盤點表列出 `module -> exports` 映射且對照 PR，確認無遺漏函式（見 plan.md 附錄 A）。
+- [x] PR1 僅含 scaffolding 與導覽骨架，diff 維持純文檔（本階段僅新增 docs/ 導覽/附錄）。
 
 ## Stage 1 – Shared / Event / Detect Docs
 - [ ] `docs/lib/shared.md` 記錄所有 shared helpers（含簽名、用途、SSR 注意、範例與 teardown 指引）。

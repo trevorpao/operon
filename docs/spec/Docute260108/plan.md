@@ -2,7 +2,7 @@
 - 建立 `docs/lib/` 目錄結構：`README.md` 作為索引並先產生空檔 `shared.md`, `detect.md`, `event.md`, `postmessage.md`, `dom.md`, `forms.md`, `number.md`, `format.md`, `head.md`，確保後續 PR 可逐份補內容。
 - 以 `tree app/scripts/lib`/`grep '^export'` 盤點所有匯出函式與預設 export，寫入 `plan` 附錄供作者核對，避免遺漏（必要時用簡表列出 `module -> exports`）。
 - PR 切分：
-	- PR1：空白 docs scaffolding + sidebar 導覽骨架。
+	- PR1：空白 docs scaffolding + sidebar 導覽骨架。 
 	- PR2+：依 stage 補內文，確保每次 PR 僅修改 2~3 個模組文檔以利審核。
 
 ## Stage 1 – Core Runtime Docs（shared/event/detect）
@@ -31,3 +31,22 @@
 - 更新 `_sidebar.md`（在 Spec 區塊新增 `Lib Guide`）並於 `docs/spec/guide.md` 加上「Lib 參考」段落指向新 docs。
 - 完成後於 `check.md` 勾選所有條目，紀錄 smoke 結果與 reviewer 名稱；若後續需要存檔，依 `flow.md` SOP 進行 Optimization。
 - Fallback：若部分模組尚未撰寫（例如沒有實際使用），`README` 中需標示「TODO」並列入 backlog，避免讀者以為缺頁是 bug。
+
+### 附錄 A – `app/scripts/lib` 匯出對照
+
+| 模組 | Default Export | Named Exports |
+| --- | --- | --- |
+| `defaultPlugin.js` | `defaultPlugin` | `createPlugin`, `__resetPluginRegistry`, `listRegisteredPlugins` |
+| `detect.js` | `detect` | `getCapabilities`, `refreshCapabilities`, `isMobileDevice`, `hasTouchSupport`, `getViewport` |
+| `event.js` | `emitter` | `createEmitter`, `on`, `off`, `once`, `emit`, `clear`, `listenerCount` |
+| `event/emitter.js` | `createEmitter` | `createEmitter`, `isWildcardPattern`, `matchesTopic` |
+| `postmessage.js` | `{ postMessage, receiveMessage, ... }` | `postMessage`, `receiveMessage`, `createMessageValidator`, `createMessageListener`, `requestResponse`, `parseMessageData` |
+| `shared.js` | — | `isBrowser`, `isSSR`, `toStringSafe`, `toNumberSafe`, `toNodes`, `toElements`, `toElement`, `ensureBrowser`, `withBrowser`, `withDocument`, `WHITESPACE_RE` |
+| `dom/placeholder.js` | — | `placeholder`, `supportsNativePlaceholder` |
+| `dom/classList.js` | — | `alterClass`, `hasMutilClass`, `visible` |
+| `forms/serialize.js` | — | `serializeFormJSON` |
+| `number/format.js` | — | `formatNum` |
+| `format.js` | `formatPlugin` | `createFormatHelper`, `registerTemplateHelpers`, `THUMBNAIL_PRESETS` |
+| `head.js` | `headPlugin` | `requireModernBrowser`, `injectAnalytics`, `configureAnalytics`, `loadAnalyticsScript`, `bootstrap`, `isLegacyIE`, `resetState` |
+| `runtime/deps.js` | `{ getGlobal, ... }` | `getGlobal`, `getWindow`, `getDocument`, `isBrowserEnv`, `resolveGee`, `resolveHandlebars`, `resolveMoment`, `resolveJQuery` |
+| `index.js` | — | re-export `createPlugin`, postmessage helpers, shared helpers, `placeholder`, `alterClass`, `hasMutilClass`, `visible`, `serializeFormJSON`, `formatNum` |
