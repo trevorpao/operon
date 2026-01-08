@@ -1,4 +1,4 @@
-import gee from 'trevorpao/geneEH';
+import 'gene-event-handler';
 import { createRuntime } from './lib/core/runtime';
 import { createDomUtils } from './lib/dom/utils';
 import { createValidation } from './lib/forms/validation';

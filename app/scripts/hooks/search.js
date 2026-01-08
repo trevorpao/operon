@@ -1,4 +1,4 @@
-import gee from 'trevorpao/geneEH';
+import 'gene-event-handler';
 import app from '../app';
 import { toElement, toNumberSafe, ensureBrowser } from '../lib/shared';
 import registerHooks from '../lib/hooks/register';

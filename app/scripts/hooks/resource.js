@@ -1,4 +1,4 @@
-import gee from 'trevorpao/geneEH';
+import 'gene-event-handler';
 import app from '../app';
 import installTrackHook from './track';
 import { toNumberSafe, toElement } from '../lib/shared';

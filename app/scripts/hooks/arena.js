@@ -155,19 +155,6 @@ export default function installArenaHook() {
         }
     };
 
-    const handleReact = (me) => {
-        const eventObj = me && me.event;
-        const target = eventObj ? eventObj.target : null;
-        const ta = target ? (target.getAttribute && target.getAttribute('func') ? target : target.parentElement) : null;
-        if (!ta || !ta.getAttribute) return;
-        const func = ta.getAttribute('func');
-        const type = ta.dataset && ta.dataset.event ? ta.dataset.event : 'click';
-        if (type === (eventObj ? eventObj.type : 'click') && typeof gee.exe === 'function' && gee.check(func)) {
-            ta.event = eventObj;
-            gee.exe(func, ta);
-        }
-    };
-
     const handleReactSubmit = (me) => {
         const eventObj = me && me.event;
         const code = eventObj && (eventObj.keyCode || eventObj.which);
@@ -402,7 +389,7 @@ export default function installArenaHook() {
 
     const legacyPlainHooks = [
         'largerFont', 'smallerFont', 'goTop', 'loadMain', 'loadBox', 'loadModal',
-        'replaceMe', 'reExe', 'reXPos', 'initAutolink', 'initPagination', 'initTmpl', 'react',
+        'replaceMe', 'reExe', 'reXPos', 'initAutolink', 'initPagination', 'initTmpl',
         'reactSubmit', 'adjustFontSize', 'hideMsg', 'loadZip', 'switchTab', 'readySubmit',
         'switchPasswd', 'nextstep', 'backstep', 'nxtCol', 'calDateLimit',
     ];
@@ -424,7 +411,6 @@ export default function installArenaHook() {
         initAutolink: { handler: handleAutolink, event: 'init' },
         initPagination: { handler: handlePagination, event: 'init' },
         initTmpl: { handler: handleInitTmpl, event: 'init' },
-        react: handleReact,
         reactSubmit: handleReactSubmit,
         adjustFontSize: handleAdjustFontSize,
         hideMsg: handleHideMsg,

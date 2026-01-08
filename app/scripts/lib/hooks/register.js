@@ -1,4 +1,4 @@
-import gee from 'trevorpao/geneEH';
+import 'gene-event-handler';
 
 const toArray = (value) => {
     if (!value) return [];

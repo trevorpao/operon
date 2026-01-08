@@ -116,11 +116,17 @@
     <pre class="code"><code>{{ example_run|e }}</code></pre>
   </section>
 
-  <section class="box">
-    <h3>開發腳本</h3>
-    <pre class="code"><code>{{ scripts|e }}</code></pre>
-    <p>{{ test_focus|e }}</p>
-  </section>
+  <div class="card my-5">
+      <header class="card-header">
+          <p class="card-header-title">Gene 測試</p>
+      </header>
+      <div class="card-content">
+          <div class="content">
+              點擊按鈕觸發內建的 <code>alert</code> 行為。
+          </div>
+          <button class="button is-primary gee" data-gene="click:alert" data-title="提醒" data-txt="這是由 Button 設定的提示訊息！">顯示提示</button>
+      </div>
+  </div>
 
   <section class="box">
     <h3>授權</h3>

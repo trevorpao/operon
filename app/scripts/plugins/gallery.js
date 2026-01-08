@@ -1,4 +1,4 @@
-import gee from 'trevorpao/geneEH';
+import 'gene-event-handler';
 import { createPlugin } from '../lib/defaultPlugin';
 
 const galleryPlugin = createPlugin({

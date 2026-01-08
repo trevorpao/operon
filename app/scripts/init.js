@@ -2,12 +2,21 @@
  * app init
  */
 
+import 'gene-event-handler';
+
 import app from './app';
-import gee from 'trevorpao/geneEH';
 import { trackPlugin, formatPlugin, extendPlugin, previewPlugin, resourcePlugin, menuPlugin, modalPlugin, privacyPlugin, markdownPlugin, draftPlugin, themeDefaultPlugin, arenaPlugin, contactPlugin, sliderPlugin, slidePlugin, galleryPlugin, searchPlugin } from './plugins';
 import { installTrackHook, installResourceHook, installMenuHook, installModalHook, installUiHook, installArenaHook, installContactHook, installSliderHook, installSlideHook, installGalleryHook, installSearchHook, installDefaultTheme } from './hooks';
 
-$(async function() {
+const onReady = (fn) => {
+    if (document.readyState === 'complete' || document.readyState === 'interactive') {
+        fn();
+    } else {
+        document.addEventListener('DOMContentLoaded', fn, { once: true });
+    }
+};
+
+onReady(async function() {
     'use strict';
 
     var modules = []; // migrated to hooks/plugins
