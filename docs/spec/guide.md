@@ -17,6 +17,7 @@
 - 命名規則：Hook 名稱一律採 `namespace.reaction`（dot notation）。僅當名稱對應實際路徑（如 mock `menu/lotsMenu`）才使用 `/`。
 - 透過 `registerHooks(namespace, map, options)` 註冊，可自動產出 legacy slash/舊名 alias，避免命名飄移。
 - 如果 `namespace` 中 `reaction` 不足三個，僅使用 `gee.hook` 即可，不用使用 `registerHooks`。
+- 跨模組 broadcast 事件請 `import { on, emit, clear } from '../lib/event'`；禁止再碰 `gee.event.subscribe/fire/clear`。
 
 ### Preview / Mock 流程
 

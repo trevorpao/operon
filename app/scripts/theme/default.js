@@ -1,8 +1,8 @@
-import gee from 'trevorpao/geneEH';
 import app from '../app';
 import { createPlugin } from '../lib/defaultPlugin';
 import { toElement, ensureBrowser } from '../lib/shared';
 import registerHooks from '../lib/hooks/register';
+import { on as onEvent, emit as emitEvent, clear as clearEvent } from '../lib/event';
 
 const messages = {
     tw: {
@@ -25,8 +25,8 @@ const ensureSiteNamespace = () => {
     }
     if (typeof state.registerBack !== 'function') {
         state.registerBack = (handler) => {
-            if (!handler || !gee || !gee.event || typeof gee.event.subscribe !== 'function') return;
-            gee.event.subscribe('arena.backPrevious', handler);
+            if (typeof handler !== 'function') return () => {};
+            return onEvent('arena.backPrevious', handler);
         };
     }
 };
@@ -159,16 +159,12 @@ export function installDefaultTheme() {
     };
 
     const handleGoback = () => {
-        if (gee && gee.event && typeof gee.event.fire === 'function') {
-            gee.event.fire('arena.backPrevious', {});
-        }
+        emitEvent('arena.backPrevious', {});
         const backBtn = document.getElementById('back-btn');
         if (backBtn) {
             backBtn.classList.add('hide');
         }
-        if (gee && gee.event && typeof gee.event.clear === 'function') {
-            gee.event.clear('arena.backPrevious');
-        }
+        clearEvent('arena.backPrevious');
         window.history.go(-1);
         return true;
     };

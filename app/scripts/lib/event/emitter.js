@@ -117,46 +117,6 @@ export const createEmitter = (options = {}) => {
     };
 };
 
-export const createGeeAdapter = (emitter) => {
-    if (!emitter || typeof emitter !== 'object') {
-        throw new Error('createGeeAdapter requires an emitter instance');
-    }
-
-    const adapter = {
-        subscribe(topic, handler) {
-            return emitter.on(topic, handler);
-        },
-        unsubscribe(topic, handler) {
-            if (!handler) {
-                emitter.clear(topic);
-                return;
-            }
-            emitter.off(topic, handler);
-        },
-        once(topic, handler) {
-            return emitter.once(topic, handler);
-        },
-        monitor(topic, handler) {
-            if (!isFunction(handler)) return NOOP;
-            if (handler() === true) return NOOP;
-            const wrapped = (...args) => {
-                if (handler(...args)) {
-                    adapter.unsubscribe(topic, wrapped);
-                }
-            };
-            return adapter.subscribe(topic, wrapped);
-        },
-        clear(topic) {
-            emitter.clear(topic);
-        },
-        fire(topic, ...args) {
-            emitter.emit(topic, ...args);
-        },
-    };
-
-    return adapter;
-};
-
 export { isWildcardPattern, matchesTopic };
 
 export default createEmitter;

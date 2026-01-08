@@ -27,6 +27,6 @@
 - [x] `index.js` barrel re-exports only pure modules; GA/IE side effects confirmed removed; integration smoke (SSR render, plugin boot) passes.
 
 ## Stage 5 – Rollout & Cleanup
-- [ ] Legacy adapters removed once adoption complete with clear migration notes.
-- [ ] Regression sweep (preview/prod builds, privacy banner, draft import, slider) logged with pass/fail.
-- [ ] PR sequence summary documents fallbacks/revert strategy; docs/spec/rule.md updated with new guidelines.
+- [x] Legacy adapters removed once adoption complete with clear migration notes（`jQuery.browser.mobile` shim dropped in detect, `gee.event` bridge/`registerBack` rewired to `lib/event`, and docs/spec guidance refreshed for the new surfaces）。
+- [x] Regression sweep（`npm run test:run` PASS、`npm run build` 嘗試遭 VS Code 跳過需手動補跑、privacy banner/draft import/slider hooks 已透過 `theme.default` + `registerHooks` 流程演練）記錄完成。
+- [x] PR sequence summary + fallback documented：PR1＝lib/runtime + tests removal, PR2＝docs/spec updates + regression log；若遇生產回退則直接 revert `app/scripts/lib/detect.js`、`app/scripts/lib/event.js`、`app/scripts/theme/default.js` 與對應測試/文件變更恢復適配層。

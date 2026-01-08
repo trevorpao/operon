@@ -1,5 +1,5 @@
 import { describe, it, expect, vi } from 'vitest';
-import { createEmitter, createGeeAdapter } from '../../../app/scripts/lib/event/emitter';
+import { createEmitter } from '../../../app/scripts/lib/event/emitter';
 
 describe('createEmitter', () => {
     it('registers and unregisters listeners', () => {
@@ -33,38 +33,13 @@ describe('createEmitter', () => {
         expect(wildcardHandler).toHaveBeenCalledTimes(2);
         expect(wildcardHandler).toHaveBeenCalledWith('order.created', { id: 10 });
     });
-});
 
-describe('createGeeAdapter', () => {
-    it('provides legacy subscribe/fire api', () => {
+    it('clears listeners and reports counts', () => {
         const emitter = createEmitter();
-        const adapter = createGeeAdapter(emitter);
         const handler = vi.fn();
-
-        adapter.subscribe('profile.updated', handler);
-        adapter.fire('profile.updated', { ok: true });
-        expect(handler).toHaveBeenCalledTimes(1);
-        expect(handler).toHaveBeenCalledWith({ ok: true });
-
-        adapter.clear('profile.updated');
-        adapter.fire('profile.updated', { ok: false });
-        expect(handler).toHaveBeenCalledTimes(1);
-    });
-
-    it('monitors until predicate passes', () => {
-        const emitter = createEmitter();
-        const adapter = createGeeAdapter(emitter);
-        const calls = [];
-
-        adapter.monitor('queue.ready', (payload) => {
-            calls.push(payload || null);
-            return calls.length >= 3;
-        });
-
-        expect(calls).toHaveLength(1); // initial invocation without args
-        adapter.fire('queue.ready', 'first');
-        adapter.fire('queue.ready', 'second');
-        adapter.fire('queue.ready', 'third');
-        expect(calls).toEqual([null, 'first', 'second']);
+        emitter.on('user.login', handler);
+        expect(emitter.listenerCount('user.login')).toBe(1);
+        emitter.clear('user.login');
+        expect(emitter.listenerCount('user.login')).toBe(0);
     });
 });

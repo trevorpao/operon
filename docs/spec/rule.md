@@ -19,6 +19,9 @@
   - 統一使用 `gee.alert` 或後續決議的 notifier；禁止在模組內直接 `alert()`。
 - 前後端相容
   - 後端回傳的模板/HTML 需兼容 Handlebars 預編譯輸出；不得再使用 JsRender 標記。
+- 偵測與事件
+  - 不再提供 `jQuery.browser.mobile`，需要判斷裝置時請從 `app/scripts/lib/detect` 取得 `getCapabilities/isMobileDevice`。
+  - 跨模組事件全部改用 `app/scripts/lib/event` 暴露的 `on/emit/clear`；禁止 mutating `gee.event.*`。
 
 ## Modulize（plugin + hook）
 
@@ -39,3 +42,4 @@
   - 追蹤元件以 `data-cate/data-act/data-label` 提供 GA/FB 參數，缺省 fallback `normal/jump/title`。
 - 錯誤與通知
   - 成功/錯誤統一透過 `app.stdSuccess/stdErr` 或 plugin 自訂 notifier；禁止 `alert()`。
+  - 事件匯流排請 import `on/emit/clear` 自 `../lib/event`；不再允許透過 `gee.event.subscribe/fire` 溝通。

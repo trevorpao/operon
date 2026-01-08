@@ -1,17 +1,6 @@
-import { resolveGee } from './runtime/deps';
-import { createEmitter, createGeeAdapter } from './event/emitter';
+import { createEmitter } from './event/emitter';
 
 const emitter = createEmitter();
-const legacyAdapter = createGeeAdapter(emitter);
-
-const attachGeeEvent = (target) => {
-    const geeTarget = target || resolveGee();
-    if (!geeTarget || typeof geeTarget !== 'object') return null;
-    geeTarget.event = legacyAdapter;
-    return geeTarget.event;
-};
-
-attachGeeEvent();
 
 const on = (topic, handler) => emitter.on(topic, handler);
 const off = (topic, handler) => emitter.off(topic, handler);
@@ -22,9 +11,6 @@ const listenerCount = (topic) => emitter.listenerCount(topic);
 
 export {
     createEmitter,
-    createGeeAdapter,
-    attachGeeEvent,
-    legacyAdapter as geeEvent,
     on,
     off,
     once,

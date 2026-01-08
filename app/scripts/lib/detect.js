@@ -1,5 +1,4 @@
 import { withBrowser } from './shared';
-import { resolveJQuery } from './runtime/deps';
 
 const UA_MOBILE = /Android|iP(hone|od|ad)|Mobile|BlackBerry|IEMobile|Opera Mini|Windows Phone/i;
 
@@ -87,14 +86,6 @@ const computeCapabilities = (source = {}) => {
 
 let cachedCapabilities = null;
 
-const syncLegacyMobileShim = (caps) => {
-	const jquery = resolveJQuery();
-	if (!jquery) return null;
-	jquery.browser = jquery.browser || {};
-	jquery.browser.mobile = Boolean(caps?.isMobile);
-	return jquery.browser.mobile;
-};
-
 const refreshCapabilities = (overrides) => {
 	if (overrides) {
 		cachedCapabilities = computeCapabilities(overrides);
@@ -104,7 +95,6 @@ const refreshCapabilities = (overrides) => {
 			() => computeCapabilities()
 		);
 	}
-	syncLegacyMobileShim(cachedCapabilities);
 	return cachedCapabilities;
 };
 
@@ -133,7 +123,6 @@ const detect = {
 	isMobileDevice,
 	hasTouchSupport,
 	getViewport,
-	syncLegacyMobileShim,
 };
 
 export {
@@ -142,7 +131,6 @@ export {
 	isMobileDevice,
 	hasTouchSupport,
 	getViewport,
-	syncLegacyMobileShim,
 };
 
 export default detect;

@@ -5,7 +5,6 @@ import { createValidation } from './lib/forms/validation';
 import { createNet } from './lib/net/yell';
 import { createMedia } from './lib/media/assets';
 import { createFormat } from './lib/helpers/format';
-import { attachGeeEvent } from './lib/event';
 
 const createApp = () => {
     const config = {
@@ -54,8 +53,6 @@ const createApp = () => {
 };
 
 const app = createApp();
-
-attachGeeEvent(gee);
 
 if (typeof Handlebars !== 'undefined' && typeof Handlebars.registerHelper === 'function') {
     Object.entries(app.formatHelper).forEach(function ([name, fn]) {
