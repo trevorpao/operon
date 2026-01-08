@@ -4,6 +4,12 @@
 npm install --save ./gene-event-handler-2.1.tgz
 npm install --save-dev ./vite-twig-ssr-0.3.0.tgz
 
+## 初始化
+
+```bash
+mkdir -p docs/spec/<feature> && cd $_ && touch {idea,plan,check,optimization}.md && cd -
+```
+
 ## 規劃
 
 請按 `docs/spec/flow.md` 之 `SOP > plan（規劃）` 的要求
@@ -16,7 +22,7 @@ npm install --save-dev ./vite-twig-ssr-0.3.0.tgz
 
 ## 開發
 
-落實 `docs/spec/<feature>` 之 stage 5
+落實 `docs/spec/<feature>` 之 stage 2
 
 1) 載入 `docs/spec/<feature>` 內之 plan 及 check 文檔
 2) 根據 plan.md，執行優化
@@ -56,8 +62,3 @@ npm install --save-dev ./vite-twig-ssr-0.3.0.tgz
 建立對應的 `app/scripts/hooks` 及 `app/scripts/plugins` 新版程式
 
 
-
-有兩個版本的 `app/scripts/app.js` 及 `app/scripts/app_old.js` 
-請按 `docs/spec/guide.md` 之 `開發規則 > Plugin & Hook` 的要求
-完成改動
-再次盤點 `app_old.js` 寫法，確保 `app.js` 沒有遺漏函式

@@ -12,9 +12,9 @@
 - [x] Smoke tests executed: plugin failure handling, hook registration/unregistration, emitter wildcard case.
 
 ## Stage 2 – High-Risk Modules
-- [ ] `detect.js` rewritten as feature API, legacy `jQuery.browser.mobile` shim validated.
-- [ ] `head.js` plugin gated by config with `requireModernBrowser()` helper; GA only fires when measurement ID provided.
-- [ ] SSR smoke run proves both modules avoid `window` access during import.
+- [x] `detect.js` rewritten as feature API, legacy `jQuery.browser.mobile` shim validated.
+- [x] `head.js` plugin gated by config with `requireModernBrowser()` helper; GA only fires when measurement ID provided.
+- [x] SSR smoke run proves both modules avoid `window` access during import.
 
 ## Stage 3 – Utility Module Decomposition
 - [ ] `extend.js` split into domain helpers with teardown handles; all consumers updated.

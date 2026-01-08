@@ -1,5 +1,5 @@
 import app from '../app';
-import { toElement, ensureBrowser } from '../lib/head';
+import { toElement, ensureBrowser } from '../lib/shared';
 
 app.install('press', () => {
     const press = app.get('press');
