@@ -20,3 +20,6 @@
 - `createMessageValidator()`：`postmessage` 模組的 schema helper，確保跨視窗訊息 payload 形狀符合預期才交給 listener。
 - `requestResponse()`：封裝 `postMessage` request/response 的 promise API，可設定 `targetOrigin`、timeout 與取消邏輯。
 - placeholder teardown：由 `dom/placeholder` 返回的解除函式，負責拆除 polyfill listener 以防多重初始化。
+- Lib Guide：`docs/lib/README.md` 及子檔，收錄每個 `app/scripts/lib/*` 模組的 API、SSR 守則與範例，並在 sidebar/guide 中提供入口。
+- Docute260108：針對 RefactorLib 所有 helper 的文件化專案，拆成 Stage0–Stage4（scaffold → runtime → messaging → DOM/form/number → index & QA），完成後歸檔於 `docs/spec/Archived/Docute260108/`。
+- Export matrix：Lib Guide README 中的 `module -> exports` 對照表，要求新增 helper 時同步更新，方便快速查漏及審核 docs。

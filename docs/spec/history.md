@@ -1,5 +1,24 @@
 # 開發歷程記錄
 
+## Docute260108（Lib Guide 文件化）
+
+完成日期 2026/01/08
+
+說明：把 RefactorLib 的 helper 全面文件化，建立 `docs/lib/*`、索引/匯出矩陣、sidebar 導覽，以及 Stage 0–4 的檢查流程，方便初階工程師查詢 SSR 守則、teardown 範例與跨模組規範。
+
+開發細節入口：
+- [`Docute260108 idea`](spec/Archived/Docute260108/idea.md)
+- [`Docute260108 plan`](spec/Archived/Docute260108/plan.md)
+- [`Docute260108 check`](spec/Archived/Docute260108/check.md)
+- [`Docute260108 optimization`](spec/Archived/Docute260108/optimization.md)
+
+重點規格（新 → 舊順序）：
+- Lib Guide 架構：每個 `app/scripts/lib/*` 模組對應一份 Markdown，章節固定包含 `Export Surface`、`Usage`、`Testing/Fallback`，範例需展示 `withBrowser/withDocument` 或 teardown 寫法。
+- 索引/導航：新增或修改 helper 時，必須同步更新 `docs/lib/README.md` 的快速索引與匯出矩陣、`docs/_sidebar.md` 的 Lib Guide 清單、以及 `docs/spec/guide.md` 的「Lib 參考」段落。
+- Smoke 流程：Stage 1–3 以 `npm run test:run` 驗證（若需要可再跑 lint）；Stage 2 需留意 ESLint v9 要求 `eslint.config.js`，若尚未建置就要在 `check.md` 錄下阻擋原因與後續行動。
+- Legacy 警語：postMessage、DOM helper、format plugin 等章節需醒目標記「legacy adapter 已拆除／請先移除 jQuery 依賴」，避免工程師再引用舊 shim。
+- 檔案治理：專案完成後將整個 spec 目錄移入 `docs/spec/Archived/Docute260108/`，確保後續查詢仍有完整 idea/plan/check/optimization 紀錄。
+
 ## RefactorLib 規格（核心 lib 重構）
 
 完成日期 2026/01/08

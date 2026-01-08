@@ -59,3 +59,14 @@
   - DOM helper 依職責從 `dom/placeholder`、`dom/classList`、`forms/serialize`、`number/format` 匯入；禁止再依賴舊 `extend.js` 整包函式。
   - Placeholder/事件類工具皆會回傳解除函式；hook/plugin 需保存並在 teardown 釋放以避免多次 init 堆疊。
   - `format` 僅暴露純函式與 `registerTemplateHelpers(handlebars)`；不允許在 import 期間即註冊 Handlebars helper 或寫入 `app.formatHelper`。
+
+## Docute260108（Lib Guide 文件化）
+
+- 文件結構與內容
+  - `docs/lib/*` 需依 module 分檔，採固定段落：`Export Surface`、`Usage/teardown`、`Testing/Fallback`，範例必須示範 `withBrowser/withDocument` 守則或 teardown 流程。
+  - 任一新 helper 被加入 `app/scripts/lib/*` 時，必須同步更新對應檔案、`docs/lib/README.md` 的索引與匯出矩陣，以及 `docs/_sidebar.md` 導覽。
+  - 所有跨視窗、DOM 或格式化案例需明確標示「Legacy adapter 已拆除／需先移除 jQuery 依賴」字樣，避免後續開發者回帶舊寫法。
+- 流程與驗證
+  - 每個 Stage 的輸出都要回寫 `docs/spec/Docute260108/check.md`，記錄 smoke tester、測試命令與 reviewer；Markdown 需於 VS Code preview 自查連結。
+  - 新增或更新 docs 時，除 `npm run test:run` 基準外，涉及 lint 的章節要確保 `npm run lint` 可執行（或在 check 中註記阻擋因子與後續行動，如建立 `eslint.config.js`）。
+  - `_sidebar.md` 與 `docs/spec/guide.md` 必須持續連結到最新的 Lib Guide，並在交付完成後將整個 spec 歸檔至 `docs/spec/Archived/Docute260108/` 以保住追溯紀錄。

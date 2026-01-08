@@ -35,9 +35,9 @@ mkdir -p docs/spec/<feature> && cd $_ && touch {idea,plan,check,optimization}.md
 
 執行 `docs/spec/<feature>` 之文件化及優化
 
-1) 將 feature 開發過程中建立的商業邏輯整理進 `docs/spec/rule.md`
-2) 將 feature 的特殊詞彙整理進 `docs/glossary.md`。
-3) 在 `docs/spec/<feature>/optimization.md` 中，說明未來可能的改進思路。
+1) 在 `docs/spec/<feature>/optimization.md` 中，說明未來可能的改進思路。
+2) 將 feature 開發過程中建立的商業邏輯整理進 `docs/spec/rule.md`
+3) 將 feature 的特殊詞彙整理進 `docs/glossary.md`。
 4) `docs/spec/<feature>/` 移動到 `docs/spec/Archived/<feature>/`
 5) 將 feature 中需要遵偱的規格寫入 `docs/spec/history.md` 中，讀者為初階工程師，以利團隊協作。寫入順序由新到舊。
 6) 更新 `docs/_sidebar.md` 

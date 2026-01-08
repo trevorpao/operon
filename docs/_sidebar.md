@@ -22,6 +22,11 @@
     - [Head Plugin & Analytics](lib/head.md)
 
 - Archived Spec
+  - Docute260108
+    - [idea](spec/Archived/Docute260108/idea.md)
+    - [plan](spec/Archived/Docute260108/plan.md)
+    - [check](spec/Archived/Docute260108/check.md)
+    - [optimization](spec/Archived/Docute260108/optimization.md)
   - RefactorLib
     - [idea](spec/Archived/RefactorLib/idea.md)
     - [plan](spec/Archived/RefactorLib/plan.md)
