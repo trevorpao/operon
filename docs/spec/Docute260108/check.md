@@ -16,10 +16,10 @@
 - [ ] `npm run lint` 或等效檢查通過；`npm run lint` 於 2026-01-08 因缺少 `eslint.config.js` 中止（ESLint v9 需求），Markdown 預覽已完成但仍需人工作為 Reviewer。
 
 ## Stage 3 – DOM / Forms / Number Helpers
-- [ ] `docs/lib/dom.md` 描述 placeholder/classList 等 API，並教學如何保存/釋放 teardown。
-- [ ] `docs/lib/forms.md` 提供 serialize、validation 工具示例與 submit 範本。
-- [ ] `docs/lib/number.md` 敘述 `formatNum` 等純函式的輸入/輸出與 locale 注意事項。
-- [ ] 示例程式碼經 ESLint/VS Code 檢查且 `npm run test:run` 再次成功。
+- [x] `docs/lib/dom.md` 描述 placeholder/classList 等 API，並教學如何保存/釋放 teardown。
+- [x] `docs/lib/forms.md` 提供 serialize、validation 工具示例與 submit 範本。
+- [x] `docs/lib/number.md` 敘述 `formatNum` 等純函式的輸入/輸出與 locale 注意事項。
+- [x] `npm run test:run` 成功（2026-01-08）；`npm run test:run -- --filter=dom` 不被 Vitest CLI 支援已記錄。示例程式碼於 VS Code JS/TS server 中檢查無語法錯誤。
 
 ## Stage 4 – Index & Final QA
 - [ ] `docs/lib/README.md` 收錄索引表、函式對照與撰寫模板，並標註未完成章節的 TODO。
