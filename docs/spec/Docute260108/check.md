@@ -10,10 +10,10 @@
 - [x] `npm run test:run` 執行並通過；2026-01-08 – VS Code Markdown preview/links 自查完成。
 
 ## Stage 2 – Messaging / Head / Format Docs
-- [ ] `docs/lib/postmessage.md` 涵蓋 listener 建立、`createMessageValidator`、`requestResponse` timeout/fallback 實例。
-- [ ] `docs/lib/head.md` 說明 `requireModernBrowser`, `injectAnalytics`, `bootstrap`, `onIncompatible` UI 範例。
-- [ ] `docs/lib/format.md` 展示純函式、依賴注入、`registerTemplateHelpers` 使用情境。
-- [ ] `npm run lint` 或等效檢查通過；至少一篇由其他成員審閱並註記 Reviewer。
+- [x] `docs/lib/postmessage.md` 涵蓋 listener 建立、`createMessageValidator`、`requestResponse` timeout/fallback 實例。
+- [x] `docs/lib/head.md` 說明 `requireModernBrowser`, `injectAnalytics`, `bootstrap`, `onIncompatible` UI 範例。
+- [x] `docs/lib/format.md` 展示純函式、依賴注入、`registerTemplateHelpers` 使用情境。
+- [ ] `npm run lint` 或等效檢查通過；`npm run lint` 於 2026-01-08 因缺少 `eslint.config.js` 中止（ESLint v9 需求），Markdown 預覽已完成但仍需人工作為 Reviewer。
 
 ## Stage 3 – DOM / Forms / Number Helpers
 - [ ] `docs/lib/dom.md` 描述 placeholder/classList 等 API，並教學如何保存/釋放 teardown。
