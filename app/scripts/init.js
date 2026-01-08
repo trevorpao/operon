@@ -4,8 +4,8 @@
 
 import app from './app';
 import gee from 'trevorpao/geneEH';
-import { trackPlugin, formatPlugin, extendPlugin, previewPlugin, resourcePlugin, menuPlugin, modalPlugin, arenaPlugin, contactPlugin, sliderPlugin, galleryPlugin, searchPlugin } from './plugins';
-import { installTrackHook, installResourceHook, installMenuHook, installModalHook, installArenaHook, installContactHook, installSliderHook, installGalleryHook, installSearchHook } from './hooks';
+import { trackPlugin, formatPlugin, extendPlugin, previewPlugin, resourcePlugin, menuPlugin, modalPlugin, privacyPlugin, markdownPlugin, draftPlugin, themeDefaultPlugin, arenaPlugin, contactPlugin, sliderPlugin, slidePlugin, galleryPlugin, searchPlugin } from './plugins';
+import { installTrackHook, installResourceHook, installMenuHook, installModalHook, installUiHook, installArenaHook, installContactHook, installSliderHook, installSlideHook, installGalleryHook, installSearchHook, installDefaultTheme } from './hooks';
 
 $(async function() {
     'use strict';
@@ -19,9 +19,14 @@ $(async function() {
     await app.use(resourcePlugin);
     await app.use(menuPlugin);
     await app.use(modalPlugin);
+    await app.use(privacyPlugin);
+    await app.use(markdownPlugin);
+    await app.use(draftPlugin);
+    await app.use(themeDefaultPlugin);
     await app.use(arenaPlugin);
     await app.use(contactPlugin);
     await app.use(sliderPlugin);
+    await app.use(slidePlugin);
     await app.use(galleryPlugin);
     await app.use(searchPlugin);
 
@@ -35,11 +40,14 @@ $(async function() {
     installResourceHook();
     installMenuHook();
     installModalHook();
+    installUiHook();
     installArenaHook();
     installContactHook();
     installSliderHook();
+    installSlideHook();
     installGalleryHook();
     installSearchHook();
+    installDefaultTheme();
 
     modules.push('site'); // the final one
 

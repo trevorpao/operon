@@ -36,7 +36,7 @@
 	- 追蹤：prod 模式呼叫 `app.track.bind`。
 - track (`modules/track.js`)
 	- 元素 `.track` 改用原生事件監聽，發送 GA / FB Pixel (`data-cate/act/label/which`)。
-- site (`sites/default.js`)
+- site (`theme/default.js`)
 	- 文章圖片 caption 與影片 16:9 調整改為原生 DOM 操作。
 	- Hooks：`site/toggleNav`, `site/closeNav`, `site/masonryInit` 改用原生事件/版型插件。
 
