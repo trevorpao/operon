@@ -1,6 +1,7 @@
 import gee from 'trevorpao/geneEH';
 import app from '../app';
 import { toElement } from '../lib/dom/utils';
+import registerHooks from '../lib/hooks/register';
 
 const getTemplateFn = (name, selector, fallbackEl) => {
     if (app.tmplStores[name]) return app.tmplStores[name];
@@ -107,11 +108,16 @@ export default function installMenuHook() {
         return renderMenu(el, tmplName);
     };
 
-    if (typeof gee !== 'undefined' && typeof gee.hook === 'function') {
-        gee.hook('menu/load', makeHandler());
-        gee.hook('getMainMenu', makeHandler('menuTmpl'));
-        gee.hook('getFooterMenu', makeHandler('footerMenuTmpl'));
-    }
+    registerHooks('menu', {
+        load: makeHandler(),
+        getMainMenu: makeHandler('menuTmpl'),
+        getFooterMenu: makeHandler('footerMenuTmpl'),
+    }, {
+        legacy: {
+            getMainMenu: 'getMainMenu',
+            getFooterMenu: 'getFooterMenu',
+        },
+    });
 
     return function teardown() {
         runTeardowns();

@@ -2,6 +2,7 @@ import gee from 'trevorpao/geneEH';
 import app from '../app';
 import installTrackHook from './track';
 import { toNumberSafe, toElement } from '../lib/shared';
+import registerHooks from '../lib/hooks/register';
 
 const compileTemplate = (tmplName, boxEl) => {
     if (app.tmplStores[tmplName]) {
@@ -99,10 +100,12 @@ export default function installResourceHook() {
             });
     };
 
-    if (typeof gee !== 'undefined' && typeof gee.hook === 'function') {
-        gee.hook('resource.load', handleLoad);
-        gee.hook('loadTop10', handleTop10);
-    }
+    registerHooks('resource', {
+        load: handleLoad,
+        loadTop10: { handler: handleTop10 },
+    }, {
+        legacy: { loadTop10: 'loadTop10' },
+    });
 
     return function teardown() {};
 }

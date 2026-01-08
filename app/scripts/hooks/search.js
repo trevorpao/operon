@@ -1,6 +1,7 @@
 import gee from 'trevorpao/geneEH';
 import app from '../app';
 import { toElement, toNumberSafe, ensureBrowser } from '../lib/shared';
+import registerHooks from '../lib/hooks/register';
 
 const DEFAULT_LIMIT = 24;
 
@@ -482,16 +483,18 @@ export default function installSearchHook() {
         return fetchAndRender({ endpoint: state.endpoint, pid: getActiveIds(el.dataset.pid), boxEl: state.box, append: false });
     };
 
-    if (typeof gee !== 'undefined' && typeof gee.hook === 'function') {
-        gee.hook('search.load', handleLoad);
-        gee.hook('search.once', handleOnce);
-        gee.hook('search.next', handleNext);
-        gee.hook('search.filter', handleFilter);
-        gee.hook('search.more', handleMore);
-        gee.hook('search/jumPage', handleJump);
-        gee.hook('search/query', handleQuery);
-        gee.hook('search/resort', handleResort);
-    }
+    registerHooks('search', {
+        load: handleLoad,
+        once: handleOnce,
+        next: handleNext,
+        filter: handleFilter,
+        more: handleMore,
+        jumpPage: { handler: handleJump },
+        query: handleQuery,
+        resort: handleResort,
+    }, {
+        legacy: { jumpPage: 'search/jumPage' },
+    });
 
     return function teardown() {
         listeners.forEach((off) => off());

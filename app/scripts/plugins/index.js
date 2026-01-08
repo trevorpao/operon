@@ -9,3 +9,4 @@ export { default as arenaPlugin } from './arena';
 export { default as contactPlugin } from './contact';
 export { default as sliderPlugin } from './slider';
 export { default as galleryPlugin } from './gallery';
+export { default as searchPlugin } from './search';

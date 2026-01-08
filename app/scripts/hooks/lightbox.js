@@ -1,5 +1,6 @@
 import app from '../app';
 import { toElement, ensureBrowser } from '../lib/shared';
+import registerHooks from '../lib/hooks/register';
 
 export default function installLightboxHook() {
     if (!ensureBrowser()) return () => {};
@@ -38,13 +39,13 @@ export default function installLightboxHook() {
     const handleNext = () => api.next();
     const handlePrev = () => api.prev();
 
-    if (typeof gee !== 'undefined' && typeof gee.hook === 'function') {
-        gee.hook('lightbox.init', handleInit, 'init');
-        gee.hook('lightbox.open', handleOpen);
-        gee.hook('lightbox.close', handleClose);
-        gee.hook('lightbox.next', handleNext);
-        gee.hook('lightbox.prev', handlePrev);
-    }
+    registerHooks('lightbox', {
+        init: { handler: handleInit, event: 'init' },
+        open: handleOpen,
+        close: handleClose,
+        next: handleNext,
+        prev: handlePrev,
+    });
 
     return function teardownLightboxHook() {
         // gee.hook has no unregister; plugin teardown handled via api if needed

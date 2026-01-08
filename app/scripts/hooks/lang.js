@@ -1,5 +1,6 @@
 import app from '../app';
 import { toElement, ensureBrowser } from '../lib/shared';
+import registerHooks from '../lib/hooks/register';
 
 export default function installLangHook() {
     if (!ensureBrowser()) return () => {};
@@ -32,11 +33,13 @@ export default function installLangHook() {
         api.setEncoding(langCode);
     };
 
-    if (typeof gee !== 'undefined' && typeof gee.hook === 'function') {
-        gee.hook('nextLang', handleNextLang);
-        gee.hook('lang.redirect', handleLangRedirect);
-        gee.hook('lang.switch', handleLangSwitch);
-    }
+    registerHooks('lang', {
+        next: { handler: handleNextLang },
+        redirect: handleLangRedirect,
+        switch: handleLangSwitch,
+    }, {
+        legacy: { next: 'nextLang' },
+    });
 
     return function teardownLangHook() {
         // no-op; gee.hook has no unregister

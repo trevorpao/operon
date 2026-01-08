@@ -1,5 +1,6 @@
 import app from '../app';
 import { toElement, ensureBrowser } from '../lib/shared';
+import registerHooks from '../lib/hooks/register';
 
 const defaultFontTargets = '#article-press .text p, #article-press .text li, #article-post .text p, #article-post .text li';
 
@@ -43,6 +44,8 @@ export default function installArenaHook() {
         api.hideModal(target);
     };
 
+    const handleGoTop = () => window.scrollTo({ top: 0, behavior: 'smooth' });
+
     const handlePagination = (me) => {
         const el = toElement(me);
         if (!el) return false;
@@ -60,6 +63,13 @@ export default function installArenaHook() {
         if (!el || typeof Autolinker === 'undefined') return false;
         const html = Autolinker.link(el.innerHTML, { stripPrefix: false, truncate: { length: 32, location: 'middle' } });
         el.innerHTML = html;
+    };
+
+    const handleInitTmpl = (me) => {
+        const el = toElement(me);
+        if (el && el.dataset && el.dataset.tmpl) {
+            app.loadTmpl(el.dataset.tmpl, el);
+        }
     };
 
     const handleReXPos = (me) => {
@@ -415,49 +425,57 @@ export default function installArenaHook() {
         if (api.setCookiePrivacy) api.setCookiePrivacy();
     };
 
-    if (typeof gee !== 'undefined' && typeof gee.hook === 'function') {
-        gee.hook('largerFont', handleFont(0.1));
-        gee.hook('smallerFont', handleFont(-0.1));
-        gee.hook('arena.modal.show', handleModalShow);
-        gee.hook('arena.modal.iframe', handleModalShow);
-        gee.hook('hideModal', handleModalHide);
-        gee.hook('goTop', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
-        gee.hook('loadMain', handleLoadMain);
-        gee.hook('loadBox', handleLoadBox);
-        gee.hook('loadModal', handleLoadModal);
-        gee.hook('replaceMe', handleReplaceMe);
-        gee.hook('reExe', handleReExe);
-        gee.hook('reXPos', handleReXPos, 'init');
-        gee.hook('initAutolink', handleAutolink, 'init');
-        gee.hook('initPagination', handlePagination, 'init');
-        gee.hook('initTmpl', (me) => {
-            const el = toElement(me);
-            if (el && el.dataset && el.dataset.tmpl) {
-                app.loadTmpl(el.dataset.tmpl, el);
-            }
-        }, 'init');
-        gee.hook('react', handleReact);
-        gee.hook('reactSubmit', handleReactSubmit);
-        gee.hook('adjustFontSize', handleAdjustFontSize);
-        gee.hook('hideMsg', handleHideMsg);
-        gee.hook('loadZip', handleLoadZip);
-        gee.hook('switchTab', handleSwitchTab);
-        gee.hook('readySubmit', handleReadySubmit);
-        gee.hook('switchPasswd', handleSwitchPasswd);
-        gee.hook('nextstep', handleNextStep);
-        gee.hook('backstep', handleBackStep);
-        gee.hook('nxtCol', handleNxtCol, 'keyup');
-        gee.hook('arena/copy', handleArenaCopy);
-        gee.hook('arena/toggleCls', handleArenaToggleCls);
-        gee.hook('calDateLimit', handleCalDateLimit);
-        gee.hook('arena/openNav', handleOpenNav);
-        gee.hook('arena/closeNav', handleCloseNav);
-        gee.hook('arena/openModal', handleOpenInlineModal);
-        gee.hook('arena/openYTModal', handleOpenYTModal);
-        gee.hook('arena/closeModal', handleCloseInlineModal);
-        gee.hook('arena/closeYTModal', handleCloseYTModal);
-        gee.hook('arena/setCookiePrivacy', handleSetCookiePrivacy);
-    }
+    const legacyPlainHooks = [
+        'largerFont', 'smallerFont', 'hideModal', 'goTop', 'loadMain', 'loadBox', 'loadModal',
+        'replaceMe', 'reExe', 'reXPos', 'initAutolink', 'initPagination', 'initTmpl', 'react',
+        'reactSubmit', 'adjustFontSize', 'hideMsg', 'loadZip', 'switchTab', 'readySubmit',
+        'switchPasswd', 'nextstep', 'backstep', 'nxtCol', 'calDateLimit',
+    ];
+    const legacyMap = legacyPlainHooks.reduce((acc, key) => {
+        acc[key] = key;
+        return acc;
+    }, {});
+
+    registerHooks('arena', {
+        largerFont: handleFont(0.1),
+        smallerFont: handleFont(-0.1),
+        'modal.show': handleModalShow,
+        'modal.iframe': handleModalShow,
+        hideModal: handleModalHide,
+        goTop: handleGoTop,
+        loadMain: handleLoadMain,
+        loadBox: handleLoadBox,
+        loadModal: handleLoadModal,
+        replaceMe: handleReplaceMe,
+        reExe: handleReExe,
+        reXPos: { handler: handleReXPos, event: 'init' },
+        initAutolink: { handler: handleAutolink, event: 'init' },
+        initPagination: { handler: handlePagination, event: 'init' },
+        initTmpl: { handler: handleInitTmpl, event: 'init' },
+        react: handleReact,
+        reactSubmit: handleReactSubmit,
+        adjustFontSize: handleAdjustFontSize,
+        hideMsg: handleHideMsg,
+        loadZip: handleLoadZip,
+        switchTab: handleSwitchTab,
+        readySubmit: handleReadySubmit,
+        switchPasswd: handleSwitchPasswd,
+        nextstep: handleNextStep,
+        backstep: handleBackStep,
+        nxtCol: { handler: handleNxtCol, event: 'keyup' },
+        copy: handleArenaCopy,
+        toggleCls: handleArenaToggleCls,
+        calDateLimit: handleCalDateLimit,
+        openNav: handleOpenNav,
+        closeNav: handleCloseNav,
+        openModal: handleOpenInlineModal,
+        openYTModal: handleOpenYTModal,
+        closeModal: handleCloseInlineModal,
+        closeYTModal: handleCloseYTModal,
+        setCookiePrivacy: handleSetCookiePrivacy,
+    }, {
+        legacy: legacyMap,
+    });
 
     // goTop visibility via scroll
     const scrollHandler = () => {

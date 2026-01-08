@@ -4,7 +4,7 @@
 
 用 `gee.hook` 綁定 `data-gene`，驗證先行，事件與資料邏輯分層。
 
-- 綁定方式：`gee.hook('xxx.action', handler)`，不要掃描 `data-hook`。`handler` 接收 `me`，用 `toElement` 取原生 DOM 後再操作。
+- 綁定方式：`gee.hook('xxx.reaction', handler)`，不要掃描 `data-hook`。`handler` 接收 `me`，用 `toElement` 取原生 DOM 後再操作。
 - 目標定位：轉成 Element 後向上找容器或 form，找不到就 `return false` 避免例外。
 - 驗證先行：優先 `form.reportValidity()`；缺少時再用 `app.validateForm` 或自訂檢查。驗證失敗立即 return，不要清空輸入。
 - Payload：`const payload = Object.fromEntries(new FormData(form).entries());` 避免 jQuery serialize。
@@ -14,6 +14,9 @@
 - Teardown：`gee.hook` 無 unregister；若要避免重複註冊，用旗標。自行加的 listener 要收集 unbind 並在 teardown 執行。
 - 職責分離：Plugin 負責資料/邏輯與 DOM 生成；Hook 負責 DOM/事件與資料格式整理，不直接寫資料層邏輯。
 - 驗收清單：`data-gene` 能觸發；驗證會阻擋非法輸入；成功/失敗皆恢復按鈕；Plugin 缺席時不爆錯；純 JS（無 jQuery 依賴）。
+- 命名規則：Hook 名稱一律採 `namespace.reaction`（dot notation）。僅當名稱對應實際路徑（如 mock `menu/lotsMenu`）才使用 `/`。
+- 透過 `registerHooks(namespace, map, options)` 註冊，可自動產出 legacy slash/舊名 alias，避免命名飄移。
+- 如果 `namespace` 中 `reaction` 不足三個，僅使用 `gee.hook` 即可，不用使用 `registerHooks`。
 
 ### Preview / Mock 流程
 
