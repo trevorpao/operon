@@ -1,4 +1,4 @@
-import { ensureBrowser, toNodes } from '../shared';
+import { ensureBrowser, toElements } from '../shared';
 
 const supportsNativePlaceholder = () => ensureBrowser() && ('placeholder' in document.createElement('input'));
 
@@ -57,7 +57,7 @@ const placeholder = (elements) => {
     }
 
     const teardownHandles = [];
-    toNodes(elements).forEach((el) => {
+    toElements(elements).forEach((el) => {
         const text = el.getAttribute('placeholder');
         if (!text) return;
 

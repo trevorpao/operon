@@ -1,4 +1,4 @@
-import { WHITESPACE_RE, toNodes, toElement, ensureBrowser } from '../shared';
+import { WHITESPACE_RE, toElements, toElement, ensureBrowser } from '../shared';
 
 const applyClasses = (el, list, op) => {
     if (!list) return;
@@ -17,7 +17,7 @@ const removeWildcardClasses = (el, pattern) => {
 };
 
 const alterClass = (elements, removals, additions) => {
-    toNodes(elements).forEach((el) => {
+    toElements(elements).forEach((el) => {
         if (!removals) {
             applyClasses(el, additions, 'add');
             return;

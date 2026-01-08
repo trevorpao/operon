@@ -1,7 +1,28 @@
-export { default as defaultPlugin, createPlugin } from './defaultPlugin';
-export { default as detect } from './detect';
-export { default as event } from './event';
-export { default as extend } from './extend';
-export { default as formatHelper } from './formatHelper';
-export { default as sprintf } from './sprintf';
-export { postMessage, receiveMessage } from './postmessage';
+export { createPlugin } from './defaultPlugin';
+
+export {
+	postMessage,
+	receiveMessage,
+	createMessageValidator,
+	createMessageListener,
+	requestResponse,
+} from './postmessage';
+
+export {
+	isBrowser,
+	isSSR,
+	toStringSafe,
+	toNumberSafe,
+	toNodes,
+	toElements,
+	toElement,
+	ensureBrowser,
+	withBrowser,
+	withDocument,
+	WHITESPACE_RE,
+} from './shared';
+
+export { placeholder } from './dom/placeholder';
+export { alterClass, hasMutilClass, visible } from './dom/classList';
+export { serializeFormJSON } from './forms/serialize';
+export { formatNum } from './number/format';

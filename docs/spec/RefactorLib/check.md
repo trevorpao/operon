@@ -22,9 +22,9 @@
 - [x] Jest/Vitest suites added for thumbnail paths, percent math, placeholder lifecycle.
 
 ## Stage 4 – Remaining Libs & Barrel Cleanup
-- [ ] `postmessage.js` gains schema validation + promise wrappers; teardown handles covered by tests.
-- [ ] `shared.js` exports `isSSR`, `withDocument`, typed element helpers; modules adopt them (no manual `window` guards left).
-- [ ] `index.js` barrel re-exports only pure modules; GA/IE side effects confirmed removed; integration smoke (SSR render, plugin boot) passes.
+- [x] `postmessage.js` gains schema validation + promise wrappers; teardown handles covered by tests.
+- [x] `shared.js` exports `isSSR`, `withDocument`, typed element helpers; modules adopt them (no manual `window` guards left).
+- [x] `index.js` barrel re-exports only pure modules; GA/IE side effects confirmed removed; integration smoke (SSR render, plugin boot) passes.
 
 ## Stage 5 – Rollout & Cleanup
 - [ ] Legacy adapters removed once adoption complete with clear migration notes.
