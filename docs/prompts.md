@@ -4,6 +4,16 @@
 npm install --save ./gene-event-handler-2.1.tgz
 npm install --save-dev ./vite-twig-ssr-0.3.0.tgz
 
+## 規劃
+
+請按 `docs/spec/flow.md` 之 `SOP > plan（規劃）` 的要求
+建立 `docs/spec/<feature>/idea.md` 的實作計畫
+
+## 驗証
+
+請按 `docs/spec/flow.md` 之 `SOP > check（驗收）` 的要求
+建立 `docs/spec/<feature>/plan.md` 的驗收清單
+
 ## 開發
 
 落實 `docs/spec/<feature>` 之 stage 5
@@ -29,7 +39,7 @@ npm install --save-dev ./vite-twig-ssr-0.3.0.tgz
 
 ## 逐步更新 module
 
-舊版寫法之 `app/scripts/modules/press.js` 還沒有完成改寫
+舊版寫法之 `app/scripts/modules/<module>.js` 還沒有完成改寫
 請按 `docs/spec/guide.md` 之 `開發規則 > Plugin & Hook` 的要求
 建立對應的 `app/scripts/hooks` 及 `app/scripts/plugins` 新版程式
 
@@ -45,3 +55,9 @@ npm install --save-dev ./vite-twig-ssr-0.3.0.tgz
 請彙整這些程式，按 `docs/spec/guide.md` 之 `開發規則 > Plugin & Hook` 的要求
 建立對應的 `app/scripts/hooks` 及 `app/scripts/plugins` 新版程式
 
+
+
+有兩個版本的 `app/scripts/app.js` 及 `app/scripts/app_old.js` 
+請按 `docs/spec/guide.md` 之 `開發規則 > Plugin & Hook` 的要求
+完成改動
+再次盤點 `app_old.js` 寫法，確保 `app.js` 沒有遺漏函式

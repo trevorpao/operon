@@ -11,8 +11,8 @@
 3) (discuss)：
    1) 若需求複雜，先用 AI 摘要現況與風險，請求小步快跑的拆分方案；
    2) 驗證依賴/風險清單並標出高風險區塊需暫行 adapter。
-4) plan（行動）：
-   1) 在 `plan.md` 列出分階段/子任務、PR 切分與預期 smoke 測試；
+4) plan（規劃）：
+   1) 在 `plan.md` 列出分階段(stage)/子任務、PR 切分與預期 smoke 測試；
    2) 標明高風險區塊的 fallback/adapters。
 5) (done)：
    1) 依 plan 執行；
