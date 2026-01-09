@@ -1,4 +1,23 @@
-{{!-- 主選單 Handlebars 模板 --}}
-<nav class="topbar-nav gee" data-gene="init:menu/load" data-menu-id="1" role="navigation" aria-label="主導航">
-  {{> menuList items=menu depth=0 parentPath="" }}
-</nav>
+{{!-- 主選單 Handlebars 模板（僅產生 nav 內部結構） --}}
+<div class="navbar-brand">
+  <a class="navbar-item" href="{{#if brandHref}}{{brandHref}}{{else}}/{{/if}}">
+    {{#if brandLabel}}{{brandLabel}}{{else}}Menu{{/if}}
+  </a>
+  <button
+    type="button"
+    class="navbar-burger"
+    aria-label="{{#if ariaLabel}}{{ariaLabel}}{{else}}主導航{{/if}}"
+    aria-expanded="false"
+    data-target="{{#if burgerTarget}}{{burgerTarget}}{{else}}navbar-menu{{/if}}"
+  >
+    <span aria-hidden="true"></span>
+    <span aria-hidden="true"></span>
+    <span aria-hidden="true"></span>
+  </button>
+</div>
+
+<div id="{{#if burgerTarget}}{{burgerTarget}}{{else}}navbar-menu{{/if}}" class="navbar-menu is-active">
+  <div class="navbar-start">
+    {{> menuList items=menu depth=0 parentPath="" }}
+  </div>
+</div>

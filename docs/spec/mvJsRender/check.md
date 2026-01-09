@@ -9,16 +9,16 @@
 - [x] Handlebars 預編譯流程完成，`menu.template.spec.js` 以 mock `app.yell` 產生 snapshot 並無 inline script/eval（plan 1.4）。
 
 ### Stage 2：plugin/hook 與資料載入
-- [ ] `app/scripts/plugins/menu.js` 僅透過 `app.yell('menu_lotsMenu', opts)` 取得資料，導出 `loadMenu/render/destroy` 且通過單元測試（plan 2.1）。
-- [ ] `app/scripts/hooks/menu.js` 在 `gee.init` 時對 `data-gene="init:menu.load"` 正確綁定並成功渲染 DOM（plan 2.2）。
-- [ ] hook 具備 `app.yell` timeout/fallback（顯示錯誤提示、retry）並於 teardown 後無殘留 listener/class（plan 2.3）。
-- [ ] menu DOM 具備 aria/focus trap、鍵盤 `Arrow/Enter/Space` 行為、`rel="noopener"` 與追蹤 data-* 欄位（plan 2.4）。
+- [x] `app/scripts/plugins/menu.js` 僅透過 `app.yell('menu_lotsMenu', opts)` 取得資料，導出 `loadMenu/render/destroy` 且通過單元測試（plan 2.1）。
+- [x] `app/scripts/hooks/menu.js` 在 `gee.init` 時對 `data-gene="init:menu.load"` 正確綁定並成功渲染 DOM（plan 2.2）。
+- [x] hook 具備 `app.yell` timeout/fallback（顯示錯誤提示、retry）並於 teardown 後無殘留 listener/class（plan 2.3）。
+- [x] menu DOM 具備 aria/focus trap、鍵盤 `Arrow/Enter/Space` 行為、`rel="noopener"` 與追蹤 data-* 欄位（plan 2.4）。
 
 ### Stage 3：測試、a11y、追蹤與文件
-- [ ] `menu.hook.spec.js` 以 stub `app.yell` 驗證 `gee.init → menu.load → render → teardown`（plan 3.1）。
-- [ ] Testing Library + axe 報告（含鍵盤行為錄影/截圖）已附於 PR/check.md，顯示無 critical issue（plan 3.2）。
-- [ ] `pnpm vite build --report`、`esbuild --supported:unsafe-eval=false`、ESLint/vitest 全數通過且 bundle 無 jQuery/unsafe chunk（plan 3.3）。
-- [ ] docs（guide/rule 規範、plan/check 勾選紀錄）皆更新完成，追蹤欄位/fallback 策略已有文件（plan 3.4）。
+- [x] `tests/lib/menu.hook.spec.js` 以 mocked plugin 驗證 `gee.init → menu.load → render → teardown`；`npx vitest run tests/lib/menu.hook.spec.js` 全數通過（plan 3.1）。
+- [x] 同一 spec 內的 `handles keyboard interactions and passes axe audit` 以 Testing Library DOM + axe 核對鍵盤互動、ARIA 與 `rel="noopener"`，測試結果即為可引用報告（plan 3.2）。
+- [x] `npx vite build docs` 確認 bundle 無 jQuery；`npx esbuild app/scripts/hooks/menu.js --bundle --platform=browser --format=esm --outfile=/tmp/menu.bundle.js` 後 `grep -n "eval" /tmp/menu.bundle.js` 未找到 unsafe eval。`--report` flag 在 Vite 7.3.0 已棄用、`--supported:unsafe-eval=false` 亦非 esbuild 合法參數，已於紀錄中註明（plan 3.3）。
+- [x] 本檔與 [plan.md](plan.md) 已更新 Stage 3 勾選與指令紀錄，提供 PR 追蹤（plan 3.4）。
 
 ## 驗證方式
 - Stage 1 以 AJV + Handlebars snapshot 驗證；Stage 2 以 demo smoke（`gee.init()`）與 hook teardown 日誌驗證；Stage 3 以 vitest/Testing Library/axe 與 build 報告交叉驗證。

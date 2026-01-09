@@ -51,6 +51,8 @@ const createRuntime = ({ app, gee, config }) => {
         app.screen = (app.bodyEl.clientWidth < config.detectWidth) ? 'mobile' : 'tablet';
         app.bodyEl.classList.add(app.screen);
 
+        window.app = app;
+
         gee.apiUri = window.apiUrl + '';
         gee.mainUri = window.mainUrl;
         gee.picUri = '';

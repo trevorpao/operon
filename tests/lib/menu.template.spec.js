@@ -28,7 +28,13 @@ describe('mvJsRender Handlebars templates', () => {
         const tmpl = Handlebars.compile(loadFile('app/themes/default/partials/navbar.hbs'));
         const payload = JSON.parse(loadFile('app/mock/api/menu_lotsMenu.json'));
         const menu = Array.isArray(payload.data) ? payload.data : [];
-        const html = tmpl({ menu });
+        const html = tmpl({
+            menu,
+            ariaLabel: '主導航',
+            brandLabel: 'Menu',
+            brandHref: '/',
+            burgerTarget: 'navbar-menu-1',
+        });
         expect(html).toMatchSnapshot();
     });
 });

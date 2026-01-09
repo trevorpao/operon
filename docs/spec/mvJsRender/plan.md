@@ -9,16 +9,16 @@
 - [x] 1.4 將 Handlebars 納入 build pipeline 預編譯，並撰寫 `menu.template.spec.js` 透過 mock `app.yell` 資料產生 snapshot。
 
 ### Stage 2：menu plugin/hook 與資料載入（idea §範圍、§主要規格-3）
-- [ ] 2.1 實作 `app/scripts/plugins/menu.js`，封裝 `app.yell('menu_lotsMenu', opts)`，並導出 `loadMenu`, `render`, `destroy`。
-- [ ] 2.2 實作 `app/scripts/hooks/menu.js`，在 `gee.init` 註冊 `data-gene="init:menu.load"`，負責呼叫 plugin、渲染 DOM、註冊事件。
-- [ ] 2.3 實作 `app.yell` timeout/fallback（顯示錯誤提示與 retry），hook teardown 要清理所有 listener/class。
-- [ ] 2.4 補齊 aria、keyboard/focus trap、`rel="noopener"`、`data-analytics-id`、`data-menu-path` 等屬性並記錄在 check 清單。
+- [x] 2.1 `app/scripts/plugins/menu.js` 改為僅透過 `app.yell('menu_lotsMenu')` 取數據，導出 `loadMenu`/`render`/`destroy`，含快取與 timeout 支援。
+- [x] 2.2 `app/scripts/hooks/menu.js` 於 `gee.init` 套用 `data-gene="init:menu.load"`，串接新 plugin API 並渲染 DOM。
+- [x] 2.3 hook 內建 timeout/fallback（錯誤訊息＋ retry），且 teardown 會移除 listener、class、AbortController。
+- [x] 2.4 menu DOM 具備 aria 屬性、鍵盤/focus trap、`rel="noopener"`、`data-analytics-id`、`data-menu-path` 等欄位並在 check 勾選。
 
 ### Stage 3：測試、a11y、追蹤與文件（idea §風險與對策、§驗收）
-- [ ] 3.1 撰寫 `menu.hook.spec.js`，使用 stub `app.yell` 驗證 `gee.init → menu.load → render` 流程與 teardown。
-- [ ] 3.2 以 Testing Library + axe 驗證 keyboard 互動與 ARIA，輸出報告連結至 check.md。
-- [ ] 3.3 `pnpm vite build --report`、`esbuild --supported:unsafe-eval=false` 確認 bundle 無 jQuery/unsafe chunk。
-- [ ] 3.4 更新 docs（guide/rule 若有新規）與 `plan.md`/`check.md` 勾選紀錄，確保追蹤欄位與 fallback 策略文件化。
+- [x] 3.1 新增 `tests/lib/menu.hook.spec.js`，以 stub plugin 驗證 `gee.init → menu.load → render → teardown`，指令：`npx vitest run tests/lib/menu.hook.spec.js`。
+- [x] 3.2 透過 Testing Library DOM + axe（同一支 spec 內 `handles keyboard interactions and passes axe audit` 測試）檢查鍵盤互動與 ARIA，測試產出紀錄於 check.md。
+- [x] 3.3 `npx vite build docs` 產出靜態報告以檢查 bundle，額外執行 `npx esbuild app/scripts/hooks/menu.js --bundle ...` 並 `grep -n "eval" /tmp/menu.bundle.js` 確認無 jQuery/unsafe-eval；（備註：Vite 7.3.0 已移除 `--report`，`esbuild --supported:unsafe-eval=false` 也非有效旗標）。
+- [x] 3.4 更新 plan/check 勾選與驗證紀錄，將測試/建置指令寫入，提供後續 PR 直接引用。
 
 ## PR 切分建議
 - PR1（Stage 1）：schema + Handlebars + template 測試。

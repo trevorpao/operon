@@ -3,6 +3,12 @@
  */
 
 import 'gene-event-handler';
+import Handlebars from 'handlebars/dist/handlebars.js';
+
+// 只在第一次掛載，避免覆寫其他測試注入
+if (typeof window !== 'undefined' && !window.Handlebars) {
+  window.Handlebars = Handlebars;
+}
 
 import app from './app';
 import { trackPlugin, formatPlugin, extendPlugin, previewPlugin, resourcePlugin, menuPlugin, modalPlugin, privacyPlugin, markdownPlugin, draftPlugin, themeDefaultPlugin, arenaPlugin, contactPlugin, sliderPlugin, slidePlugin, galleryPlugin, searchPlugin } from './plugins';
@@ -57,8 +63,6 @@ onReady(async function() {
     installGalleryHook();
     installSearchHook();
     installDefaultTheme();
-
-    modules.push('site'); // the final one
 
     app.init(modules);
 });

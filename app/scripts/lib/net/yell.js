@@ -65,10 +65,44 @@ const createNet = ({ app, gee }) => {
         return previewApi;
     };
 
+    const resolveMenuEndpoint = (endpoint) => {
+        if (endpoint !== 'menu_lotsMenu') return null;
+        const isHttps = typeof window !== 'undefined' && window.location.protocol === 'https:';
+        if (!isHttps) {
+            return {
+                mode: 'mock',
+                url: '/app/mock/api/menu_lotsMenu.json',
+            };
+        }
+        return {
+            mode: 'proxy',
+            url: '/api/menu/lotsMenu',
+        };
+    };
+
+    const fetchMock = async (targetUrl) => {
+        const res = await fetch(targetUrl, { credentials: 'same-origin' });
+        if (!res.ok) {
+            throw new Error(`mock fetch failed: ${res.status} ${res.statusText}`);
+        }
+        return res.json();
+    };
+
     const yell = async (url, data, callback, type) => {
         var cb = (typeof callback === 'function') ? callback : function () {};
         var method = type || 'POST';
         var shouldMock = (typeof app.isDev === 'function' && app.isDev() && app.onPreview === 1);
+
+        const menuOverride = resolveMenuEndpoint(url);
+        if (menuOverride && menuOverride.mode === 'mock') {
+            try {
+                const payload = await fetchMock(menuOverride.url);
+                cb.call(payload);
+                return payload;
+            } catch (err) {
+                console.warn('[yell] mock fetch failed, fallback to gee.yell', err);
+            }
+        }
 
         if (shouldMock) {
             var preview = getPreview();
@@ -83,7 +117,8 @@ const createNet = ({ app, gee }) => {
             }
         }
 
-        gee.yell(url, data, cb, cb, method);
+        const resolvedUrl = menuOverride && menuOverride.mode === 'proxy' ? menuOverride.url : url;
+        gee.yell(resolvedUrl, data, cb, cb, method);
         return null;
     };
 

@@ -1,7 +1,7 @@
 {{!-- Handlebars partial: menuItem --}}
 {{#with node}}
 <li
-  class="menu-item {{listDepthClass depth}} {{#if color}}{{color}}{{/if}} {{#if (hasChildren rows)}}has-children{{/if}}"
+  class="menu-item {{listDepthClass depth}}{{#if color}} {{color}}{{/if}}{{#unless depth}} navbar-item-wrapper{{/unless}}{{#if (hasChildren rows)}} has-children{{#unless depth}} has-dropdown is-hoverable{{/unless}}{{/if}}"
   role="none"
   data-menu-node-id="{{id}}"
   data-menu-path="{{menuPath parentPath title}}"
@@ -9,7 +9,7 @@
 >
   <a
     href="{{#if uri}}{{uri}}{{else}}{{url}}{{/if}}"
-    class="menu-link"
+    class="menu-link navbar-item{{#if (hasChildren rows)}}{{#unless depth}} navbar-link{{/unless}}{{/if}}"
     role="menuitem"
     tabindex="-1"
     aria-haspopup="{{#if (hasChildren rows)}}true{{else}}false{{/if}}"

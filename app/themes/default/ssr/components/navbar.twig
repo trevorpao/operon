@@ -1,45 +1,129 @@
 {% set nav = navbar | default({}) %}
-{% set brand = nav.brand | default({}) %}
-{% set links = nav.links | default([]) %}
-{% set buttons = nav.buttons | default([]) %}
+{% set aria_label = nav.aria_label | default('主導航') %}
+{% set menu_id = nav.menu_id | default('1') %}
+{% set menu_template = nav.menu_template | default('navbar') %}
+{% set menu_timeout = nav.menu_timeout | default(3000) %}
+{% set brand_label = nav.brand_label | default('Menu') %}
+{% set brand_href = nav.brand_href | default('/') %}
+{% set menu_target = nav.menu_target | default('navbar-menu-' ~ menu_id) %}
 
-<nav class="navbar is-fixed-top is-light" role="navigation" aria-label="main navigation">
+<nav
+  class="topbar-nav gee navbar"
+  role="navigation"
+  aria-label="{{ aria_label|e }}"
+  data-gene="init:menu.load"
+  data-menu-id="{{ menu_id|e }}"
+  data-menu-template="{{ menu_template|e }}"
+  data-menu-timeout="{{ menu_timeout }}"
+  data-menu-brand-label="{{ brand_label|e }}"
+  data-menu-brand-href="{{ brand_href|e }}"
+  data-menu-target="{{ menu_target|e }}"
+>
   <div class="navbar-brand">
-    <a class="navbar-item" href="{{ brand.href|default('/views/index.twig')|e }}">
-      {{ brand.label|default('Home')|e }}
+    <a class="navbar-item" href="{{ brand_href|e }}">
+      {{ brand_label|e }}
     </a>
-
-    <a
-      role="button"
+    <button
+      type="button"
       class="navbar-burger"
-      aria-label="menu"
+      aria-label="{{ aria_label|e }}"
       aria-expanded="false"
-      data-target="navbarMain"
+      data-target="{{ menu_target|e }}"
     >
       <span aria-hidden="true"></span>
       <span aria-hidden="true"></span>
       <span aria-hidden="true"></span>
-      <span aria-hidden="true"></span>
-    </a>
+    </button>
   </div>
 
-  <div id="navbarMain" class="navbar-menu">
+  <div id="{{ menu_target|e }}" class="navbar-menu is-active">
     <div class="navbar-start">
-      {% for link in links %}
-        <a class="navbar-item" href="{{ link.href|e }}"{% if link.target %} target="{{ link.target|e }}"{% endif %}{% if link.rel %} rel="{{ link.rel|e }}"{% endif %}>{{ link.label|e }}</a>
-      {% endfor %}
-    </div>
-
-    <div class="navbar-end">
-      {% if buttons|length %}
-        <div class="navbar-item">
-          <div class="buttons">
-            {% for btn in buttons %}
-              <a class="button {{ btn.kind|default('is-light')|e }}" href="{{ btn.href|e }}"{% if btn.target %} target="{{ btn.target|e }}"{% endif %}{% if btn.rel %} rel="{{ btn.rel|e }}"{% endif %}>{{ btn.label|e }}</a>
-            {% endfor %}
-          </div>
-        </div>
-      {% endif %}
+      <div class="menu-placeholder" role="status" aria-live="polite">
+        {{ nav.placeholder | default('載入選單中 ...') | e }}
+      </div>
     </div>
   </div>
 </nav>
+
+{% if nav.include_template is not same as(false) %}
+  {% raw %}
+  <script type="text/x-handlebars-template" id="navbar">
+    {{!-- navbar Handlebars template (CSR 渲染使用) --}}
+    <div class="navbar-brand">
+      <a class="navbar-item" href="{{#if brandHref}}{{brandHref}}{{else}}/{{/if}}">
+        {{#if brandLabel}}{{brandLabel}}{{else}}Menu{{/if}}
+      </a>
+      <button
+        type="button"
+        class="navbar-burger"
+        aria-label="{{#if ariaLabel}}{{ariaLabel}}{{else}}主導航{{/if}}"
+        aria-expanded="false"
+        data-target="{{#if burgerTarget}}{{burgerTarget}}{{else}}navbar-menu{{/if}}"
+      >
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+      </button>
+    </div>
+
+    <div id="{{#if burgerTarget}}{{burgerTarget}}{{else}}navbar-menu{{/if}}" class="navbar-menu is-active">
+      <div class="navbar-start">
+        {{> menuList items=menu depth=0 parentPath="" }}
+      </div>
+    </div>
+  </script>
+
+  <script type="text/x-handlebars-template" id="menuItem" data-partial="menuItem">
+    {{!-- Handlebars partial: menuItem --}}
+    {{#with node}}
+    <li
+      class="menu-item {{listDepthClass depth}}{{#if color}} {{color}}{{/if}}{{#unless depth}} navbar-item-wrapper{{/unless}}{{#if (hasChildren rows)}} has-children{{#unless depth}} has-dropdown is-hoverable{{/unless}}{{/if}}"
+      role="none"
+      data-menu-node-id="{{id}}"
+      data-menu-path="{{menuPath parentPath title}}"
+      data-analytics-id="{{analyticsId id}}"
+    >
+      <a
+        href="{{#if uri}}{{uri}}{{else}}{{url}}{{/if}}"
+        class="menu-link navbar-item{{#if (hasChildren rows)}}{{#unless depth}} navbar-link{{/unless}}{{/if}}"
+        role="menuitem"
+        tabindex="-1"
+        aria-haspopup="{{#if (hasChildren rows)}}true{{else}}false{{/if}}"
+        aria-expanded="false"
+        {{#if (shouldOpenBlank blank target)}}target="_blank" rel="noopener"{{/if}}
+      >
+        <span class="menu-link__label">{{title}}</span>
+        {{{renderBadge badge}}}
+        {{#if (shouldOpenBlank blank target)}}<span class="sr-only">（另開新視窗）</span>{{/if}}
+      </a>
+
+      {{#if (hasChildren rows)}}
+        {{> menuList
+          items=rows
+          depth=(nextDepth depth)
+          parentPath=(menuPath parentPath title)
+        }}
+      {{/if}}
+    </li>
+    {{/with}}
+  </script>
+
+  <script type="text/x-handlebars-template" id="menuList" data-partial="menuList">
+    {{!-- menuList Handlebars partial（SSR 注入供 CSR 使用） --}}
+    {{#if items.length}}
+    <ul
+      class="menu-list {{listDepthClass depth}} {{#if depth}}navbar-dropdown{{else}}navbar-root{{/if}}"
+      role="{{#if depth}}menu{{else}}menubar{{/if}}"
+    >
+      {{#each items}}
+        {{> menuItem
+          node=this
+          depth=../depth
+          parentPath=../parentPath
+        }}
+      {{/each}}
+    </ul>
+    {{/if}}
+  </script>
+  {% endraw %}
+{% endif %}
