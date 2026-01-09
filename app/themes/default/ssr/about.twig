@@ -1,37 +1,44 @@
 {% extends "layout.twig" %}
 
 {% block page %}
-  <section class="box">
-    <p class="has-text-weight-semibold is-uppercase is-size-7 has-text-info">願景與定位</p>
-    <h2 class="title is-3">{{ current.title|e }}</h2>
-    <p class="subtitle is-6">{{ current.subtitle|e }}</p>
-    <div class="content">
-      <p>{{ vision.phase_dev|e }}</p>
-      <p>{{ vision.phase_prod|e }}</p>
+  <section class="hero is-medium is-light" style="background: url('{{ cu.cover|e }}') center/cover no-repeat;">
+    <div class="hero-body">
+      <div class="container">
+        <h1 class="title is-2 mb-2">{{ cu.title|e }}</h1>
+        <p class="subtitle is-5 has-text-grey-dark">{{ page.site_subtitle|e }}</p>
+      </div>
     </div>
   </section>
 
-  <section class="box">
-    <h3 class="title is-4">優化目的</h3>
-    <ul>
-      {% for item in goals %}
-        <li>{{ item|e }}</li>
-      {% endfor %}
-    </ul>
-  </section>
-
-  {% if hero %}
-    <section class="box">
-      {% include "components/hero.twig" with { hero: hero } only %}
-    </section>
-  {% endif %}
-
-  <section class="box">
-    <h4 class="title is-5">Breadcrumbs</h4>
-    <ul>
-      {% for crumb in page.breadcrumb %}
-        <li>{{ crumb.label|e }}</li>
-      {% endfor %}
-    </ul>
+  <section class="section">
+    <div class="container">
+      <div class="columns">
+        <div class="column is-two-thirds">
+          <div class="content">
+            {{ cu.content|raw }}
+          </div>
+        </div>
+        <div class="column">
+          <div class="box">
+            <h3 class="title is-6 mb-2">聯絡資訊</h3>
+            <p><span class="icon"><i class="fas fa-envelope"></i></span> <a href="mailto:{{ opts.default.contact_mail|e }}">{{ opts.default.contact_mail|e }}</a></p>
+            <p><span class="icon"><i class="fas fa-phone"></i></span> {{ opts.default.contact_phone|e }}</p>
+            <p><span class="icon"><i class="fas fa-map-marker-alt"></i></span> {{ opts.default.contact_address|e }}</p>
+          </div>
+          <div class="box">
+            <h3 class="title is-6 mb-2">社群連結</h3>
+            <p><a href="{{ opts.social.facebook_page|e }}" target="_blank">Facebook</a></p>
+            <p><a href="{{ opts.social.line_page|e }}" target="_blank">LINE</a></p>
+            <p><a href="{{ opts.social.gmap_page|e }}" target="_blank">Google 地圖</a></p>
+          </div>
+          <div class="box">
+            <h3 class="title is-6 mb-2">網站資訊</h3>
+            <p>版本：{{ feVersion|e }}</p>
+            <p>語言：{{ lang|e }}</p>
+            <p>年份：{{ year|e }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
   </section>
 {% endblock %}
