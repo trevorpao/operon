@@ -17,6 +17,7 @@ export default defineConfig({
         globals: true,
         include: [
             'tests/**/*.test.{js,ts}',
+            'tests/**/*.spec.{js,ts}',
             'app/scripts/**/*.{spec,test}.js',
         ],
         exclude: [

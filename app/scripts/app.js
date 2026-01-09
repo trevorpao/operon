@@ -5,6 +5,7 @@ import { createValidation } from './lib/forms/validation';
 import { createNet } from './lib/net/yell';
 import { createMedia } from './lib/media/assets';
 import { createFormat } from './lib/helpers/format';
+import menuHelpers from './lib/helpers/menu';
 
 const createApp = () => {
     const config = {
@@ -55,9 +56,12 @@ const createApp = () => {
 const app = createApp();
 
 if (typeof Handlebars !== 'undefined' && typeof Handlebars.registerHelper === 'function') {
-    Object.entries(app.formatHelper).forEach(function ([name, fn]) {
+    const helpersToRegister = { ...app.formatHelper, ...menuHelpers };
+    Object.entries(helpersToRegister).forEach(function ([name, fn]) {
         Handlebars.registerHelper(name, fn);
     });
 }
+
+app.menuHelpers = menuHelpers;
 
 export default app;

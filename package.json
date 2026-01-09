@@ -16,7 +16,8 @@
     "lint": "npx eslint ./app/scripts/**/*.js ./app/scripts/*.js",
     "fix": "npx eslint ./app/scripts/**/*.js --fix",
     "test": "vitest",
-    "test:run": "vitest run --passWithNoTests"
+    "test:run": "vitest run --passWithNoTests",
+    "test:schema": "node scripts/test-schema.js"
   },
   "browserslist": [
     "> 0.5%",
@@ -25,6 +26,7 @@
     "not IE 11"
   ],
   "devDependencies": {
+    "ajv": "^8.17.1",
     "http-server": "^14.1.1",
     "jsdom": "^27.4.0",
     "sass": "^1.97.1",

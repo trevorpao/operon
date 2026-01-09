@@ -1,0 +1,12 @@
+{{!-- Handlebars partial: menuList --}}
+{{#if items.length}}
+<ul class="menu-list {{listDepthClass depth}}" role="{{#if depth}}menu{{else}}menubar{{/if}}">
+  {{#each items}}
+    {{> menuItem
+      node=this
+      depth=../depth
+      parentPath=../parentPath
+    }}
+  {{/each}}
+</ul>
+{{/if}}

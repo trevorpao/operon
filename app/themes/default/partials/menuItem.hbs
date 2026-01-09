@@ -1,0 +1,32 @@
+{{!-- Handlebars partial: menuItem --}}
+{{#with node}}
+<li
+  class="menu-item {{listDepthClass depth}} {{#if color}}{{color}}{{/if}} {{#if (hasChildren rows)}}has-children{{/if}}"
+  role="none"
+  data-menu-node-id="{{id}}"
+  data-menu-path="{{menuPath parentPath title}}"
+  data-analytics-id="{{analyticsId id}}"
+>
+  <a
+    href="{{#if uri}}{{uri}}{{else}}{{url}}{{/if}}"
+    class="menu-link"
+    role="menuitem"
+    tabindex="-1"
+    aria-haspopup="{{#if (hasChildren rows)}}true{{else}}false{{/if}}"
+    aria-expanded="false"
+    {{#if (shouldOpenBlank blank target)}}target="_blank" rel="noopener"{{/if}}
+  >
+    <span class="menu-link__label">{{title}}</span>
+    {{{renderBadge badge}}}
+    {{#if (shouldOpenBlank blank target)}}<span class="sr-only">（另開新視窗）</span>{{/if}}
+  </a>
+
+  {{#if (hasChildren rows)}}
+    {{> menuList
+      items=rows
+      depth=(nextDepth depth)
+      parentPath=(menuPath parentPath title)
+    }}
+  {{/if}}
+</li>
+{{/with}}

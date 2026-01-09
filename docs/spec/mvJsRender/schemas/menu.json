@@ -1,0 +1,115 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://operon.dev/spec/mvJsRender/schemas/menu.json",
+  "title": "LotsMenuResponse",
+  "description": "Schema for menu_lotsMenu payload used by the mvJsRender feature.",
+  "type": "object",
+  "additionalProperties": true,
+  "required": ["code", "data"],
+  "properties": {
+    "code": {
+      "type": "integer",
+      "description": "API status code (1 = success)."
+    },
+    "csrf": {
+      "type": "string",
+      "description": "CSRF token forwarded by the mock API."
+    },
+    "data": {
+      "type": "array",
+      "description": "Flattened tree of menu nodes (root level items).",
+      "items": {
+        "$ref": "#/definitions/menuNode"
+      }
+    }
+  },
+  "definitions": {
+    "menuNode": {
+      "type": "object",
+      "required": ["id", "title"],
+      "additionalProperties": true,
+      "properties": {
+        "id": {
+          "type": ["integer", "string"],
+          "description": "Unique identifier for analytics and hydration."
+        },
+        "title": {
+          "type": "string"
+        },
+        "uri": {
+          "type": "string",
+          "description": "Legacy hyperlink field (preferred)."
+        },
+        "url": {
+          "type": "string",
+          "description": "Supported alias for newer menu payloads."
+        },
+        "target": {
+          "type": "string",
+          "enum": ["_self", "_blank"],
+          "default": "_self"
+        },
+        "blank": {
+          "description": "Whether the link should open in a new window.",
+          "anyOf": [
+            { "type": "boolean" },
+            { "type": "integer", "enum": [0, 1] },
+            {
+              "type": "string",
+              "enum": ["Yes", "No", "YES", "NO", "true", "false", "0", "1"]
+            }
+          ]
+        },
+        "badge": {
+          "type": ["string", "null"],
+          "description": "Optional badge label (e.g., NEW)."
+        },
+        "color": {
+          "type": ["string", "null"],
+          "description": "Theme color class to apply to the item."
+        },
+        "icon": {
+          "type": ["string", "null"]
+        },
+        "attrs": {
+          "type": "object",
+          "description": "Arbitrary attributes to be rendered on the anchor element.",
+          "additionalProperties": {
+            "type": ["string", "number", "boolean"]
+          }
+        },
+        "parent_id": {
+          "type": ["integer", "null"]
+        },
+        "parent": {
+          "type": ["string", "null"]
+        },
+        "level": {
+          "type": ["integer", "null"],
+          "minimum": 0
+        },
+        "prefix": {
+          "type": ["string", "null"]
+        },
+        "theme": {
+          "type": ["string", "null"]
+        },
+        "rows": {
+          "type": "array",
+          "description": "Children nodes used by the legacy payload.",
+          "default": [],
+          "items": {
+            "$ref": "#/definitions/menuNode"
+          }
+        },
+        "children": {
+          "type": "array",
+          "description": "Alias for nested nodes (future payload).",
+          "items": {
+            "$ref": "#/definitions/menuNode"
+          }
+        }
+      }
+    }
+  }
+}
