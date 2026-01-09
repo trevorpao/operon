@@ -18,14 +18,13 @@
     "main_domain": "f3cms.com",
     "lang": "tw",
     "year": "2026",
-    "cu":
-    {
+    "cu": {
         "id": 201,
         "status": "Enabled",
         "sorter": 0,
         "group": "press",
         "slug": "semiconductor",
-        "cover": "/assets/images/tech/category-chip.jpg",
+        "cover": "https://images.unsplash.com/photo-1581092795360-fd1ca04f0952?auto=format&fit=crop&w=1400&q=80",
         "last_ts": "2026-01-06 10:15:00",
         "last_user": 1,
         "insert_ts": "2025-12-20 09:00:00",
@@ -37,11 +36,10 @@
     },
     "srcType": "category",
     "layout": "press-category",
-    "page":
-    {
+    "page": {
         "title": "半導體",
         "desc": "晶片製程、封裝與供應鏈",
-        "img": "/assets/images/tech/category-chip.jpg",
+        "img": "https://images.unsplash.com/photo-1581092795360-fd1ca04f0952?auto=format&fit=crop&w=1400&q=80",
         "alternate": "",
         "keyword": "半導體,製程,封裝",
         "ga": "G-TPULSE",
@@ -50,9 +48,10 @@
         "canonical": "/tw/category/semiconductor",
         "share_link": "https://techpulse.news/tw/category/semiconductor",
         "breadcrumb": [
-        {
-            "slug": "/tw/category/semiconductor",
-            "str": "半導體"
-        }]
+            {
+                "slug": "/tw/category/semiconductor",
+                "str": "半導體"
+            }
+        ]
     }
 }

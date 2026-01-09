@@ -22,7 +22,7 @@
         "id": "3",
         "status": "Enabled",
         "slug": "about",
-        "cover": "/assets/images/tech/about-team.jpg",
+        "cover": "https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=1400&q=80",
         "last_ts": "2026-01-06 10:00:00",
         "last_user": "1",
         "insert_ts": "2025-12-20 09:00:00",
@@ -37,12 +37,15 @@
         "canonical": "/post/about",
         "site_name": "TechPulse News",
         "site_subtitle": "中文科技新聞平台",
-        "breadcrumb": [{
-            "slug": "/home",
-            "str": "首頁"
-        }, {
-            "slug": "/post/about",
-            "str": "關於我們"
-        }]
+        "breadcrumb": [
+            {
+                "slug": "/home",
+                "str": "首頁"
+            },
+            {
+                "slug": "/post/about",
+                "str": "關於我們"
+            }
+        ]
     }
 }

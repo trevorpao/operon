@@ -28,10 +28,12 @@
         "site_name": "TechPulse News",
         "site_subtitle": "中文科技新聞平台",
         "canonical": "/presses",
-        "breadcrumb": [{
-            "slug": "/presses",
-            "str": "查詢結果"
-        }]
+        "breadcrumb": [
+            {
+                "slug": "/presses",
+                "str": "查詢結果"
+            }
+        ]
     },
     "srcType": "search"
 }

@@ -29,8 +29,8 @@
         "slug": "tsmc-2nm-ramp",
         "online_date": "2026-01-05 08:00:00",
         "sorter": 20,
-        "cover": "/assets/images/tech/hero-2nm.jpg",
-        "banner": "/assets/images/tech/hero-2nm-wide.jpg",
+        "cover": "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=1600&q=80",
+        "banner": "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1600&q=80",
         "last_ts": "2026-01-06 10:25:00",
         "last_user": 1,
         "insert_ts": "2025-12-28 09:00:00",
@@ -52,7 +52,7 @@
             "target": "Press",
             "slug": "n2-fab",
             "status": "Enabled",
-            "pic": "/assets/images/tech/n2-fab.jpg",
+            "pic": "https://images.unsplash.com/photo-1581093458791-9e77c97eae3b?auto=format&fit=crop&w=1400&q=80",
             "info": "南科 N2 產線示意",
             "last_ts": "2026-01-05 09:00:00"
         },
@@ -62,7 +62,7 @@
             "target": "Press",
             "slug": "cowoos-line",
             "status": "Enabled",
-            "pic": "/assets/images/tech/cowoos-line.jpg",
+            "pic": "https://images.unsplash.com/photo-1506629082955-511b1aa562c8?auto=format&fit=crop&w=1400&q=80",
             "info": "CoWoS 擴產設備",
             "last_ts": "2026-01-05 09:00:00"
         },
@@ -72,7 +72,7 @@
             "target": "Press",
             "slug": "high-na",
             "status": "Enabled",
-            "pic": "/assets/images/tech/high-na.jpg",
+            "pic": "https://images.unsplash.com/photo-1581092795360-fd1ca04f0952?auto=format&fit=crop&w=1400&q=80",
             "info": "EUV High-NA 測試機",
             "last_ts": "2026-01-05 09:00:00"
         },
@@ -82,7 +82,7 @@
             "target": "Press",
             "slug": "materials",
             "status": "Enabled",
-            "pic": "/assets/images/tech/materials.jpg",
+            "pic": "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1400&q=80",
             "info": "先進材料供應鏈",
             "last_ts": "2026-01-05 09:00:00"
         },
@@ -92,7 +92,7 @@
             "target": "Press",
             "slug": "packaging",
             "status": "Enabled",
-            "pic": "/assets/images/tech/packaging.jpg",
+            "pic": "https://images.unsplash.com/photo-1473093226795-af9932fe5856?auto=format&fit=crop&w=1400&q=80",
             "info": "先進封裝線",
             "last_ts": "2026-01-05 09:00:00"
         },
@@ -102,7 +102,7 @@
             "target": "Press",
             "slug": "analytics",
             "status": "Enabled",
-            "pic": "/assets/images/tech/analytics.jpg",
+            "pic": "https://images.unsplash.com/photo-1517148815978-75f6acaaf32c?auto=format&fit=crop&w=1400&q=80",
             "info": "產能分析儀表板",
             "last_ts": "2026-01-05 09:00:00"
         }
@@ -113,7 +113,7 @@
         "sorter": 0,
         "group": "press",
         "slug": "semiconductor",
-        "cover": "/assets/images/tech/category-chip.jpg",
+        "cover": "https://images.unsplash.com/photo-1581092795360-fd1ca04f0952?auto=format&fit=crop&w=1400&q=80",
         "last_ts": "2026-01-06 10:15:00",
         "last_user": 1,
         "insert_ts": "2025-12-20 09:00:00",
@@ -143,7 +143,7 @@
         {
             "id": 21,
             "slug": "ivy-chen",
-            "cover": "/assets/images/authors/ivy.jpg",
+            "cover": "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=600&q=80",
             "title": "Ivy Chen",
             "slogan": "產業記者",
             "jobtitle": "編輯",
@@ -156,7 +156,7 @@
             "title": "NVIDIA 公布 Blackwell 後續：新世代 Grace CPU 量產時程",
             "info": "GPU/CPU 路線圖更新，供應鏈排程與雲端客戶採購狀況。",
             "slug": "nvidia-blackwell-roadmap",
-            "cover": "/assets/images/tech/nvidia-blackwell.jpg",
+            "cover": "https://images.unsplash.com/photo-1487058792275-0ad4aaf24ca7?auto=format&fit=crop&w=1400&q=80",
             "category": "快訊",
             "cnt": 1,
             "tags": [
@@ -171,7 +171,7 @@
                 {
                     "id": 22,
                     "slug": "leo-wang",
-                    "cover": "/assets/images/authors/leo.jpg",
+                    "cover": "https://images.unsplash.com/photo-1504593811423-6dd665756598?auto=format&fit=crop&w=600&q=80",
                     "title": "Leo Wang",
                     "slogan": "半導體記者",
                     "jobtitle": "編輯",
@@ -184,7 +184,7 @@
             "title": "AWS 宣布台北第二區域評估進度，目標 2027 上線",
             "info": "資料中心位置、供電與海纜佈局，對在地延遲的影響。",
             "slug": "aws-taiwan-second-region",
-            "cover": "/assets/images/tech/aws-taiwan.jpg",
+            "cover": "https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=1400&q=80",
             "category": "雲端",
             "cnt": 1,
             "tags": [
@@ -199,7 +199,7 @@
                 {
                     "id": 23,
                     "slug": "mia-lin",
-                    "cover": "/assets/images/authors/mia.jpg",
+                    "cover": "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=600&q=80",
                     "title": "Mia Lin",
                     "slogan": "雲端與基礎設施",
                     "jobtitle": "編輯",
@@ -212,7 +212,7 @@
             "title": "台灣新創 HoloStack 完成 B 輪，主攻企業 AR 協作",
             "info": "融資 4500 萬美元，落地製造與維運場景。",
             "slug": "holostack-series-b",
-            "cover": "/assets/images/tech/ar-startup.jpg",
+            "cover": "https://images.unsplash.com/photo-1515444744559-7be63e1600de?auto=format&fit=crop&w=1400&q=80",
             "category": "新創",
             "cnt": 1,
             "tags": [
@@ -227,7 +227,7 @@
                 {
                     "id": 21,
                     "slug": "ivy-chen",
-                    "cover": "/assets/images/authors/ivy.jpg",
+                    "cover": "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=600&q=80",
                     "title": "Ivy Chen",
                     "slogan": "產業記者",
                     "jobtitle": "編輯",
@@ -240,7 +240,7 @@
             "title": "OpenAI API 收費調整：對 SaaS 團隊的成本衝擊試算",
             "info": "以三種用量檔位估算成本變化，並比較其他主流模型。",
             "slug": "openai-pricing-2026",
-            "cover": "/assets/images/tech/openai-pricing.jpg",
+            "cover": "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=1600&q=80",
             "category": "深度分析",
             "cnt": 1,
             "tags": [
@@ -255,7 +255,7 @@
                 {
                     "id": 21,
                     "slug": "ivy-chen",
-                    "cover": "/assets/images/authors/ivy.jpg",
+                    "cover": "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=600&q=80",
                     "title": "Ivy Chen",
                     "slogan": "產業記者",
                     "jobtitle": "編輯",
@@ -270,7 +270,7 @@
             "title": "OpenAI API 收費調整：對 SaaS 團隊的成本衝擊試算",
             "info": "以三種用量檔位估算成本變化，並比較其他主流模型。",
             "slug": "openai-pricing-2026",
-            "cover": "/assets/images/tech/openai-pricing.jpg",
+            "cover": "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=1600&q=80",
             "category": "深度分析",
             "cnt": 1,
             "tags": [
@@ -285,7 +285,7 @@
                 {
                     "id": 21,
                     "slug": "ivy-chen",
-                    "cover": "/assets/images/authors/ivy.jpg",
+                    "cover": "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=600&q=80",
                     "title": "Ivy Chen",
                     "slogan": "產業記者",
                     "jobtitle": "編輯",
@@ -298,7 +298,7 @@
             "title": "微軟推出新一代 Copilot Studio，聚焦企業資料連結",
             "info": "強化 plugins 與私有資料接入，並降低部署延遲。",
             "slug": "microsoft-copilot-studio",
-            "cover": "/assets/images/tech/copilot-studio.jpg",
+            "cover": "https://images.unsplash.com/photo-1517433456452-f9633a875f6f?auto=format&fit=crop&w=1400&q=80",
             "category": "企業應用",
             "cnt": 1,
             "tags": [
@@ -313,7 +313,7 @@
                 {
                     "id": 21,
                     "slug": "ivy-chen",
-                    "cover": "/assets/images/authors/ivy.jpg",
+                    "cover": "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=600&q=80",
                     "title": "Ivy Chen",
                     "slogan": "產業記者",
                     "jobtitle": "編輯",
@@ -326,7 +326,7 @@
             "title": "台積電亞利桑那二廠進度曝光，2nm 將同步導入？",
             "info": "分析海外產線人力、設備與供應鏈協調挑戰。",
             "slug": "tsmc-arizona-progress",
-            "cover": "/assets/images/tech/tsmc-arizona.jpg",
+            "cover": "https://images.unsplash.com/photo-1506784983877-45594efa4cbe?auto=format&fit=crop&w=1400&q=80",
             "category": "半導體",
             "cnt": 1,
             "tags": [
@@ -341,7 +341,7 @@
                 {
                     "id": 22,
                     "slug": "leo-wang",
-                    "cover": "/assets/images/authors/leo.jpg",
+                    "cover": "https://images.unsplash.com/photo-1504593811423-6dd665756598?auto=format&fit=crop&w=600&q=80",
                     "title": "Leo Wang",
                     "slogan": "半導體記者",
                     "jobtitle": "編輯",
@@ -354,7 +354,7 @@
             "title": "英特爾更新 18A 產能規劃，Foundry 客戶名單再曝光",
             "info": "18A 客戶涵蓋伺服器與 PC，EUV 產能調度同步優化。",
             "slug": "intel-18a-capacity",
-            "cover": "/assets/images/tech/intel-18a.jpg",
+            "cover": "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&w=1400&q=80",
             "category": "半導體",
             "cnt": 1,
             "tags": [
@@ -369,7 +369,7 @@
                 {
                     "id": 24,
                     "slug": "anna-kuo",
-                    "cover": "/assets/images/authors/anna.jpg",
+                    "cover": "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=600&q=80",
                     "title": "Anna Kuo",
                     "slogan": "製程與封裝分析",
                     "jobtitle": "編輯",
@@ -382,18 +382,18 @@
     "next": null,
     "prev": {
         "id": 605,
-        "cover": "/assets/images/tech/openai-pricing.jpg",
+        "cover": "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=1600&q=80",
         "slug": "openai-pricing-2026",
         "title": "OpenAI API 收費調整：對 SaaS 團隊的成本衝擊試算"
     },
-    "ldjson": "<script type=\"application/ld+json\">{\"@context\":\"https://schema.org\",\"@type\":\"NewsArticle\",\"headline\":\"台積電 2nm 量產進度：良率、CoWoS 與海外產線最新拆解\",\"description\":\"TSMC N2/N2P 產線時程、GAA 良率、先進封裝與材料供應鏈狀況。\",\"contentUrl\":\"https://techpulse.news/tw/p/701/tsmc-2nm-ramp\",\"image\":[\"https://techpulse.news/assets/images/tech/hero-2nm.jpg\"],\"dateModified\":\"2026-01-06T10:25:00+08:00\",\"datePublished\":\"2026-01-05T08:00:00+08:00\",\"inLanguage\":\"zh-TW\"}</script>",
+    "ldjson": "<script type=\"application/ld+json\">{\"@context\":\"https://schema.org\",\"@type\":\"NewsArticle\",\"headline\":\"台積電 2nm 量產進度：良率、CoWoS 與海外產線最新拆解\",\"description\":\"TSMC N2/N2P 產線時程、GAA 良率、先進封裝與材料供應鏈狀況。\",\"contentUrl\":\"https://techpulse.news/tw/p/701/tsmc-2nm-ramp\",\"image\":[\"https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=1600&q=80\"],\"dateModified\":\"2026-01-06T10:25:00+08:00\",\"datePublished\":\"2026-01-05T08:00:00+08:00\",\"inLanguage\":\"zh-TW\"}</script>",
     "news": [
         {
             "id": 602,
             "title": "NVIDIA 公布 Blackwell 後續：新世代 Grace CPU 量產時程",
             "info": "GPU/CPU 路線圖更新，供應鏈排程與雲端客戶採購狀況。",
             "last_ts": "2026-01-05 18:30:00",
-            "cover": "/assets/images/tech/nvidia-blackwell.jpg",
+            "cover": "https://images.unsplash.com/photo-1487058792275-0ad4aaf24ca7?auto=format&fit=crop&w=1400&q=80",
             "status": "Published",
             "slug": "nvidia-blackwell-roadmap",
             "online_date": "2026-01-05 08:00:00",
@@ -406,7 +406,7 @@
             "title": "AWS 宣布台北第二區域評估進度，目標 2027 上線",
             "info": "探討潛在資料中心位置、供電與海纜佈局，以及對在地開發者的延遲影響。",
             "last_ts": "2026-01-04 15:10:00",
-            "cover": "/assets/images/tech/aws-taiwan.jpg",
+            "cover": "https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=1400&q=80",
             "status": "Published",
             "slug": "aws-taiwan-second-region",
             "online_date": "2026-01-04 07:30:00",
@@ -419,7 +419,7 @@
             "title": "台灣新創 HoloStack 完成 B 輪，主攻企業 AR 協作",
             "info": "融資 4500 萬美元，領投方為 Lightspeed，產品落地製造與維運場景。",
             "last_ts": "2026-01-03 11:20:00",
-            "cover": "/assets/images/tech/ar-startup.jpg",
+            "cover": "https://images.unsplash.com/photo-1515444744559-7be63e1600de?auto=format&fit=crop&w=1400&q=80",
             "status": "Published",
             "slug": "holostack-series-b",
             "online_date": "2026-01-03 08:45:00",
@@ -432,7 +432,7 @@
     "page": {
         "title": "台積電 2nm 量產進度：良率、CoWoS 與海外產線最新拆解",
         "keyword": "台積電,2nm,CoWoS,先進封裝",
-        "img": "https://techpulse.news/assets/images/tech/hero-2nm.jpg",
+        "img": "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=1600&q=80",
         "ga": "G-TPULSE",
         "desc": "TSMC 2nm/N2P 產線時程、良率與封裝產能拆解。",
         "header": "文章",

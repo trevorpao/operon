@@ -1,135 +1,132 @@
 {% extends "layout.twig" %}
 
 {% block page %}
-  {% if hero %}
-    <section class="box">
-      {% include "components/hero.twig" with { hero: hero } only %}
+  {% set heroItem = hero|first %}
+
+  {% if heroItem %}
+    <section class="hero is-dark is-medium" style="background-image: linear-gradient(120deg, rgba(0,0,0,.65), rgba(0,0,0,.35)), url('{{ heroItem.cover|e }}'); background-size: cover; background-position: center;">
+      <div class="hero-body">
+        <div class="container">
+          <p class="subtitle is-6 has-text-grey-lighter">{{ heroItem.subtitle|e }}</p>
+          <h1 class="title is-2">{{ heroItem.title|e }}</h1>
+          <p class="subtitle is-5">{{ heroItem.content|e }}</p>
+          <a class="button is-primary is-light" href="{{ heroItem.link|e }}">閱讀專題</a>
+        </div>
+      </div>
     </section>
   {% endif %}
 
-  <section class="box">
-    <h2>{{ current.title|e }}</h2>
-    <p>{{ current.subtitle|e }}</p>
-    <p>{{ current.tagline|e }}</p>
-  </section>
+  <section class="section">
+    <div class="container">
+      <div class="columns is-variable is-6">
+        <div class="column is-two-thirds">
+          <h2 class="title is-4 mb-4">焦點分析</h2>
+          {% for item in recommendation %}
+            <article class="box media mb-4">
+              <figure class="media-left">
+                <p class="image is-128x128">
+                  <img src="{{ item.cover|e }}" alt="{{ item.title|e }}">
+                </p>
+              </figure>
+              <div class="media-content">
+                <p class="is-size-7 has-text-grey">{{ item.subtitle|e }}</p>
+                <h3 class="title is-5 mb-1"><a href="{{ item.link|e }}">{{ item.title|e }}</a></h3>
+                <p class="has-text-grey-dark mb-2">{{ item.content|e }}</p>
+                <div class="tags">
+                  {% if item.cate %}<span class="tag is-link is-light">{{ item.cate.title|e }}</span>{% endif %}
+                  {% for tag in item.tags %}
+                    <span class="tag is-info is-light">{{ tag.title|e }}</span>
+                  {% endfor %}
+                </div>
+                {% if item.authors %}
+                  <div class="is-size-7 has-text-grey">作者：
+                    {% for author in item.authors %}
+                      {% if not loop.first %}, {% endif %}{{ author.title|e }}
+                    {% endfor %}
+                  </div>
+                {% endif %}
+              </div>
+            </article>
+          {% endfor %}
 
-  <section class="box">
-    <h3>功能總覽</h3>
-    <ul>
-      {% for item in overview %}
-        <li>{{ item|e }}</li>
-      {% endfor %}
-    </ul>
-  </section>
-
-  <section class="box">
-    <h3>安裝需求</h3>
-    <ul>
-      {% for item in requirements %}
-        <li>{{ item|e }}</li>
-      {% endfor %}
-    </ul>
-  </section>
-
-  <section class="box">
-    <h3>安裝</h3>
-    <pre class="code"><code>{{ install|e }}</code></pre>
-  </section>
-
-  <section class="box">
-    <h3>最小設定示例</h3>
-    <pre class="code"><code>{{ minimal_config|e }}</code></pre>
-  </section>
-
-  <section class="box">
-    <h3>Mock 映射規則</h3>
-    <table class="table is-striped is-fullwidth">
-      <thead>
-        <tr>
-          <th>Twig 檔案</th>
-          <th>Mock 檔案</th>
-          <th>行為</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for row in mock_mapping %}
-          <tr>
-            <td>{{ row.twig|e }}</td>
-            <td>{{ row.mock|e }}</td>
-            <td>{{ row.behavior|e }}</td>
-          </tr>
-        {% endfor %}
-      </tbody>
-    </table>
-    <ul>
-      {% for note in mock_notes %}
-        <li>{{ note|e }}</li>
-      {% endfor %}
-    </ul>
-  </section>
-
-  <section class="box">
-    <h3>自訂 Filters / Functions</h3>
-    <p>{{ filters_intro|e }}</p>
-    <pre class="code"><code>{{ filters_snippet|e }}</code></pre>
-    <pre class="code"><code>{{ functions_snippet|e }}</code></pre>
-  </section>
-
-  <section class="box">
-    <h3>體驗細節</h3>
-    <ul>
-      {% for item in dx %}
-        <li>{{ item|e }}</li>
-      {% endfor %}
-    </ul>
-  </section>
-
-  <section class="box">
-    <h3>Options 一覽</h3>
-    <table class="table is-hoverable is-fullwidth">
-      <thead>
-        <tr>
-          <th>名稱</th>
-          <th>型別 / 預設</th>
-          <th>說明</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for opt in options %}
-          <tr>
-            <td>{{ opt.name|e }}</td>
-            <td>{{ opt.type|e }}</td>
-            <td>{{ opt.description|e }}</td>
-          </tr>
-        {% endfor %}
-      </tbody>
-    </table>
-  </section>
-
-  <section class="box">
-    <h3>範例專案（example/）</h3>
-    <ul>
-      {% for item in example_points %}
-        <li>{{ item|e }}</li>
-      {% endfor %}
-    </ul>
-    <pre class="code"><code>{{ example_run|e }}</code></pre>
-  </section>
-
-  <div class="card my-5">
-      <header class="card-header">
-          <p class="card-header-title">Gene 測試</p>
-      </header>
-      <div class="card-content">
-          <div class="content">
-              點擊按鈕觸發內建的 <code>alert</code> 行為。
+          <h2 class="title is-4 mt-6 mb-4">最新新聞</h2>
+          <div class="columns is-multiline">
+            {% for article in news %}
+              <div class="column is-12">
+                <article class="media">
+                  <figure class="media-left">
+                    <p class="image is-96x96">
+                      <img src="{{ article.cover|e }}" alt="{{ article.title|e }}">
+                    </p>
+                  </figure>
+                  <div class="media-content">
+                    <p class="is-size-7 has-text-grey">{{ article.online_date|e }} · {{ article.category|e }}</p>
+                    <h3 class="title is-5 mb-1"><a href="/p/{{ article.slug|e }}">{{ article.title|e }}</a></h3>
+                    <p class="has-text-grey-dark">{{ article.info|e }}</p>
+                    {% if article.authors %}
+                      <p class="is-size-7 has-text-grey">
+                        {% for author in article.authors %}
+                          {% if not loop.first %}, {% endif %}{{ author.title|e }}
+                        {% endfor %}
+                      </p>
+                    {% endif %}
+                  </div>
+                </article>
+                <hr>
+              </div>
+            {% endfor %}
           </div>
-          <button class="button is-primary gee" data-gene="click:alert" data-title="提醒" data-txt="這是由 Button 設定的提示訊息！">顯示提示</button>
-      </div>
-  </div>
+        </div>
 
-  <section class="box">
-    <h3>授權</h3>
-    <p>{{ license|e }}</p>
+        <div class="column">
+          <div class="box">
+            <p class="is-size-7 has-text-grey">資料圖解</p>
+            {% for item in intro %}
+              <h3 class="title is-5"><a href="{{ item.link|e }}">{{ item.title|e }}</a></h3>
+              <p class="has-text-grey-dark mb-3">{{ item.content|e }}</p>
+            {% endfor %}
+          </div>
+
+          <div class="box">
+            <p class="is-size-7 has-text-grey">Podcast / 影音</p>
+            {% for item in links %}
+              <article>
+                <h3 class="title is-6"><a href="{{ item.link|e }}">{{ item.title|e }}</a></h3>
+                <p class="is-size-7 has-text-grey">{{ item.subtitle|e }}</p>
+                <p class="has-text-grey-dark">{{ item.content|e }}</p>
+              </article>
+            {% endfor %}
+          </div>
+
+          <div class="box">
+            <h3 class="title is-6 mb-2">合作夥伴</h3>
+            {% for partner in partners %}
+              <article class="media mb-3">
+                <figure class="media-left">
+                  <p class="image is-48x48">
+                    <img src="{{ partner.cover|e }}" alt="{{ partner.title|e }}">
+                  </p>
+                </figure>
+                <div class="media-content">
+                  <p class="is-size-7 has-text-grey">{{ partner.category|e }}</p>
+                  <p class="has-text-weight-semibold">{{ partner.title|e }}</p>
+                  <p class="is-size-7 has-text-grey-dark">{{ partner.info|e }}</p>
+                </div>
+              </article>
+            {% endfor %}
+          </div>
+
+          <div class="box">
+            <h3 class="title is-6 mb-2">關於我們</h3>
+            <p class="has-text-weight-semibold">{{ page.site_name|default('TechPulse')|e }}</p>
+            <p class="is-size-7 has-text-grey">{{ page.site_subtitle|e }}</p>
+            {% if about %}
+              <p class="mt-2">{{ about.content|raw }}</p>
+            {% endif %}
+            <p class="is-size-7 has-text-grey mt-3">聯絡：{{ opts.default.contact_mail|e }} · {{ opts.default.contact_phone|e }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
   </section>
 {% endblock %}

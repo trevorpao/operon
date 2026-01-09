@@ -27,12 +27,15 @@
         "canonical": "/404",
         "site_name": "TechPulse News",
         "site_subtitle": "中文科技新聞平台",
-        "breadcrumb": [{
-            "slug": "/home",
-            "str": "首頁"
-        }, {
-            "slug": "/404",
-            "str": "找不到頁面"
-        }]
+        "breadcrumb": [
+            {
+                "slug": "/home",
+                "str": "首頁"
+            },
+            {
+                "slug": "/404",
+                "str": "找不到頁面"
+            }
+        ]
     }
 }

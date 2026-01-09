@@ -37,7 +37,7 @@
         "id": "302",
         "tags": "AI / 雲端",
         "online_date": "2026-01-02 08:30:00",
-        "banner": "/assets/images/tech/openai-pricing.jpg",
+        "banner": "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=1600&q=80",
         "slug": "openai-pricing-2026",
         "title": "OpenAI API 收費調整：對 SaaS 團隊的成本衝擊試算"
     },
@@ -50,10 +50,12 @@
         "site_name": "TechPulse News",
         "site_subtitle": "中文科技新聞平台",
         "canonical": "/presses",
-        "breadcrumb": [{
-            "slug": "/presses",
-            "str": "消息"
-        }]
+        "breadcrumb": [
+            {
+                "slug": "/presses",
+                "str": "消息"
+            }
+        ]
     },
     "srcType": "tag"
 }

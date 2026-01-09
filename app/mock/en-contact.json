@@ -16,13 +16,13 @@
     "theme": "v1",
     "uri": "https://loc.f3cms.com:4433",
     "main_domain": "f3cms.com",
-    "lang": "tw",
+    "lang": "en",
     "year": "2026",
     "cu": {
         "id": "5",
         "status": "Enabled",
         "slug": "contact",
-        "cover": "/assets/images/tech/contact.jpg",
+        "cover": "https://images.unsplash.com/photo-1525182008055-f88b95ff7980?auto=format&fit=crop&w=1400&q=80",
         "last_ts": "2026-01-06 10:10:00",
         "last_user": "1",
         "insert_ts": "2025-12-20 09:00:00",
@@ -30,8 +30,7 @@
         "lang": "en",
         "issue": "#000",
         "title": "Contact TechPulse",
-        "content": "<p>Please leave your contact info and what you need. Our editors will respond quickly. You can also email <a href=\"mailto:contact@techpulse.news\">contact@techpulse.news</a> for press or partnership inquiries.</p>",
-        "issue": "#000"
+        "content": "<p>Please leave your contact info and what you need. Our editors will respond quickly. You can also email <a href=\"mailto:contact@techpulse.news\">contact@techpulse.news</a> for press or partnership inquiries.</p>"
     },
     "layout": "contact",
     "page": {
@@ -43,13 +42,15 @@
         "site_subtitle": "中文科技新聞平台",
         "canonical": "/contact",
         "share_link": "https://techpulse.news/contact",
-        "breadcrumb": [{
-            "slug": "/home",
-            "str": "Home"
-        }, {
-            "slug": "/contact",
-            "str": "Contact"
-        }]
-    },
-    "lang": "en"
+        "breadcrumb": [
+            {
+                "slug": "/home",
+                "str": "Home"
+            },
+            {
+                "slug": "/contact",
+                "str": "Contact"
+            }
+        ]
+    }
 }
