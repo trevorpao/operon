@@ -7,7 +7,7 @@
 未來新增功能時，應按下方流程實作，落實 Spec-Driven Development(SDD) 
 
 1) 建立新資料夾：於 `docs/spec/<feature>/` 下新增四個空白檔案 `idea.md`、`plan.md`、`check.md`、`optimization.md`（對應「想法/計畫/驗收/優化」）。
-2) idea（需求 / 風險）：提供 feature 目標、範圍、風險、依賴；討論重點; 規格; 視需求提供範例程式。
+2) idea（需求 / 風險）：提供 feature 目標、範圍、風險、依賴；討論重點; 規格; 視需求提供範例程式；所有討論題需在 idea.md 中記錄最終答覆，進入 plan 前不得保留未決定項目。
 3) (discuss)：
    1) 若需求複雜，先用 AI 摘要現況與風險，請求小步快跑的拆分方案；
    2) 驗證依賴/風險清單並標出高風險區塊需暫行 adapter。

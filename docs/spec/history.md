@@ -1,5 +1,23 @@
 # 開發歷程記錄
 
+## reusableHelpers（Menu helper + mode refactor）
+
+完成日期 2026/01/10
+
+說明：將 `menu` plugin/hook 的資料、模板、無障礙互動抽離至 `app/scripts/lib/ui.js`，並建立 lite/debug 模式切換、單責任 helper 與測試矩陣，確保純靜態頁面不載入多餘行為，debug 模式則具備完整診斷。適合初階工程師依 stage 檢查表逐一完成。
+
+開發細節入口：
+- [`reusableHelpers plan`](spec/Archived/reusableHelpers/plan.md)
+- [`reusableHelpers check`](spec/Archived/reusableHelpers/check.md)
+- [`reusableHelpers optimization`](spec/Archived/reusableHelpers/optimization.md)
+
+重點規格（新 → 舊順序）：
+- Lite/Debug 模式：`app.debug`（或 `data-menu-mode`）決定模式；hook 必須寫入 `data-menu-mode-active`，並只在 debug 模式啟用 `menuAccessibility`、console 診斷與 DOM partial 掃描。
+- Helper 架構：`ui.menuData/menuTemplates/menuAccessibility` 皆為 pure helper；plugin/hook 不得再維護 fallback 實作，所有資料/模板/互動流程均透過 helper 工廠 (`createMenuHelpers`) 統一管理。
+- 單一註冊：互動須經 `menuAccessibility.ensureSingleRegistration()` 保證只綁一次；teardown 時務必呼叫 token.dispose 以支援 SPA/nested 渲染。
+- Vitest 覆蓋：模板 spec 驗證 DOM partial 與 SSR context 僅在 debug 模式運作；hook spec 則同時在 lite/debug 模式跑鍵盤/ARIA 測試並截取 `console.info` 確保 lite 不輸出診斷。
+- Checklist + Matrix：`docs/spec/Archived/reusableHelpers/check.md` 需維護 lite/debug 功能矩陣，並在 Stage 3 後附上 `pnpm vitest run tests/lib/menu.template.spec.js tests/lib/menu.hook.spec.js` 的結果。
+
 ## Docute260108（Lib Guide 文件化）
 
 完成日期 2026/01/08

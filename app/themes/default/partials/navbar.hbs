@@ -1,7 +1,8 @@
 {{!-- 主選單 Handlebars 模板（僅產生 nav 內部結構） --}}
-<div class="navbar-brand">
+<div class="navbar-brand  is-fixed-top">
   <a class="navbar-item" href="{{#if brandHref}}{{brandHref}}{{else}}/{{/if}}">
-    {{#if brandLabel}}{{brandLabel}}{{else}}Menu{{/if}}
+    <img src="/assets/img/logo.png" alt="{{#if brandLabel}}{{brandLabel}}{{else}}Menu{{/if}}" class="navbar-logo" />
+    <span class="navbar-item__label">{{#if brandLabel}}{{brandLabel}}{{else}}Menu{{/if}}</span>
   </a>
   <button
     type="button"

@@ -3,6 +3,43 @@ const { defineConfig } = require('vite');
 const viteTwig = require('vite-twig-ssr');
 
 const VIEWS_PREFIX = '/app/themes/default/ssr/';
+const PUBLIC_ASSETS_DIR = path.resolve(__dirname, 'app/themes/default/assets');
+
+const triggerFullReload = (server, label) => {
+    if (!server) return;
+    server.moduleGraph.invalidateAll();
+    server.ws.send({ type: 'full-reload' });
+    if (server.config.logger?.info) {
+        server.config.logger.info(`[twig-hmr] ${label} updated -> full reload`);
+    }
+};
+
+const createTemplateReloadPlugin = ({ name, extensions, label }) => ({
+    name,
+    configureServer(server) {
+        const watchedEvents = new Set(['add', 'change', 'unlink']);
+        const matchesExtension = (filePath = '') => extensions.some((ext) => filePath.endsWith(ext));
+
+        server.watcher.on('all', (event, filePath) => {
+            if (!watchedEvents.has(event) || !matchesExtension(filePath)) {
+                return;
+            }
+            triggerFullReload(server, label);
+        });
+    },
+});
+
+const hbsHotReloadPlugin = () => createTemplateReloadPlugin({
+    name: 'hbs-hot-reload',
+    extensions: ['.hbs'],
+    label: 'Handlebars partial',
+});
+
+const twigHotReloadPlugin = () => createTemplateReloadPlugin({
+    name: 'twig-hot-reload',
+    extensions: ['.twig', '.json'],
+    label: 'Twig view',
+});
 
 const devRoutingPlugin = () => ({
     name: 'docute-dev-routing',
@@ -12,9 +49,9 @@ const devRoutingPlugin = () => ({
                 return next();
             }
 
-            if (req.url === '/' || req.url === '/index.html') {
+            if (req.url === '/') {
                 res.statusCode = 302;
-                res.setHeader('Location', `${VIEWS_PREFIX}index.twig`);
+                res.setHeader('Location', '/index.twig');
                 return res.end();
             }
 
@@ -29,13 +66,11 @@ const devRoutingPlugin = () => ({
 
 module.exports = defineConfig({
     root: __dirname,
-    resolve: {
-        alias: {
-            'trevorpao/geneEH': path.resolve(__dirname, 'app/scripts/lib/gee-bridge.js'),
-        },
-    },
+    publicDir: PUBLIC_ASSETS_DIR,
     plugins: [
         devRoutingPlugin(),
+        twigHotReloadPlugin(),
+        hbsHotReloadPlugin(),
         viteTwig({
             viewsPath: './app/themes/default/ssr/',
             mockPath: './app/mock',
@@ -57,7 +92,7 @@ module.exports = defineConfig({
         }),
     ],
     server: {
-        open: '/app/themes/default/ssr/index.twig',
+        open: '/index.twig',
         watch: {
             ignored: ['**/node_modules/**', '**/dist/**'],
         },

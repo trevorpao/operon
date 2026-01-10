@@ -23,3 +23,9 @@
 - Lib Guide：`docs/lib/README.md` 及子檔，收錄每個 `app/scripts/lib/*` 模組的 API、SSR 守則與範例，並在 sidebar/guide 中提供入口。
 - Docute260108：針對 RefactorLib 所有 helper 的文件化專案，拆成 Stage0–Stage4（scaffold → runtime → messaging → DOM/form/number → index & QA），完成後歸檔於 `docs/spec/Archived/Docute260108/`。
 - Export matrix：Lib Guide README 中的 `module -> exports` 對照表，要求新增 helper 時同步更新，方便快速查漏及審核 docs。
+- lite mode（menu）：`app.debug=false` 時的運行模式，只渲染靜態 DOM，不載入鍵盤/ARIA 互動，也不掃描 DOM partial；用於量產頁面減少 bundle 體積。
+- debug mode（menu）：`app.debug=true` 或元素宣告 `data-menu-mode="debug"` 時啟用，會載入 `menuAccessibility`、DOM partial 掃描與 console 診斷，方便 QA/開發調試。
+- `menuAccessibility`：`ui.menuAccessibility` namespace，提供 secure link、鍵盤導覽與 `ensureSingleRegistration()`，供 hook 以單一入口綁定/解除互動。
+- `createMenuHelpers()`：`ui.createMenuHelpers({ appDebug, flags })` 工廠，回傳依模式調整的 helper bag（包含 `attachMenuInteractions`、`secureExternalLinks`），避免 hook 直接判斷 `app.debug`。
+- `helperFlags`：hook 依 data-attribute（`data-menu-mode` 等）組成的覆寫參數物件，傳給 `createMenuHelpers()` 以覆蓋預設模式或測試特殊情境。
+- `menuModeActive`：hook render 後寫入的 dataset 屬性，標記當前元素實際運行的模式（lite/debug），提供 QA、console 診斷與未來 telemetry 讀取。

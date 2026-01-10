@@ -1,3 +1,4 @@
+// TODO(reusableHelpers-stage1): merge legacy menuHelpers into ui.menuTemplates once helper modularization completes.
 const escapeHtml = (value) => String(value ?? '')
     .replace(/&/g, '&amp;')
     .replace(/</g, '&lt;')

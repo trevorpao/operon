@@ -7,24 +7,30 @@ npm install --save-dev ./vite-twig-ssr-0.3.0.tgz
 ## 初始化
 
 ```bash
-mkdir -p docs/spec/<feature> && cd $_ && touch {idea,plan,check,optimization}.md && cd -
+mkdir -p docs/spec/reusableHelpers && cd $_ && touch {idea,plan,check,optimization}.md && cd -
 ```
 
 ## 規劃
 
-請按 `docs/spec/flow.md` 之 `SOP > plan（規劃）` 的要求
-建立 `docs/spec/<feature>/idea.md` 的實作計畫
+請按 `docs/flow.md` 之 `SOP > idea（需求 / 風險）` 的要求
+完善 `docs/spec/reusableHelpers/idea.md` 的內容
+
+現有 `docs/spec/reusableHelpers/idea.md` 的內容
+是否足夠？是否有衝突之處？
+
+請按 `docs/flow.md` 之 `SOP > plan（規劃）` 的要求
+建立 `docs/spec/reusableHelpers/idea.md` 的實作計畫
 
 ## 驗証
 
-請按 `docs/spec/flow.md` 之 `SOP > check（驗收）` 的要求
-建立 `docs/spec/<feature>/plan.md` 的驗收清單
+請按 `docs/flow.md` 之 `SOP > check（驗收）` 的要求
+建立 `docs/spec/reusableHelpers/plan.md` 的驗收清單
 
 ## 開發
 
-落實 `docs/spec/<feature>` 之 stage 2
+落實 `docs/spec/reusableHelpers` 之 stage 1
 
-1) 載入 `docs/spec/<feature>` 內之 plan 及 check 文檔
+1) 載入 `docs/spec/reusableHelpers` 內之 plan 及 check 文檔
 2) 根據 plan.md，執行優化
 3) 根據 check.md，檢查優化
 4) 根據檢查結果，進一步優化
@@ -33,15 +39,18 @@ mkdir -p docs/spec/<feature> && cd $_ && touch {idea,plan,check,optimization}.md
 
 ## 收尾
 
-執行 `docs/spec/<feature>` 之文件化及優化
+執行 `docs/spec/reusableHelpers` 之文件化及優化
 
-1) 在 `docs/spec/<feature>/optimization.md` 中，說明未來可能的改進思路。
+1) 在 `docs/spec/reusableHelpers/optimization.md` 中，說明未來可能的改進思路。
 2) 將 feature 開發過程中建立的商業邏輯整理進 `docs/spec/rule.md`
 3) 將 feature 的特殊詞彙整理進 `docs/glossary.md`。
-4) `docs/spec/<feature>/` 移動到 `docs/spec/Archived/<feature>/`
-5) 將 feature 中需要遵偱的規格寫入 `docs/spec/history.md` 中，讀者為初階工程師，以利團隊協作。寫入順序由新到舊。
-6) 更新 `docs/_sidebar.md` 
-7) 產生 git commit 時所需的說明
+4) 將 feature 中需要遵偱的規格寫入 `docs/spec/history.md` 中，讀者為初階工程師，以利團隊協作。寫入順序由新到舊。
+
+執行 `docs/spec/reusableHelpers` 之封裝
+
+1) `docs/spec/reusableHelpers/` 移動到 `docs/spec/Archived/reusableHelpers/`
+2) 更新 `docs/_sidebar.md` 及 `docs/spec/history.md` 的相關路徑
+3) 產生 git commit 時所需的說明
 
 ## 逐步更新 module
 

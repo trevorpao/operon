@@ -3,7 +3,7 @@
 {% set menu_id = nav.menu_id | default('1') %}
 {% set menu_template = nav.menu_template | default('navbar') %}
 {% set menu_timeout = nav.menu_timeout | default(3000) %}
-{% set brand_label = nav.brand_label | default('Menu') %}
+{% set brand_label = nav.brand_label | default('Demo') %}
 {% set brand_href = nav.brand_href | default('/') %}
 {% set menu_target = nav.menu_target | default('navbar-menu-' ~ menu_id) %}
 
@@ -21,7 +21,8 @@
 >
   <div class="navbar-brand">
     <a class="navbar-item" href="{{ brand_href|e }}">
-      {{ brand_label|e }}
+      <img src="/assets/img/logo.png" alt="{{ brand_label|e }}" class="navbar-logo" />
+      <span class="navbar-item__label">{{ brand_label|e }}</span>
     </a>
     <button
       type="button"
@@ -51,7 +52,8 @@
     {{!-- navbar Handlebars template (CSR 渲染使用) --}}
     <div class="navbar-brand">
       <a class="navbar-item" href="{{#if brandHref}}{{brandHref}}{{else}}/{{/if}}">
-        {{#if brandLabel}}{{brandLabel}}{{else}}Menu{{/if}}
+        <img src="/assets/img/logo.png" alt="{{#if brandLabel}}{{brandLabel}}{{else}}Menu{{/if}}" class="navbar-logo" />
+        <span class="navbar-item__label">{{#if brandLabel}}{{brandLabel}}{{else}}Menu{{/if}}</span>
       </a>
       <button
         type="button"

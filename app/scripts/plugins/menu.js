@@ -1,5 +1,6 @@
 import { createPlugin } from '../lib/defaultPlugin';
 import menuHelpers from '../lib/helpers/menu';
+import { menuData, menuTemplates } from '../lib/ui';
 
 const MENU_ENDPOINT = 'menu_lotsMenu';
 const DEFAULT_TIMEOUT = 3000;
@@ -8,61 +9,23 @@ const DEFAULT_TEMPLATE = 'navbar';
 const hasWindow = typeof window !== 'undefined';
 const hasDocument = typeof document !== 'undefined';
 
-const toArray = (value) => (Array.isArray(value) ? value : []);
+let warnedMissingDebug = false;
 
-const normalizeNode = (node) => {
-    if (!node || typeof node !== 'object') return null;
-    const rows = toArray(node.rows || node.children);
-    const normalizedRows = rows
-        .map((child) => normalizeNode(child))
-        .filter(Boolean);
-
-    return {
-        ...node,
-        rows: normalizedRows,
-    };
-};
-
-const normalizeMenuData = (payload) => {
-    if (!payload) return [];
-    if (Array.isArray(payload)) {
-        return payload.map((item) => normalizeNode(item)).filter(Boolean);
+const resolveMode = (appContext) => {
+    if (appContext && typeof appContext.debug === 'boolean') {
+        return appContext.debug ? 'debug' : 'lite';
     }
-    if (Array.isArray(payload.data)) {
-        return payload.data.map((item) => normalizeNode(item)).filter(Boolean);
+    if (!warnedMissingDebug && typeof console !== 'undefined' && typeof console.warn === 'function') {
+        console.warn('[menu] app.debug missing, defaulting to lite mode');
+        warnedMissingDebug = true;
     }
-    if (payload.data && Array.isArray(payload.data.data)) {
-        return payload.data.data.map((item) => normalizeNode(item)).filter(Boolean);
-    }
-    return [];
-};
-
-const withTimeout = (promise, timeout = DEFAULT_TIMEOUT, message = 'menu request timed out') => {
-    if (!timeout || Number(timeout) <= 0) {
-        return promise;
-    }
-
-    return new Promise((resolve, reject) => {
-        const timer = setTimeout(() => {
-            reject(new Error(message));
-        }, timeout);
-
-        promise
-            .then((value) => {
-                clearTimeout(timer);
-                resolve(value);
-            })
-            .catch((error) => {
-                clearTimeout(timer);
-                reject(error);
-            });
-    });
+    return 'lite';
 };
 
 const menuPlugin = createPlugin({
     name: 'data.menu',
-    install({ app: ctxApp, gee: ctxGee }) {
-        const yellFn = (ctxApp && typeof ctxApp.yell === 'function')
+    install({ app: ctxApp = {}, gee: ctxGee } = {}) {
+        const yellFn = typeof ctxApp.yell === 'function'
             ? ctxApp.yell
             : (ctxGee && typeof ctxGee.yell === 'function' ? ctxGee.yell.bind(ctxGee) : null);
 
@@ -74,67 +37,44 @@ const menuPlugin = createPlugin({
         const templateCache = new Map();
         const domPartialRegistry = new Set();
 
+        const getRuntimeMode = () => resolveMode(ctxApp);
+
         const cacheTemplate = (name, fn) => {
-            if (!name || typeof fn !== 'function') return fn;
-            templateCache.set(name, fn);
-            if (ctxApp && ctxApp.tmplStores) {
-                ctxApp.tmplStores[name] = fn;
+            const mode = getRuntimeMode();
+            if (mode === 'debug') {
+                ctxApp.tmplStores = ctxApp.tmplStores || {};
             }
-            return fn;
-        };
-
-        const registerDomPartials = () => {
-            if (!hasDocument || !hasWindow) {
-                return;
-            }
-            const handlebars = window.Handlebars;
-            if (!handlebars || typeof handlebars.compile !== 'function' || typeof handlebars.registerPartial !== 'function') {
-                return;
-            }
-
-            const nodes = document.querySelectorAll('script[type="text/x-handlebars-template"][data-partial]');
-            nodes.forEach((node) => {
-                const partialName = node.getAttribute('data-partial') || node.getAttribute('id');
-                if (!partialName || domPartialRegistry.has(partialName)) {
-                    return;
-                }
-                const compiled = handlebars.compile(node.innerHTML || '');
-                cacheTemplate(partialName, compiled);
-                handlebars.registerPartial(partialName, compiled);
-                domPartialRegistry.add(partialName);
+            return menuTemplates.cacheTemplate({
+                name,
+                fn,
+                templateCache,
+                appContext: mode === 'debug' ? ctxApp : null,
             });
         };
 
-        const resolveTemplate = (template) => {
-            if (typeof template === 'function') {
-                return template;
+        const registerDomPartials = () => {
+            if (getRuntimeMode() !== 'debug') {
+                return;
             }
-
-            const name = (template || DEFAULT_TEMPLATE).trim();
-            if (!name) return null;
-
-            if (templateCache.has(name)) {
-                return templateCache.get(name);
-            }
-
-            if (ctxApp && ctxApp.tmplStores && typeof ctxApp.tmplStores[name] === 'function') {
-                return cacheTemplate(name, ctxApp.tmplStores[name]);
-            }
-
-            if (hasWindow && window.templates && typeof window.templates[name] === 'function') {
-                return cacheTemplate(name, window.templates[name]);
-            }
-
-            if (hasDocument) {
-                const node = document.getElementById(name) || document.querySelector(`[data-template="${name}"]`);
-                if (node && hasWindow && window.Handlebars && typeof window.Handlebars.compile === 'function') {
-                    const compiled = window.Handlebars.compile(node.innerHTML || '');
-                    return cacheTemplate(name, compiled);
-                }
-            }
-
-            return null;
+            menuTemplates.registerDomPartials({
+                documentRef: hasDocument ? document : null,
+                selector: 'script[type="text/x-handlebars-template"][data-partial]',
+                handlebars: hasWindow ? window.Handlebars : null,
+                cacheTemplateFn: cacheTemplate,
+                domPartialRegistry,
+            });
         };
+
+        const resolveTemplate = (template) => menuTemplates.resolveTemplate({
+            templateName: template,
+            defaultName: DEFAULT_TEMPLATE,
+            templateCache,
+            appContext: getRuntimeMode() === 'debug' ? ctxApp : null,
+            windowRef: hasWindow ? window : null,
+            documentRef: hasDocument ? document : null,
+            handlebars: hasWindow ? window.Handlebars : null,
+            cacheTemplateFn: cacheTemplate,
+        });
 
         const makePayload = (menuId, params = {}) => {
             const payload = {
@@ -188,25 +128,19 @@ const menuPlugin = createPlugin({
                 }
             });
 
-            return withTimeout(request, options.timeout ?? DEFAULT_TIMEOUT);
+            return menuData.withTimeout(request, options.timeout ?? DEFAULT_TIMEOUT);
         };
 
         const loadMenu = async (menuId, options = {}) => {
             const cacheKey = String(menuId || 'default');
             const useCache = options.cache !== false;
-
-            if (useCache && menuCache.has(cacheKey)) {
-                return menuCache.get(cacheKey).data;
-            }
-
-            const response = await callApi(menuId, options);
-            const menu = normalizeMenuData(response);
-
-            if (useCache) {
-                menuCache.set(cacheKey, { data: menu, fetchedAt: Date.now() });
-            }
-
-            return menu;
+            return menuData.loadMenuWithCache({
+                cacheKey,
+                cacheMap: menuCache,
+                useCache,
+                loader: () => callApi(menuId, options),
+                normalizer: menuData.normalizeMenuData,
+            });
         };
 
         const render = async ({
@@ -225,24 +159,22 @@ const menuPlugin = createPlugin({
                 throw new Error(`menu template "${template}" not found`);
             }
 
-            const menuData = Array.isArray(menu)
+            const menuPayload = Array.isArray(menu)
                 ? menu
                 : await loadMenu(menuId, { timeout, signal, cache });
 
-            const templateContext = {
-                menu: menuData,
-                ...context,
-            };
+            const templateContext = menuTemplates.buildTemplateContext({
+                menu: menuPayload,
+                context,
+            });
 
-            if (typeof templateContext.items === 'undefined') {
-                // Keep legacy templates that expect `items` instead of `menu` working.
-                templateContext.items = menuData;
-            }
-
-            const helperBag = (ctxApp && ctxApp.menuHelpers) || menuHelpers;
+            const helperBag = menuTemplates.mergeHelperBag({
+                appHelpers: ctxApp && ctxApp.menuHelpers,
+                fallbackHelpers: menuHelpers,
+            });
             const html = templateFn(templateContext, { helpers: helperBag });
 
-            return { html, menu: menuData };
+            return { html, menu: menuPayload };
         };
 
         const destroy = (target) => {

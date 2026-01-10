@@ -22,6 +22,10 @@
     - [Head Plugin & Analytics](lib/head.md)
 
 - Archived Spec
+  - reusableHelpers
+    - [plan](spec/Archived/reusableHelpers/plan.md)
+    - [check](spec/Archived/reusableHelpers/check.md)
+    - [optimization](spec/Archived/reusableHelpers/optimization.md)
   - Docute260108
     - [idea](spec/Archived/Docute260108/idea.md)
     - [plan](spec/Archived/Docute260108/plan.md)

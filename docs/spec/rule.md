@@ -44,6 +44,22 @@
   - 成功/錯誤統一透過 `app.stdSuccess/stdErr` 或 plugin 自訂 notifier；禁止 `alert()`。
   - 事件匯流排請 import `on/emit/clear` 自 `../lib/event`；不再允許透過 `gee.event.subscribe/fire` 溝通。
 
+## ReusableHelpers（Menu Lite/Debug）
+
+- 模式判定
+  - 以 `app.debug` 決定 lite/Debug；若未設定改回 lite 並於 console.warn 提示。允許元素透過 `data-menu-mode` 覆寫，用於測試或單頁強制 debug。
+  - hook 渲染後必須寫入 `el.dataset.menuModeActive`，供 QA/追蹤與 docs 取用。
+- Plugin 規則
+  - `app/scripts/plugins/menu.js` 僅能呼叫 `ui.menuData`/`ui.menuTemplates`，不得再維護 fallback helper。DOM partial 掃描、`tmplStores` 寫入僅允許在 debug 模式執行。
+  - `menuData.loadMenuWithCache()` 仍強制驗證 schema；cache 命中時需檢查 `fetchedAt` 以利後續優化（見 optimization backlog）。
+- Hook 規則
+  - `createMenuHelpers()` 返回的 `attachMenuInteractions` 只能在 debug 模式生效；lite 模式只渲染靜態 DOM 並維持 `tabindex` 初始值。
+  - 互動綁定必須透過 `menuAccessibility.ensureSingleRegistration()` 取得 token，teardown 時記得呼叫 `token.dispose()`，防止 SPA 重複初始化。
+  - Secure links (`target="_blank"`) 交由 `menuAccessibility.secureExternalLinks()` 管理，不得在 hook 內再手寫。
+- 記錄與診斷
+  - `logRenderResult()` 僅在 debug 模式下輸出 snapshot，避免 lite 模式污染 console。Lite/Debug 兩種模式都需在 tests（hook/template）覆蓋。
+  - 任何接觸 `console.info/warn` 的邏輯都要被對應的 Vitest 覆蓋（`expect(infoSpy).not.toHaveBeenCalled()` 等）。
+
 ## RefactorLib（核心 Lib 模組）
 
 - 依賴與 SSR

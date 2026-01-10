@@ -2,6 +2,7 @@ import 'gene-event-handler';
 import app from '../app';
 import { toElement } from '../lib/dom/utils';
 import registerHooks from '../lib/hooks/register';
+import { createMenuHelpers } from '../lib/ui';
 
 const MENU_ITEM_SELECTOR = '[role="menuitem"]';
 const DEFAULT_TEMPLATE = 'navbar';
@@ -14,6 +15,32 @@ const DEFAULT_BRAND_LABEL = 'Menu';
 const DEFAULT_BRAND_HREF = '/';
 
 const hasDocument = typeof document !== 'undefined';
+
+let warnedMissingDebug = false;
+
+const resolveAppDebugFlag = () => {
+    if (app && typeof app.debug === 'boolean') {
+        return app.debug;
+    }
+    if (!warnedMissingDebug && typeof console !== 'undefined' && typeof console.warn === 'function') {
+        console.warn('[menu] app.debug missing, defaulting to lite mode');
+        warnedMissingDebug = true;
+    }
+    return false;
+};
+
+const buildHelperFlags = (el) => {
+    if (!el || !el.dataset) {
+        return {};
+    }
+    const mode = (el.dataset.menuMode || el.dataset.menuModeOverride || '').toLowerCase();
+    if (mode === 'debug' || mode === 'lite') {
+        return { mode };
+    }
+    return {};
+};
+
+// TODO(reusableHelpers-stage2): move status/fallback helpers + interaction wiring into app/scripts/lib/ui.js (ui.menuTemplates/ui.menuAccessibility).
 
 const escapeHtml = (value) => String(value ?? '').replace(/[&<>"']/g, (char) => ({
     '&': '&amp;',
@@ -45,15 +72,6 @@ const setStatus = (el, status) => {
     } else if (status === 'error') {
         el.classList.add(CLASS_ERROR);
     }
-};
-
-const secureExternalLinks = (root) => {
-    root.querySelectorAll(`${MENU_ITEM_SELECTOR}[target="_blank"]`).forEach((link) => {
-        const rel = link.getAttribute('rel') || '';
-        if (!/\bnoopener\b/.test(rel)) {
-            link.setAttribute('rel', `${rel} noopener`.trim());
-        }
-    });
 };
 
 const getTriggerLink = (listItem) => listItem.querySelector(':scope > [role="menuitem"]');
@@ -139,6 +157,51 @@ const focusFirstChild = (root, link) => {
     return true;
 };
 
+const handleMenuKey = (event, target, helpers) => {
+    switch (event.key) {
+        case 'ArrowDown':
+            event.preventDefault();
+            helpers.moveFocus(target, 1);
+            break;
+        case 'ArrowUp':
+            event.preventDefault();
+            helpers.moveFocus(target, -1);
+            break;
+        case 'ArrowRight':
+            if (helpers.hasSubmenu(target)) {
+                event.preventDefault();
+                helpers.toggleSubmenu(target, true);
+                if (!helpers.focusFirstChild(target)) {
+                    helpers.moveFocus(target, 1);
+                }
+            }
+            break;
+        case 'ArrowLeft':
+            event.preventDefault();
+            if (!helpers.focusParentItem(target)) {
+                helpers.moveFocus(target, -1);
+            }
+            break;
+        case 'Enter':
+        case ' ':
+        case 'Spacebar':
+            if (helpers.hasSubmenu(target)) {
+                event.preventDefault();
+                helpers.toggleSubmenu(target);
+            }
+            break;
+        case 'Escape':
+        case 'Esc':
+            if (helpers.focusParentItem(target)) {
+                event.preventDefault();
+            }
+            break;
+        default:
+            break;
+    }
+};
+
+// TODO(reusableHelpers-stage2): rely on ui.menuTemplates.renderFallback once helper extraction lands.
 const renderFallback = (el, error, retry) => {
     const message = error && error.message ? error.message : 'Menu 無法載入，請稍後再試';
     setStatus(el, 'error');
@@ -158,99 +221,36 @@ const renderFallback = (el, error, retry) => {
     return () => button.removeEventListener('click', handler);
 };
 
-const attachInteractions = (root) => {
-    if (!hasDocument) return () => {};
+const createInteractionCallbacks = (root) => {
+    const moveFocusWithRoot = (current, offset) => moveFocus(root, current, offset);
+    const focusParentWithRoot = (current) => focusParentItem(root, current);
+    const focusFirstChildWithRoot = (link) => focusFirstChild(root, link);
 
-    const collapseAll = () => {
-        root.querySelectorAll('li.has-children').forEach((li) => {
-            const link = getTriggerLink(li);
-            if (link) {
-                collapseSubmenu(link);
-            }
-        });
+    return {
+        itemSelector: MENU_ITEM_SELECTOR,
+        hasSubmenu,
+        toggleSubmenu,
+        moveFocus: moveFocusWithRoot,
+        focusParentItem: focusParentWithRoot,
+        focusFirstChild: focusFirstChildWithRoot,
+        setActiveItem,
+        allowedKeys: KEYBOARD_KEYS,
+        handleKey: handleMenuKey,
     };
+};
 
-    secureExternalLinks(root);
-    collapseAll();
-
-    const items = Array.from(root.querySelectorAll(MENU_ITEM_SELECTOR));
-    if (items.length) {
-        setActiveItem(items[0], items);
-        items.slice(1).forEach((node) => node.setAttribute('tabindex', '-1'));
+const attachInteractions = (helpers, root) => {
+    if (!hasDocument) {
+        return () => {};
     }
-
-    const onClick = (event) => {
-        const target = event.target.closest(MENU_ITEM_SELECTOR);
-        if (!target || !root.contains(target)) return;
-        if (!hasSubmenu(target)) return;
-        event.preventDefault();
-        toggleSubmenu(target);
-    };
-
-    const onKeyDown = (event) => {
-        const target = event.target.closest(MENU_ITEM_SELECTOR);
-        if (!target || !root.contains(target) || !KEYBOARD_KEYS.has(event.key)) return;
-
-        switch (event.key) {
-            case 'ArrowDown':
-                event.preventDefault();
-                moveFocus(root, target, 1);
-                break;
-            case 'ArrowUp':
-                event.preventDefault();
-                moveFocus(root, target, -1);
-                break;
-            case 'ArrowRight':
-                if (hasSubmenu(target)) {
-                    event.preventDefault();
-                    toggleSubmenu(target, true);
-                    if (!focusFirstChild(root, target)) {
-                        moveFocus(root, target, 1);
-                    }
-                }
-                break;
-            case 'ArrowLeft':
-                event.preventDefault();
-                if (!focusParentItem(root, target)) {
-                    moveFocus(root, target, -1);
-                }
-                break;
-            case 'Enter':
-            case ' ':
-            case 'Spacebar':
-                if (hasSubmenu(target)) {
-                    event.preventDefault();
-                    toggleSubmenu(target);
-                }
-                break;
-            case 'Escape':
-            case 'Esc':
-                if (focusParentItem(root, target)) {
-                    event.preventDefault();
-                }
-                break;
-            default:
-                break;
-        }
-    };
-
-    const onFocusIn = (event) => {
-        const target = event.target.closest(MENU_ITEM_SELECTOR);
-        if (!target || !root.contains(target)) return;
-        const items = Array.from(root.querySelectorAll(MENU_ITEM_SELECTOR));
-        if (!items.length) return;
-        setActiveItem(target, items);
-    };
-
-    root.addEventListener('click', onClick);
-    root.addEventListener('keydown', onKeyDown);
-    root.addEventListener('focusin', onFocusIn);
-
-    return () => {
-        root.removeEventListener('click', onClick);
-        root.removeEventListener('keydown', onKeyDown);
-        root.removeEventListener('focusin', onFocusIn);
-    };
+    return helpers.attachMenuInteractions({
+        root,
+        selectors: {
+            itemSelector: MENU_ITEM_SELECTOR,
+            parentSelector: 'li.has-children',
+        },
+        callbacks: createInteractionCallbacks(root),
+    });
 };
 
 const getMenuPlugin = () => {
@@ -364,9 +364,16 @@ const createMenuController = (pluginApi) => {
             setStatus(el, 'ready');
             el.removeAttribute('aria-busy');
 
-            logRenderResult(el, templateName, html);
-
-            const teardownInteractions = attachInteractions(el);
+            const helperFlags = buildHelperFlags(el);
+            const helpers = createMenuHelpers({
+                appDebug: resolveAppDebugFlag(),
+                flags: helperFlags,
+            });
+            el.dataset.menuModeActive = helpers.mode;
+            if (helpers.mode === 'debug') {
+                logRenderResult(el, templateName, html);
+            }
+            const teardownInteractions = attachInteractions(helpers, el);
             entry.cleanup.add(teardownInteractions);
 
             if (app.track && typeof app.track.bind === 'function') {

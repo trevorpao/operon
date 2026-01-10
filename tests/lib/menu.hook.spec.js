@@ -18,6 +18,7 @@ vi.mock('../../app/scripts/app', () => {
             track: {
                 bind: trackBind,
             },
+            debug: false,
         },
         __mockPlugin: pluginApi,
         __mockTrackBind: trackBind,
@@ -84,6 +85,8 @@ const setupHookModule = async () => {
     };
 
     const appModule = await import('../../app/scripts/app');
+    const appMock = appModule.default;
+    appMock.debug = false;
     const pluginApi = appModule.__mockPlugin;
     const trackBind = appModule.__mockTrackBind;
     pluginApi.render.mockReset();
@@ -96,6 +99,7 @@ const setupHookModule = async () => {
         hooks,
         pluginApi,
         trackBind,
+        appMock,
         installMenuHook: hookModule.default,
     };
 };
@@ -106,8 +110,10 @@ describe('menu hook integration', () => {
     });
 
     it('renders via gee hook and tears down cleanly', async () => {
-        const { hooks, pluginApi, trackBind, installMenuHook } = await setupHookModule();
+        const { hooks, pluginApi, trackBind, installMenuHook, appMock } = await setupHookModule();
+        appMock.debug = true;
         pluginApi.render.mockResolvedValue({ html: sampleMenuHtml, menu: [] });
+        const infoSpy = vi.spyOn(console, 'info').mockImplementation(() => {});
 
         const nav = createTarget();
         const teardown = installMenuHook();
@@ -128,11 +134,15 @@ describe('menu hook integration', () => {
 
         teardown();
         expect(pluginApi.destroy).toHaveBeenCalledTimes(1);
+        expect(infoSpy).toHaveBeenCalled();
+        infoSpy.mockRestore();
     });
 
     it('handles keyboard interactions and passes axe audit', async () => {
-        const { hooks, pluginApi, installMenuHook } = await setupHookModule();
+        const { hooks, pluginApi, installMenuHook, appMock } = await setupHookModule();
+        appMock.debug = true;
         pluginApi.render.mockResolvedValue({ html: nestedMenuHtml, menu: [] });
+        const infoSpy = vi.spyOn(console, 'info').mockImplementation(() => {});
 
         const nav = createTarget();
         const teardown = installMenuHook();
@@ -171,6 +181,39 @@ describe('menu hook integration', () => {
         }
         expect(violations).toHaveLength(0);
 
+        teardown();
+        expect(infoSpy).toHaveBeenCalled();
+        infoSpy.mockRestore();
+    });
+
+    it('skips accessibility wiring when debug is disabled', async () => {
+        const { hooks, pluginApi, installMenuHook, appMock } = await setupHookModule();
+        appMock.debug = false;
+        pluginApi.render.mockResolvedValue({ html: nestedMenuHtml, menu: [] });
+        const infoSpy = vi.spyOn(console, 'info').mockImplementation(() => {});
+
+        const nav = createTarget();
+        const teardown = installMenuHook();
+        const loadHook = hooks.get('menu.load');
+        await loadHook(nav);
+
+        const parentLink = nav.querySelector('li.has-children > [role="menuitem"]');
+        const submenu = nav.querySelector('li.has-children > ul');
+        const external = nav.querySelector('[target="_blank"]');
+
+        const initialExpanded = parentLink.getAttribute('aria-expanded');
+        const initialHidden = submenu.hasAttribute('hidden');
+        const initialRel = external.getAttribute('rel');
+
+        const user = userEvent.setup();
+        await user.keyboard('{ArrowRight}');
+
+        expect(parentLink.getAttribute('aria-expanded')).toBe(initialExpanded);
+        expect(submenu.hasAttribute('hidden')).toBe(initialHidden);
+        expect(external.getAttribute('rel')).toBe(initialRel);
+
+        expect(infoSpy).not.toHaveBeenCalled();
+        infoSpy.mockRestore();
         teardown();
     });
 });
