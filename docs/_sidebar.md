@@ -22,6 +22,11 @@
     - [Head Plugin & Analytics](lib/head.md)
 
 - Archived Spec
+  - mvJsRender
+    - [idea](spec/Archived/mvJsRender/idea.md)
+    - [plan](spec/Archived/mvJsRender/plan.md)
+    - [check](spec/Archived/mvJsRender/check.md)
+    - [optimization](spec/Archived/mvJsRender/optimization.md)
   - reusableHelpers
     - [plan](spec/Archived/reusableHelpers/plan.md)
     - [check](spec/Archived/reusableHelpers/check.md)

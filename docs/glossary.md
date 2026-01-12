@@ -29,3 +29,8 @@
 - `createMenuHelpers()`：`ui.createMenuHelpers({ appDebug, flags })` 工廠，回傳依模式調整的 helper bag（包含 `attachMenuInteractions`、`secureExternalLinks`），避免 hook 直接判斷 `app.debug`。
 - `helperFlags`：hook 依 data-attribute（`data-menu-mode` 等）組成的覆寫參數物件，傳給 `createMenuHelpers()` 以覆蓋預設模式或測試特殊情境。
 - `menuModeActive`：hook render 後寫入的 dataset 屬性，標記當前元素實際運行的模式（lite/debug），提供 QA、console 診斷與未來 telemetry 讀取。
+- `menu.load hook`：`data-gene="init:menu.load"` 對應的 gee 行為，會在 `gee.init` 時向 `menu` plugin 要求資料並渲染遞迴模板。
+- `menu_lotsMenu`：menu 模組唯一允許的資料來源 key，實際由 `app.yell('menu_lotsMenu')` 取得 JSON，並以 `schemas/menu.json` 約束欄位。
+- `depth-x class`：Handebars partial 根據階層輸出的 CSS class（`depth-0/1/2`），提供巢狀樣式與 Telemetry 判讀。
+- `data-menu-path`：渲染時生成的路徑字串（以 `>` 串聯祖先節點），供追蹤、測試與除錯使用，搭配 `data-analytics-id` 一起送往 `app.track`。
+- `renderBadge helper`：mvJsRender 提供的 Handlebars helper，用來在 menu 項目上輸出 badge label、顏色 class 與 aria 標註。

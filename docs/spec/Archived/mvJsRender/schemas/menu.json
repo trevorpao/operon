@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "https://operon.dev/spec/mvJsRender/schemas/menu.json",
+  "$id": "https://operon.dev/spec/Archived/mvJsRender/schemas/menu.json",
   "title": "LotsMenuResponse",
   "description": "Schema for menu_lotsMenu payload used by the mvJsRender feature.",
   "type": "object",

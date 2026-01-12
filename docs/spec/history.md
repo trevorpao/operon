@@ -1,5 +1,24 @@
 # 開發歷程記錄
 
+## mvJsRender（Handlebars menu render）
+
+完成日期 2026/01/09
+
+說明：以 Handlebars 預編譯 + geneEH hook 重寫 JsRender menu，讓 `app.yell` 的資料契約、模板輸出與無障礙互動都納入 CI 測試；適合初階工程師依 Stage 1–3 文件逐步完成。
+
+開發細節入口：
+- [`mvJsRender idea`](spec/Archived/mvJsRender/idea.md)
+- [`mvJsRender plan`](spec/Archived/mvJsRender/plan.md)
+- [`mvJsRender check`](spec/Archived/mvJsRender/check.md)
+- [`mvJsRender optimization`](spec/Archived/mvJsRender/optimization.md)
+
+重點規格（新 → 舊順序）：
+- 渲染流程：`data-gene="init:menu.load"` 於 `gee.init` 時觸發 plugin，僅允許透過 `app.yell('menu_lotsMenu')` 取得資料，並強制執行 schema 驗證與 timeout/fallback。
+- 模板與 helper：使用 `partials/menuList`、`menuItem` 將階層渲染成 `depth-x` class、`data-menu-path`、`data-analytics-id`；badge、externals 由 helper 輸出 class 與 `rel="noopener"`。
+- 無障礙/互動：`nav/ul/li/a` 對應 `role="navigation/menubar/menuitem"`，子層需同步 `aria-expanded`、鍵盤 `Arrow/Enter/Space`、focus trap，hook teardown 必須清 listener。
+- 測試矩陣：`pnpm test:schema menu`、`vitest tests/lib/menu.template.spec.js`、`vitest tests/lib/menu.hook.spec.js`（含 Testing Library + axe）皆需常態通過並附在 PR。
+- 操作守則：README 記錄 schema owner/版本；若調整資料結構或 template helper，務必同步更新 optimization backlog 與 rule 條目，供後續追蹤。
+
 ## reusableHelpers（Menu helper + mode refactor）
 
 完成日期 2026/01/10

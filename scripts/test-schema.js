@@ -7,7 +7,7 @@ const rootDir = path.resolve(__dirname, '..');
 
 const fixtures = {
     menu: {
-        schema: 'docs/spec/mvJsRender/schemas/menu.json',
+        schema: 'docs/spec/Archived/mvJsRender/schemas/menu.json',
         data: 'app/mock/api/menu_lotsMenu.json',
         description: 'mvJsRender lots menu payload',
     },

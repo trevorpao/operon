@@ -40,7 +40,7 @@
 - `app/scripts/lib/ui.js`：本次需新建，統整現有 UI helper 並輸出 `ui.menu*` 命名空間，盤點哪些邏輯從 `app/scripts/lib/helpers/menu.js` 或其他檔案搬遷。
 - `app/themes/default/partials/*.hbs` 與 SSR Twig：確認 helper 抽離後仍能被 inline template 使用。
 - `app.yell` / `gee` runtime：需支援同時載入 legacy 與新 hook（避免 race condition）。
-- `docs/spec/mvJsRender`：沿用既有無障礙與資料契約規範。
+- `docs/spec/Archived/mvJsRender`：沿用既有無障礙與資料契約規範。
 
 ## 風險與對策
 

@@ -60,6 +60,25 @@
   - `logRenderResult()` 僅在 debug 模式下輸出 snapshot，避免 lite 模式污染 console。Lite/Debug 兩種模式都需在 tests（hook/template）覆蓋。
   - 任何接觸 `console.info/warn` 的邏輯都要被對應的 Vitest 覆蓋（`expect(infoSpy).not.toHaveBeenCalled()` 等）。
 
+## mvJsRender（Handlebars Menu Runtime）
+
+- 資料載入與契約
+  - `menu.load` 僅能呼叫 `app.yell('menu_lotsMenu', opts)`，禁止直接 import JSON 或繞過 schema；mock 測試需覆用相同資料結構。
+  - `schemas/menu.json` 一旦調整欄位必須更新 README 版本與維護人，並在 PR 附上 `pnpm test:schema menu` log。
+  - `loadMenu` 需回傳 Promise 並支援 timeout/AbortController，失敗時寫入 console 並顯示 retry CTA。
+- 模板與渲染
+  - 只能使用預編譯 Handlebars partial（`menuList`/`menuItem`）與 helper（`isExternal`、`listDepthClass`、`renderBadge`）；嚴禁 runtime `eval/new Function`。
+  - DOM 注入時必須補上 `depth-x` class、`data-menu-path`、`data-analytics-id` 等屬性，供樣式與追蹤依賴；缺值要有預設（`blank=false`、`target='_self'`）。
+  - 任何 badge/CTA 樣式需由模板輸出 class，不得在 hook 內以 `innerHTML +=` 拼接。
+- Hook 與交互
+  - `data-gene="init:menu.load"` 只能在 `gee.init` 後初始化，hook 執行時需先 teardown 舊實例以防止重複綁定。
+  - hook 必須綁定鍵盤 `Arrow/Enter/Space`、focus trap 與 hover/click toggle，並透過 dataset (`data-menu-id`, `data-menu-path`) 回報互動路徑。
+  - 外部連結統一走 `rel="noopener"` 與 `target="_blank"`；追蹤欄位 (`data-cate/act/label`) 在 render 階段就要帶齊，禁止 runtime 拼接。
+- 無障礙與測試
+  - `nav`/`ul`/`li`/`a` 需對應 `role="navigation/menubar/menuitem"`，子層加上 `aria-haspopup/expanded`；異常狀態需要可感知的 aria-describedby。
+  - 必須維持 `vitest menu.template.spec.js` 與 `menu.hook.spec.js`，並在 hook spec 內執行 axe 核對；未通過不得 merge。
+  - CI 需包含 `pnpm test:schema menu`、`vitest run tests/lib/menu.*`，以及一次 demo smoke（`pnpm dev`, `gee.init()`）截圖，確保 template/hook 差異能被 reviewer 看見。
+
 ## RefactorLib（核心 Lib 模組）
 
 - 依賴與 SSR
